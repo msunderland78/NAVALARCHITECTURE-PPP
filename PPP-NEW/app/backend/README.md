@@ -8,6 +8,7 @@ Implemented:
 
 - Legacy `.PPP` `Contents` stream import for the observed sample layout
 - Candidate legacy `IN` generator for controlled oracle experiments
+- Reproducible legacy oracle runner for isolated compatibility tests outside `PPP-NEW`
 - Legacy `OUT` text parser for future oracle fixtures
 - Minimal OLE Compound Document stream extraction
 - Hull derivations

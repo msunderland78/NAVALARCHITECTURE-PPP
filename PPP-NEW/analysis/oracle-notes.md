@@ -44,6 +44,16 @@ This confirms:
 
 A candidate `IN` was generated in `/tmp/ppp-oracle-candidate` from the static writer order documented in `PPP-NEW/analysis/in-format-notes.md`. The copied Fortran engine was run under Wine with a 20-second timeout.
 
+Reproducible oracle support now exists in `PPP-NEW/app/backend/ppp_core/legacy_oracle.py`, with a CLI wrapper at `PPP-NEW/tools/run_legacy_oracle.py`. The tool stages a copied executable and generated `IN` under `/tmp` by default, runs Wine with a timeout, and captures stdout, stderr, optional `OUT`, and parsed `OUT` data. It must not be pointed at a destination inside `PPP-NEW`.
+
+Smoke command:
+
+```sh
+python3 PPP-NEW/tools/run_legacy_oracle.py --exe PPP-OLD/PPPFTRN.EXE --workdir /tmp/ppp-oracle-runner-smoke --wineprefix /home/sundema/.cache/ppp-wine/prefix --timeout 5
+```
+
+The CLI reproduces the current candidate behavior: return code `3`, no `OUT`, and a Fortran `DOMAIN error`.
+
 Observed behavior:
 
 ```text
