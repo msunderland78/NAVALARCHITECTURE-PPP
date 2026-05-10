@@ -57,6 +57,7 @@ Current status as of May 10, 2026:
 - A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
 - A candidate legacy `IN` CLI exists so oracle attempts can be reproduced from terminal workflows without the browser API.
 - Browser candidate legacy `IN` export is available for controlled oracle experiments.
+- Browser candidate legacy `IN` export now exposes controlled oracle variant fields for unresolved record-order and appendage/propulsion probes.
 - The normalized sample candidate `IN` is pinned as a fixture so static recovery changes are regression-visible.
 - The current modern sample result is pinned as a fixture so future formula additions have an explicit baseline diff.
 - The fixture manifest distinguishes source fixtures, representative text, modern baselines, and future captured oracle artifacts.

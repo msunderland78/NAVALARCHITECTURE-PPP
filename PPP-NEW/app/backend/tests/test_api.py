@@ -147,6 +147,28 @@ class ApiTest(unittest.TestCase):
         self.assertIn("212 32 21 11 11 321", payload)
         self.assertIn("1025.87 1.18831e-06", payload)
 
+    def test_legacy_in_candidate_export_route_options(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        body = json.dumps({
+            "case": case,
+            "options": {
+                "first_record_order": "drafts_before_depth",
+                "stern_correction": -10,
+                "pitch_diameter_ratio": 0.8,
+                "water_type_code": 2,
+                "appendage_primary_value": 5,
+                "appendage_model_total": 0.05
+            }
+        }).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/export/legacy-in-candidate", body)
+        lines = payload.splitlines()
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "text/plain")
+        self.assertEqual(lines[0], "212 32 11 11 21 321")
+        self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
+        self.assertEqual(lines[5], "0.8 0.8 2")
+
     def test_import_route(self):
         status, content_type, payload = route("POST", "/api/import/ppp", sample_ole_document())
 
@@ -191,6 +213,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("legacy-in-button", (FRONTEND / "index.html").read_text())
         self.assertIn("import-json-file", (FRONTEND / "index.html").read_text())
         self.assertIn("import-out-file", (FRONTEND / "index.html").read_text())
+        self.assertIn("legacy_options.first_record_order", (FRONTEND / "index.html").read_text())
         self.assertIn("print-button", (FRONTEND / "index.html").read_text())
         self.assertIn("@media print", (FRONTEND / "styles.css").read_text())
         self.assertIn("size: 8.5in 11in", (FRONTEND / "styles.css").read_text())
@@ -205,6 +228,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("required_thrust_n", (FRONTEND / "app.js").read_text())
         self.assertIn("RF*K1 N", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/export/legacy-in-candidate", (FRONTEND / "app.js").read_text())
+        self.assertIn("buildLegacyOptions", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/compare/out", (FRONTEND / "app.js").read_text())
         self.assertIn("numeric deltas", (FRONTEND / "app.js").read_text())
 

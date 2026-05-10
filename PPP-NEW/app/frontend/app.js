@@ -72,10 +72,15 @@ jsonButton.addEventListener("click", async () => {
 });
 
 legacyInButton.addEventListener("click", async () => {
+  const payload = buildPayload();
+  const options = buildLegacyOptions();
+  if (Object.keys(options).length > 0) {
+    payload.options = options;
+  }
   const response = await fetch("/api/export/legacy-in-candidate", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(buildPayload())
+    body: JSON.stringify(payload)
   });
   const text = await response.text();
   if (!response.ok) {
@@ -302,6 +307,24 @@ function setValue(name, value) {
 
 function numberValue(data, key) {
   return Number(data.get(key));
+}
+
+function optionalNumberValue(data, key) {
+  const value = data.get(key);
+  return value === "" || value === null ? null : Number(value);
+}
+
+function buildLegacyOptions() {
+  const data = new FormData(form);
+  const values = {
+    first_record_order: data.get("legacy_options.first_record_order") || null,
+    stern_correction: optionalNumberValue(data, "legacy_options.stern_correction"),
+    pitch_diameter_ratio: optionalNumberValue(data, "legacy_options.pitch_diameter_ratio"),
+    water_type_code: optionalNumberValue(data, "legacy_options.water_type_code"),
+    appendage_primary_value: optionalNumberValue(data, "legacy_options.appendage_primary_value"),
+    appendage_model_total: optionalNumberValue(data, "legacy_options.appendage_model_total")
+  };
+  return Object.fromEntries(Object.entries(values).filter(([, value]) => value !== null));
 }
 
 function renderSummary(result) {

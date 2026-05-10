@@ -49,6 +49,7 @@ Version 1.0, May 10, 2026
   - Applicability panel
   - Derived hydrostatic summary
   - Result table
+  - Legacy `IN` oracle variant controls
   - Explicit user-mode controls for wetted surface and half angle
   - HTML min/max constraints aligned with backend numeric validation
   - Canvas plot
@@ -84,7 +85,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-56 tests OK
+57 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
