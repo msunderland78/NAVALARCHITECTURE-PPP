@@ -151,6 +151,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("RF*K1 N", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/export/legacy-in-candidate", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/compare/out", (FRONTEND / "app.js").read_text())
+        self.assertIn("numeric deltas", (FRONTEND / "app.js").read_text())
 
 
 if __name__ == "__main__":

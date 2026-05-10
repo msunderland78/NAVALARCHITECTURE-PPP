@@ -374,9 +374,17 @@ function renderOracleComparison(comparison) {
     oracle.innerHTML = `<div class="oracle-empty">No matching speeds. Legacy: ${comparison.unmatched_legacy_speeds.join(", ")} Modern: ${comparison.unmatched_modern_speeds.join(", ")}</div>`;
     return;
   }
+  const counts = comparison.summary ? comparison.summary.status_counts : {};
+  const maxDelta = comparison.summary ? comparison.summary.max_absolute_delta : null;
+  const maxDeltaText = maxDelta ? `${maxDelta.field} at ${formatCell(maxDelta.speed_knots)} kn: ${formatCell(maxDelta.absolute_delta)}` : "";
   oracle.innerHTML = `
     <h2>Legacy OUT Comparison</h2>
-    <div class="oracle-meta">${comparison.matched_speed_count} matched speeds</div>
+    <div class="oracle-meta">
+      <span>${comparison.matched_speed_count} matched speeds</span>
+      <span>${counts.numeric_delta || 0} numeric deltas</span>
+      <span>${counts.missing_modern || 0} missing modern fields</span>
+      <span>${maxDeltaText}</span>
+    </div>
     <div class="oracle-table">
       <table>
         <thead><tr><th>V kn</th><th>Field</th><th>Legacy</th><th>Modern</th><th>Abs delta</th><th>Status</th></tr></thead>

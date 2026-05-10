@@ -246,6 +246,12 @@ canvas {
   font-size: 12px;
 }
 
+.oracle-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
