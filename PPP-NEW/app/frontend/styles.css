@@ -138,6 +138,22 @@ button:hover {
   background: var(--accent-dark);
 }
 
+.file-action {
+  height: 36px;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: #eef2f6;
+  color: var(--text);
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.file-action input {
+  display: none;
+}
+
 .summary {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

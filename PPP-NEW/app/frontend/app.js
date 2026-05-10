@@ -4,6 +4,7 @@ const summary = document.getElementById("summary");
 const table = document.getElementById("results-table");
 const plot = document.getElementById("plot");
 const csvButton = document.getElementById("csv-button");
+const importFile = document.getElementById("import-file");
 
 let lastPayload = null;
 
@@ -27,6 +28,28 @@ csvButton.addEventListener("click", async () => {
   link.download = "ppp-results.csv";
   link.click();
   URL.revokeObjectURL(url);
+});
+
+importFile.addEventListener("change", async () => {
+  const file = importFile.files[0];
+  if (!file) {
+    return;
+  }
+  statusBox.textContent = "Importing";
+  const response = await fetch("/api/import/ppp", {
+    method: "POST",
+    body: await file.arrayBuffer()
+  });
+  const imported = await response.json();
+  if (!response.ok) {
+    statusBox.textContent = imported.error || "Import failed";
+    importFile.value = "";
+    return;
+  }
+  applyCase(imported);
+  statusBox.textContent = "Imported";
+  await runCase();
+  importFile.value = "";
 });
 
 async function runCase() {
@@ -106,6 +129,45 @@ function buildPayload() {
       }
     }
   };
+}
+
+function applyCase(caseData) {
+  setValue("project.name", caseData.project.name);
+  setValue("project.run_id", caseData.project.run_id);
+  setValue("speed_sweep.initial_speed_knots", caseData.speed_sweep.initial_speed_knots);
+  setValue("speed_sweep.speed_increment_knots", caseData.speed_sweep.speed_increment_knots);
+  setValue("hull.lwl_m", caseData.hull.lwl_m);
+  setValue("hull.beam_lwl_m", caseData.hull.beam_lwl_m);
+  setValue("hull.draft_forward_m", caseData.hull.draft_forward_m);
+  setValue("hull.draft_aft_m", caseData.hull.draft_aft_m);
+  setValue("hull.block_coefficient", caseData.hull.block_coefficient);
+  setValue("hull.midship_coefficient", caseData.hull.midship_coefficient);
+  setValue("hull.waterplane_coefficient", caseData.hull.waterplane_coefficient);
+  setValue("hull.lcb_percent_lwl_from_midships_forward_positive", caseData.hull.lcb_percent_lwl_from_midships_forward_positive);
+  setValue("features.bulb_area_station_0_m2", caseData.features.bulb_area_station_0_m2);
+  setValue("features.bulb_vertical_center_m", caseData.features.bulb_vertical_center_m);
+  setValue("features.transom_immersed_area_zero_speed_m2", caseData.features.transom_immersed_area_zero_speed_m2);
+  setValue("features.stern_type", caseData.features.stern_type);
+  setValue("propulsion.type", caseData.propulsion.type);
+  setValue("propulsion.propeller_diameter_m", caseData.propulsion.propeller_diameter_m);
+  setValue("propulsion.expanded_area_ratio", caseData.propulsion.expanded_area_ratio);
+  setValue("appendages.percent_bare_hull_resistance", caseData.appendages.percent_bare_hull_resistance);
+  setValue("modeling.air_drag", String(caseData.modeling.air_drag));
+  setValue("modeling.depth_at_bow_m", caseData.modeling.depth_at_bow_m);
+  setValue("modeling.deckhouse_cargo_frontal_area_m2", caseData.modeling.deckhouse_cargo_frontal_area_m2);
+  setValue("modeling.wetted_surface_m2", caseData.modeling.wetted_surface_m2);
+  setValue("modeling.half_angle_entrance_degrees", caseData.modeling.half_angle_entrance_degrees);
+  setValue("water.type", caseData.water.type);
+  setValue("water.density_kg_m3", caseData.water.density_kg_m3);
+  setValue("water.kinematic_viscosity_m2_s", caseData.water.kinematic_viscosity_m2_s);
+  setValue("margin.design_margin_percent", caseData.margin.design_margin_percent);
+}
+
+function setValue(name, value) {
+  const field = form.elements[name];
+  if (field && value !== null && value !== undefined) {
+    field.value = value;
+  }
 }
 
 function numberValue(data, key) {

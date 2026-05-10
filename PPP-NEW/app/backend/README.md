@@ -54,5 +54,6 @@ Current routes:
 - `GET /health`
 - `POST /api/evaluate`
 - `POST /api/export/csv`
+- `POST /api/import/ppp`
 
-The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, API-backed evaluation, a speed table, a canvas plot, and CSV download.
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, legacy `.PPP` import for the observed sample layout, API-backed evaluation, a speed table, a canvas plot, and CSV download.

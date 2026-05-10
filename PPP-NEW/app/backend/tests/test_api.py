@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from ppp_core import route
+from test_legacy_ppp import sample_ole_document
 from server import FRONTEND
 
 
@@ -36,6 +37,21 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "text/csv")
         self.assertIn("speed_knots,speed_mps", payload)
         self.assertIn("391005.78552961635", payload)
+
+    def test_import_route(self):
+        status, content_type, payload = route("POST", "/api/import/ppp", sample_ole_document())
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["project"]["name"], "Holtrop and Mennen Example")
+        self.assertAlmostEqual(payload["hull"]["lwl_m"], 212.0)
+
+    def test_bad_import_route(self):
+        status, content_type, payload = route("POST", "/api/import/ppp", b"not a ppp file")
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertIn("not an OLE Compound Document", payload["error"])
 
     def test_missing_route(self):
         status, content_type, payload = route("GET", "/missing")
