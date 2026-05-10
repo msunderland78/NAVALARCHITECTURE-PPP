@@ -66,8 +66,8 @@ Version 1.0, May 10, 2026
 - Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
-- Legacy `OUT` to modern-result comparison diagnostics with status counts and max-delta summary.
-- Legacy `OUT` comparison CLI for JSON delta reports and optional pass/fail gates.
+- Legacy `OUT` to modern-result comparison diagnostics with status counts, max absolute delta, and max relative delta summaries.
+- Legacy `OUT` comparison CLI for JSON delta reports and optional absolute/relative pass/fail gates.
 - Modern evaluation CLI for reproducible result fixture refreshes.
 - Candidate `IN` field map recovered from GUI writer/report cross-references.
 

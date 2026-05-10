@@ -17,6 +17,7 @@ def main(argv=None):
     parser.add_argument("--output")
     parser.add_argument("--speed-tolerance", type=float, default=1e-6)
     parser.add_argument("--max-absolute-delta", type=float)
+    parser.add_argument("--max-relative-delta", type=float)
     parser.add_argument("--fail-on-missing-modern", action="store_true")
     parser.add_argument("--require-matched-speed-count", type=int)
     args = parser.parse_args(argv)
@@ -29,7 +30,7 @@ def main(argv=None):
     result = compare_legacy_out_to_result(parsed_out, modern_result, args.field, args.speed_tolerance)
     result["case_json"] = str(Path(args.case_json))
     result["legacy_out"] = str(legacy_out_path)
-    failures = comparison_failures(result, args.max_absolute_delta, args.fail_on_missing_modern, args.require_matched_speed_count)
+    failures = comparison_failures(result, args.max_absolute_delta, args.max_relative_delta, args.fail_on_missing_modern, args.require_matched_speed_count)
     result["passed"] = not failures
     result["failures"] = failures
     text = json.dumps(result, indent=2)
@@ -40,7 +41,7 @@ def main(argv=None):
     return 0 if result["passed"] else 1
 
 
-def comparison_failures(result, max_absolute_delta, fail_on_missing_modern, require_matched_speed_count):
+def comparison_failures(result, max_absolute_delta, max_relative_delta, fail_on_missing_modern, require_matched_speed_count):
     failures = []
     if require_matched_speed_count is not None and result["matched_speed_count"] != require_matched_speed_count:
         failures.append({
@@ -54,6 +55,14 @@ def comparison_failures(result, max_absolute_delta, fail_on_missing_modern, requ
             failures.append({
                 "rule": "max_absolute_delta",
                 "limit": max_absolute_delta,
+                "actual": max_delta
+            })
+    if max_relative_delta is not None:
+        max_delta = result["summary"]["max_relative_delta"]
+        if max_delta and max_delta["absolute_relative_delta"] > max_relative_delta:
+            failures.append({
+                "rule": "max_relative_delta",
+                "limit": max_relative_delta,
                 "actual": max_delta
             })
     missing_modern = result["summary"]["status_counts"].get("missing_modern", 0)

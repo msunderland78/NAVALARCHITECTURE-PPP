@@ -65,8 +65,8 @@ Current status as of May 10, 2026:
 - A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.
-- Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas, missing modern fields, status counts, and max-delta summaries.
-- A legacy `OUT` comparison CLI exists for repeatable JSON delta reports and optional pass/fail gates.
+- Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas, missing modern fields, status counts, max absolute delta, and max relative delta summaries.
+- A legacy `OUT` comparison CLI exists for repeatable JSON delta reports and optional absolute/relative pass/fail gates.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.

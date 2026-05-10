@@ -124,6 +124,8 @@ def comparison_summary(matches):
     status_counts = {}
     max_absolute_delta = None
     max_absolute_delta_field = None
+    max_relative_delta = None
+    max_relative_delta_field = None
     for match in matches:
         for field in match["fields"]:
             status = field["status"]
@@ -136,7 +138,19 @@ def comparison_summary(matches):
                     "field": field["field"],
                     "absolute_delta": absolute_delta
                 }
+            relative_delta = field.get("relative_delta")
+            if relative_delta is not None:
+                absolute_relative_delta = abs(relative_delta)
+                if max_relative_delta is None or absolute_relative_delta > max_relative_delta:
+                    max_relative_delta = absolute_relative_delta
+                    max_relative_delta_field = {
+                        "speed_knots": match["speed_knots"],
+                        "field": field["field"],
+                        "relative_delta": relative_delta,
+                        "absolute_relative_delta": absolute_relative_delta
+                    }
     return {
         "status_counts": status_counts,
-        "max_absolute_delta": max_absolute_delta_field
+        "max_absolute_delta": max_absolute_delta_field,
+        "max_relative_delta": max_relative_delta_field
     }

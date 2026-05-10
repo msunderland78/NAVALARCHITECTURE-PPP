@@ -37,6 +37,7 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(comparison["summary"]["status_counts"]["numeric_delta"], 16)
         self.assertEqual(comparison["summary"]["status_counts"]["missing_modern"], 26)
         self.assertEqual(comparison["summary"]["max_absolute_delta"]["field"], "total_resistance_n")
+        self.assertEqual(comparison["summary"]["max_relative_delta"]["field"], "effective_power_kw")
 
     def test_compare_reports_unmatched_speeds(self):
         modern_result = {"speeds": [{"speed_knots": 20.0, "speed_mps": 10.28888}]}
@@ -47,6 +48,7 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(comparison["unmatched_modern_speeds"], [20.0])
         self.assertEqual(comparison["summary"]["status_counts"], {})
         self.assertIsNone(comparison["summary"]["max_absolute_delta"])
+        self.assertIsNone(comparison["summary"]["max_relative_delta"])
 
     def test_compare_out_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

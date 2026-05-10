@@ -384,7 +384,9 @@ function renderOracleComparison(comparison) {
   }
   const counts = comparison.summary ? comparison.summary.status_counts : {};
   const maxDelta = comparison.summary ? comparison.summary.max_absolute_delta : null;
+  const maxRelativeDelta = comparison.summary ? comparison.summary.max_relative_delta : null;
   const maxDeltaText = maxDelta ? `${maxDelta.field} at ${formatCell(maxDelta.speed_knots)} kn: ${formatCell(maxDelta.absolute_delta)}` : "";
+  const maxRelativeText = maxRelativeDelta ? `${maxRelativeDelta.field}: ${formatCell(maxRelativeDelta.absolute_relative_delta)}` : "";
   oracle.innerHTML = `
     <h2>Legacy OUT Comparison</h2>
     <div class="oracle-meta">
@@ -392,6 +394,7 @@ function renderOracleComparison(comparison) {
       <span>${counts.numeric_delta || 0} numeric deltas</span>
       <span>${counts.missing_modern || 0} missing modern fields</span>
       <span>${maxDeltaText}</span>
+      <span>${maxRelativeText}</span>
     </div>
     <div class="oracle-table">
       <table>
