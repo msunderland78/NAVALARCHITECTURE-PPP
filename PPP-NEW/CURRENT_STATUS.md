@@ -39,6 +39,7 @@ Version 1.0, May 10, 2026
   - CSV and JSON result export
   - Applicability panel
   - Result table
+  - Explicit user-mode controls for wetted surface and half angle
   - Canvas plot
   - Letter-size print/PDF layout
 - Dependency-free Python backend.

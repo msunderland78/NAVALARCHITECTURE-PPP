@@ -240,9 +240,9 @@ function buildPayload() {
         air_drag: data.get("modeling.air_drag") === "true",
         depth_at_bow_m: numberValue(data, "modeling.depth_at_bow_m"),
         deckhouse_cargo_frontal_area_m2: numberValue(data, "modeling.deckhouse_cargo_frontal_area_m2"),
-        wetted_surface_mode: "user",
+        wetted_surface_mode: data.get("modeling.wetted_surface_mode"),
         wetted_surface_m2: numberValue(data, "modeling.wetted_surface_m2"),
-        half_angle_entrance_mode: "user",
+        half_angle_entrance_mode: data.get("modeling.half_angle_entrance_mode"),
         half_angle_entrance_degrees: numberValue(data, "modeling.half_angle_entrance_degrees")
       },
       water: {
@@ -283,7 +283,9 @@ function applyCase(caseData) {
   setValue("modeling.air_drag", String(caseData.modeling.air_drag));
   setValue("modeling.depth_at_bow_m", caseData.modeling.depth_at_bow_m);
   setValue("modeling.deckhouse_cargo_frontal_area_m2", caseData.modeling.deckhouse_cargo_frontal_area_m2);
+  setValue("modeling.wetted_surface_mode", caseData.modeling.wetted_surface_mode || "user");
   setValue("modeling.wetted_surface_m2", caseData.modeling.wetted_surface_m2);
+  setValue("modeling.half_angle_entrance_mode", caseData.modeling.half_angle_entrance_mode || "user");
   setValue("modeling.half_angle_entrance_degrees", caseData.modeling.half_angle_entrance_degrees);
   setValue("water.type", caseData.water.type);
   setValue("water.density_kg_m3", caseData.water.density_kg_m3);
