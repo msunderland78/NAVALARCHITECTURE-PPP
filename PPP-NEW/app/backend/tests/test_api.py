@@ -79,6 +79,8 @@ class ApiTest(unittest.TestCase):
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())
         self.assertIn("case-json-button", (FRONTEND / "index.html").read_text())
         self.assertIn("import-json-file", (FRONTEND / "index.html").read_text())
+        self.assertIn("print-button", (FRONTEND / "index.html").read_text())
+        self.assertIn("@media print", (FRONTEND / "styles.css").read_text())
 
 
 if __name__ == "__main__":

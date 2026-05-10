@@ -7,6 +7,7 @@ const plot = document.getElementById("plot");
 const caseJsonButton = document.getElementById("case-json-button");
 const csvButton = document.getElementById("csv-button");
 const jsonButton = document.getElementById("json-button");
+const printButton = document.getElementById("print-button");
 const importFile = document.getElementById("import-file");
 const importJsonFile = document.getElementById("import-json-file");
 
@@ -40,6 +41,10 @@ jsonButton.addEventListener("click", async () => {
   });
   const text = JSON.stringify(await response.json(), null, 2);
   downloadText(text, "ppp-results.json", "application/json");
+});
+
+printButton.addEventListener("click", () => {
+  window.print();
 });
 
 function downloadText(text, filename, type) {
