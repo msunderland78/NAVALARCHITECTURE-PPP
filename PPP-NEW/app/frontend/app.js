@@ -148,6 +148,10 @@ importOutFile.addEventListener("change", async () => {
   }
   statusBox.textContent = "Comparing";
   const body = buildPayload();
+  const speedTolerance = legacySpeedTolerance();
+  if (speedTolerance !== null) {
+    body.speed_tolerance = speedTolerance;
+  }
   body.legacy_out_text = await file.text();
   body.fields = [
     "frictional_resistance_n",
@@ -325,6 +329,11 @@ function buildLegacyOptions() {
     appendage_model_total: optionalNumberValue(data, "legacy_options.appendage_model_total")
   };
   return Object.fromEntries(Object.entries(values).filter(([, value]) => value !== null));
+}
+
+function legacySpeedTolerance() {
+  const value = new FormData(form).get("legacy_options.speed_tolerance");
+  return value === "" || value === null ? null : Number(value);
 }
 
 function renderSummary(result) {

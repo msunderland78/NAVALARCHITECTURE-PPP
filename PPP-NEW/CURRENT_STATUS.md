@@ -50,6 +50,7 @@ Version 1.0, May 10, 2026
   - Derived hydrostatic summary
   - Result table
   - Legacy `IN` oracle variant controls
+  - Legacy `OUT` comparison speed tolerance control
   - Explicit user-mode controls for wetted surface and half angle
   - HTML min/max constraints aligned with backend numeric validation
   - Canvas plot
