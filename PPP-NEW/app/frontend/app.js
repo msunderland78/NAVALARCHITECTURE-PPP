@@ -39,8 +39,12 @@ jsonButton.addEventListener("click", async () => {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(buildPayload())
   });
-  const text = JSON.stringify(await response.json(), null, 2);
-  downloadText(text, "ppp-results.json", "application/json");
+  const payload = await response.json();
+  if (!response.ok) {
+    statusBox.textContent = payload.error || "Export failed";
+    return;
+  }
+  downloadText(JSON.stringify(payload, null, 2), "ppp-results.json", "application/json");
 });
 
 printButton.addEventListener("click", () => {
@@ -103,6 +107,10 @@ async function runCase() {
     body: JSON.stringify(payload)
   });
   const result = await response.json();
+  if (!response.ok) {
+    statusBox.textContent = result.error || "Run failed";
+    return;
+  }
   lastPayload = payload;
   renderSummary(result);
   renderChecks(result);

@@ -7,6 +7,8 @@ G = 9.80665
 
 
 def evaluate_case(case, point_count=1):
+    point_count = validate_point_count(point_count)
+    validate_case(case)
     hull = case["hull"]
     water = case["water"]
     modeling = case["modeling"]
@@ -48,6 +50,43 @@ def evaluate_case(case, point_count=1):
         "applicability": applicability(case, derived, speeds),
         "speeds": speeds
     }
+
+
+def validate_point_count(point_count):
+    value = int(point_count)
+    if value < 1 or value > 100:
+        raise ValueError("point_count must be between 1 and 100")
+    return value
+
+
+def validate_case(case):
+    hull = case["hull"]
+    water = case["water"]
+    modeling = case["modeling"]
+    speed_sweep = case["speed_sweep"]
+    appendages = case["appendages"]
+    margin = case["margin"]
+    positive = {
+        "hull.lwl_m": hull["lwl_m"],
+        "hull.beam_lwl_m": hull["beam_lwl_m"],
+        "hull.draft_forward_m": hull["draft_forward_m"],
+        "hull.draft_aft_m": hull["draft_aft_m"],
+        "hull.block_coefficient": hull["block_coefficient"],
+        "hull.midship_coefficient": hull["midship_coefficient"],
+        "modeling.wetted_surface_m2": modeling["wetted_surface_m2"],
+        "water.density_kg_m3": water["density_kg_m3"],
+        "water.kinematic_viscosity_m2_s": water["kinematic_viscosity_m2_s"],
+        "speed_sweep.initial_speed_knots": speed_sweep["initial_speed_knots"]
+    }
+    for name, value in positive.items():
+        if value <= 0:
+            raise ValueError(f"{name} must be positive")
+    if speed_sweep["speed_increment_knots"] < 0:
+        raise ValueError("speed_sweep.speed_increment_knots must be non-negative")
+    if appendages["percent_bare_hull_resistance"] < 0:
+        raise ValueError("appendages.percent_bare_hull_resistance must be non-negative")
+    if margin["design_margin_percent"] < 0:
+        raise ValueError("margin.design_margin_percent must be non-negative")
 
 
 def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, margin):

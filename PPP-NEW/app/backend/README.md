@@ -18,6 +18,7 @@ Implemented:
 - Legacy applicability checks
 - CSV export for speed rows
 - Dependency-free HTTP routes
+- API validation for invalid physical inputs
 
 Not yet implemented:
 

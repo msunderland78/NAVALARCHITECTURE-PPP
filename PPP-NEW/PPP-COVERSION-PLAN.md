@@ -33,6 +33,7 @@ Current status as of May 10, 2026:
 - JSON result export is available through `POST /api/export/json` and the browser workspace.
 - Modern case JSON save/load is available in the browser workspace as the replacement path for MFC `.PPP` saving.
 - Browser print/PDF output is available for the current report view.
+- API validation rejects invalid physical inputs before calculation and the browser displays returned errors in the status area.
 - A dependency-free HTTP layer exists with `GET /health`, `POST /api/evaluate`, and `POST /api/export/csv`.
 - A first browser interface exists in `PPP-NEW/app/frontend` and is served by the backend at `/`.
 - Container deployment files exist in `PPP-NEW/app`, including a backend Dockerfile, `docker-compose.yml`, and an NGINX reverse-proxy config.

@@ -28,6 +28,25 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(len(payload["speeds"]), 2)
         self.assertAlmostEqual(payload["speeds"][0]["total_resistance_n"], 391005.78552961635)
 
+    def test_bad_evaluate_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["lwl_m"] = 0
+        body = json.dumps({"case": case, "point_count": 2}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "hull.lwl_m must be positive")
+
+    def test_bad_point_count_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        body = json.dumps({"case": case, "point_count": 0}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "point_count must be between 1 and 100")
+
     def test_csv_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
