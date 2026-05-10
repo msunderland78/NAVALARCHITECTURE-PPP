@@ -37,13 +37,13 @@
       <section>
         <h2>Hull</h2>
         <div class="grid four">
-          <label>LWL, m<input name="hull.lwl_m" type="number" step="0.01" value="212"></label>
-          <label>Beam, m<input name="hull.beam_lwl_m" type="number" step="0.01" value="32"></label>
-          <label>Draft fwd, m<input name="hull.draft_forward_m" type="number" step="0.01" value="11"></label>
-          <label>Draft aft, m<input name="hull.draft_aft_m" type="number" step="0.01" value="11"></label>
-          <label>CB<input name="hull.block_coefficient" type="number" step="0.0001" value="0.6"></label>
-          <label>CM<input name="hull.midship_coefficient" type="number" step="0.0001" value="0.98"></label>
-          <label>CWP<input name="hull.waterplane_coefficient" type="number" step="0.0001" value="0.75"></label>
+          <label>LWL, m<input name="hull.lwl_m" type="number" min="0.01" step="0.01" value="212"></label>
+          <label>Beam, m<input name="hull.beam_lwl_m" type="number" min="0.01" step="0.01" value="32"></label>
+          <label>Draft fwd, m<input name="hull.draft_forward_m" type="number" min="0.01" step="0.01" value="11"></label>
+          <label>Draft aft, m<input name="hull.draft_aft_m" type="number" min="0.01" step="0.01" value="11"></label>
+          <label>CB<input name="hull.block_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.6"></label>
+          <label>CM<input name="hull.midship_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.98"></label>
+          <label>CWP<input name="hull.waterplane_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.75"></label>
           <label>LCB, % LWL<input name="hull.lcb_percent_lwl_from_midships_forward_positive" type="number" step="0.01" value="-0.75"></label>
         </div>
       </section>
@@ -51,9 +51,9 @@
       <section>
         <h2>Features</h2>
         <div class="grid four">
-          <label>Bulb area, m2<input name="features.bulb_area_station_0_m2" type="number" step="0.01" value="21"></label>
-          <label>Bulb center, m<input name="features.bulb_vertical_center_m" type="number" step="0.01" value="4"></label>
-          <label>Transom area, m2<input name="features.transom_immersed_area_zero_speed_m2" type="number" step="0.01" value="16"></label>
+          <label>Bulb area, m2<input name="features.bulb_area_station_0_m2" type="number" min="0" step="0.01" value="21"></label>
+          <label>Bulb center, m<input name="features.bulb_vertical_center_m" type="number" min="0" step="0.01" value="4"></label>
+          <label>Transom area, m2<input name="features.transom_immersed_area_zero_speed_m2" type="number" min="0" step="0.01" value="16"></label>
           <label>Stern type<select name="features.stern_type">
             <option value="normal_shaped_sections">Normal shaped sections</option>
             <option value="v_shaped_sections">V-shaped sections</option>
@@ -71,14 +71,14 @@
             <option value="single_screw_open_flow_stern">Single-screw open-flow stern</option>
             <option value="twin_screw">Twin screw</option>
           </select></label>
-          <label>Propeller Dp, m<input name="propulsion.propeller_diameter_m" type="number" step="0.01" value="8"></label>
-          <label>Ae/Ao<input name="propulsion.expanded_area_ratio" type="number" step="0.0001" value="0.8"></label>
+          <label>Propeller Dp, m<input name="propulsion.propeller_diameter_m" type="number" min="0.01" step="0.01" value="8"></label>
+          <label>Ae/Ao<input name="propulsion.expanded_area_ratio" type="number" min="0" max="1" step="0.0001" value="0.8"></label>
           <label>Appendage mode<select name="appendages.mode">
             <option value="percent_bare_hull_resistance">Percent bare hull</option>
             <option value="equivalent_area_form_factor">SAPP(1+K2)</option>
           </select></label>
-          <label>Appendage, %<input name="appendages.percent_bare_hull_resistance" type="number" step="0.01" value="5"></label>
-          <label>SAPP(1+K2), m2<input name="appendages.equivalent_wetted_area_form_factor_m2" type="number" step="0.01" value="0"></label>
+          <label>Appendage, %<input name="appendages.percent_bare_hull_resistance" type="number" min="0" step="0.01" value="5"></label>
+          <label>SAPP(1+K2), m2<input name="appendages.equivalent_wetted_area_form_factor_m2" type="number" min="0" step="0.01" value="0"></label>
         </div>
       </section>
 
@@ -89,16 +89,16 @@
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select></label>
-          <label>Depth at bow, m<input name="modeling.depth_at_bow_m" type="number" step="0.01" value="21"></label>
-          <label>Frontal area, m2<input name="modeling.deckhouse_cargo_frontal_area_m2" type="number" step="0.01" value="321"></label>
+          <label>Depth at bow, m<input name="modeling.depth_at_bow_m" type="number" min="0.01" step="0.01" value="21"></label>
+          <label>Frontal area, m2<input name="modeling.deckhouse_cargo_frontal_area_m2" type="number" min="0" step="0.01" value="321"></label>
           <label>Surface mode<select name="modeling.wetted_surface_mode">
             <option value="user">User</option>
           </select></label>
-          <label>Wetted surface, m2<input name="modeling.wetted_surface_m2" type="number" step="0.01" value="7890"></label>
+          <label>Wetted surface, m2<input name="modeling.wetted_surface_m2" type="number" min="0.01" step="0.01" value="7890"></label>
           <label>Angle mode<select name="modeling.half_angle_entrance_mode">
             <option value="user">User</option>
           </select></label>
-          <label>Half angle, deg<input name="modeling.half_angle_entrance_degrees" type="number" step="0.01" value="12.11"></label>
+          <label>Half angle, deg<input name="modeling.half_angle_entrance_degrees" type="number" min="0.01" step="0.01" value="12.11"></label>
         </div>
       </section>
 
@@ -110,9 +110,9 @@
             <option value="fresh_water_15_c">Fresh water, 15 C</option>
             <option value="custom">Custom</option>
           </select></label>
-          <label>Density, kg/m3<input name="water.density_kg_m3" type="number" step="0.001" value="1025.87"></label>
-          <label>Nu, m2/s<input name="water.kinematic_viscosity_m2_s" type="number" step="0.000000001" value="0.00000118831"></label>
-          <label>Margin, %<input name="margin.design_margin_percent" type="number" step="0.01" value="5"></label>
+          <label>Density, kg/m3<input name="water.density_kg_m3" type="number" min="0.001" step="0.001" value="1025.87"></label>
+          <label>Nu, m2/s<input name="water.kinematic_viscosity_m2_s" type="number" min="0.000000001" step="0.000000001" value="0.00000118831"></label>
+          <label>Margin, %<input name="margin.design_margin_percent" type="number" min="0" step="0.01" value="5"></label>
         </div>
       </section>
 

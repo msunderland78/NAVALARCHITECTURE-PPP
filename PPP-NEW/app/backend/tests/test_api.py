@@ -174,6 +174,8 @@ class ApiTest(unittest.TestCase):
         self.assertTrue((ROOT / "tests" / "fixtures" / "README.md").exists())
         self.assertIn("case-form", (FRONTEND / "index.html").read_text())
         self.assertIn("checks", (FRONTEND / "index.html").read_text())
+        self.assertIn('max="1"', (FRONTEND / "index.html").read_text())
+        self.assertIn('min="0.01"', (FRONTEND / "index.html").read_text())
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())
         self.assertIn("case-json-button", (FRONTEND / "index.html").read_text())
         self.assertIn("legacy-in-button", (FRONTEND / "index.html").read_text())
