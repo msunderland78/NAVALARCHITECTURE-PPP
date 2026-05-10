@@ -49,7 +49,7 @@ Current status as of May 10, 2026:
 - The normalized sample candidate `IN` is pinned as a fixture so static recovery changes are regression-visible.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
-- A legacy oracle sweep CLI exists for repeatable JSON summaries of controlled probes.
+- A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas, missing modern fields, status counts, and max-delta summaries.

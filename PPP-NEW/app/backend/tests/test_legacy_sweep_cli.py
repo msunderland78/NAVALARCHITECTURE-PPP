@@ -18,9 +18,11 @@ class LegacySweepCliTest(unittest.TestCase):
             fake_exe = temp / "PPPFTRN.EXE"
             fake_wine = temp / "fake_wine.sh"
             output = temp / "summary.json"
+            captured_out = temp / "captured.OUT"
+            captured_parsed = temp / "captured-out.json"
             case_path.write_text(json.dumps({"case": case}))
             fake_exe.write_bytes(b"legacy")
-            fake_wine.write_text("#!/bin/sh\nif grep -q '0.8 0.8 1' IN; then printf 'Calculation Completed Successfully!' > OUT; fi\nexit 0\n")
+            fake_wine.write_text("#!/bin/sh\nif grep -q '0.8 0.8 1' IN; then printf 'Power Prediction Program (PPP-1.8) by M. G. Parsons\\nCalculation Completed Successfully!' > OUT; fi\nexit 0\n")
             fake_wine.chmod(0o755)
 
             code = main([
@@ -43,6 +45,10 @@ class LegacySweepCliTest(unittest.TestCase):
                 "0.05",
                 "--appendage-model-total",
                 "0",
+                "--capture-out",
+                str(captured_out),
+                "--capture-parsed-out",
+                str(captured_parsed),
                 "--output",
                 str(output)
             ])
@@ -54,6 +60,10 @@ class LegacySweepCliTest(unittest.TestCase):
             self.assertEqual(result["successful_attempts"][0]["options"]["pitch_diameter_ratio"], 0.8)
             self.assertEqual(result["case_json"], str(case_path))
             self.assertEqual(result["legacy_exe"], str(fake_exe))
+            self.assertEqual(result["captured_out"], str(captured_out))
+            self.assertEqual(result["captured_parsed_out"], str(captured_parsed))
+            self.assertIn("Power Prediction Program", captured_out.read_text())
+            self.assertTrue(json.loads(captured_parsed.read_text())["calculation_completed"])
 
 
 if __name__ == "__main__":

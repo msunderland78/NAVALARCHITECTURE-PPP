@@ -46,7 +46,7 @@ Version 1.0, May 10, 2026
 - Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
-- Legacy oracle sweep CLI for JSON summaries of controlled probes.
+- Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts and max-delta summary.

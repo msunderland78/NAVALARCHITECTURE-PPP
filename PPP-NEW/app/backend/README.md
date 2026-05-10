@@ -10,7 +10,7 @@ Implemented:
 - Candidate legacy `IN` generator for controlled oracle experiments
 - Reproducible legacy oracle runner for isolated compatibility tests outside `PPP-NEW`
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields
-- Legacy oracle sweep CLI for JSON summaries of controlled probes
+- Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes
 - Legacy `OUT` text parser for future oracle fixtures
 - Representative legacy `OUT` text fixture for parser and comparison regression tests
 - Legacy `OUT` to modern-result comparison diagnostics with status counts and max-delta summary
@@ -64,7 +64,7 @@ http://127.0.0.1:8000/health
 Use only copied legacy executables outside `PPP-NEW`:
 
 ```sh
-PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_sweep_cli PPP-NEW/tests/fixtures/pppin_sample_import.json /tmp/PPPFTRN.EXE /tmp/ppp-sweep --appendage-primary-value 0.05 --appendage-primary-value 5 --appendage-model-total 0 --appendage-model-total 0.05 --output /tmp/ppp-sweep-summary.json
+PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_sweep_cli PPP-NEW/tests/fixtures/pppin_sample_import.json /tmp/PPPFTRN.EXE /tmp/ppp-sweep --appendage-primary-value 0.05 --appendage-primary-value 5 --appendage-model-total 0 --appendage-model-total 0.05 --capture-out /tmp/ppp-oracle.OUT --capture-parsed-out /tmp/ppp-oracle-parsed.json --output /tmp/ppp-sweep-summary.json
 ```
 
 ## Compare Legacy OUT

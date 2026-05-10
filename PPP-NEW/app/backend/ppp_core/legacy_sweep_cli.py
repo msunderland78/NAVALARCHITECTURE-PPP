@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+from .legacy_out import parse_legacy_out
 from .legacy_sweep import candidate_option_sets, run_oracle_sweep
 
 
@@ -21,6 +22,8 @@ def main(argv=None):
     parser.add_argument("--water-type-code", action="append", type=int)
     parser.add_argument("--appendage-primary-value", action="append", type=float)
     parser.add_argument("--appendage-model-total", action="append", type=float)
+    parser.add_argument("--capture-out")
+    parser.add_argument("--capture-parsed-out")
     args = parser.parse_args(argv)
 
     payload = json.loads(Path(args.case_json).read_text())
@@ -44,12 +47,32 @@ def main(argv=None):
     )
     result["case_json"] = str(Path(args.case_json))
     result["legacy_exe"] = str(Path(args.legacy_exe))
+    capture_outputs(result, args.capture_out, args.capture_parsed_out)
     text = json.dumps(result, indent=2)
     if args.output:
         Path(args.output).write_text(text + "\n")
     else:
         sys.stdout.write(text + "\n")
     return 0
+
+
+def capture_outputs(result, capture_out, capture_parsed_out):
+    if not result["successful_attempts"]:
+        return
+    source = Path(result["successful_attempts"][0]["workdir"]) / "OUT"
+    if not source.exists():
+        return
+    out_text = source.read_text(encoding="utf-8", errors="replace")
+    if capture_out:
+        target = Path(capture_out)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(out_text)
+        result["captured_out"] = str(target)
+    if capture_parsed_out:
+        target = Path(capture_parsed_out)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps(parse_legacy_out(out_text, "OUT"), indent=2) + "\n")
+        result["captured_parsed_out"] = str(target)
 
 
 if __name__ == "__main__":
