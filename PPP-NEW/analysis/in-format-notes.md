@@ -117,6 +117,14 @@ forrtl: severe (6201): **: DOMAIN error
 
 No `OUT` report was produced. This is still progress over the empty-file run, which failed with end-of-file on unit 4. The candidate file is text and is read far enough for the Fortran engine to enter a numerical calculation path. The remaining blocker is likely one or more field semantics or enum encodings, not the filename, text format, or gross record count.
 
+A bounded follow-up sweep varied only obvious unresolved fields:
+
+- Stern correction candidate: `0`, `-10`, `10`
+- `P/Dp` candidate: `0`, `0.8`, `1.0`
+- Water type code: `1`, `2`, `3`
+
+All 27 attempts failed with the same Fortran `DOMAIN error`, and no `OUT` was produced. This suggests the blocker is not only one of those simple enum or placeholder values. The next static target is the exact first-record ordering and the appendage/model-calculation fields around `0x840` and `0x8f8`.
+
 ## Strong Inferences
 
 - The temporary input filename is uppercase `IN`, not lowercase `In`.

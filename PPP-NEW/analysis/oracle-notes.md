@@ -52,6 +52,8 @@ forrtl: severe (6201): **: DOMAIN error
 
 No `OUT` was produced. The result indicates that the candidate text format and record count are close enough to move beyond file-open and end-of-file failure. The next recovery pass should focus on enum encodings and candidate fields including stern correction, appendage model total, pitch-diameter ratio, propulsion type code, and water type code.
 
+A bounded 27-attempt sweep varied stern correction (`0`, `-10`, `10`), `P/Dp` (`0`, `0.8`, `1.0`), and water type code (`1`, `2`, `3`). Every attempt produced the same Fortran `DOMAIN error`; no `OUT` was captured. This reduces the likelihood that those simple values alone are the blocker.
+
 ## Next Oracle Tasks
 
 1. Recover the `IN` writer behavior from `PPP.EXE`.

@@ -65,7 +65,7 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, and `/api/i
 - Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
 - Legacy `OUT` oracle is not generated yet.
 - Legacy `OUT` parser is ready, but no real legacy `OUT` fixture has been captured yet.
-- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; a candidate `IN` now advances from EOF to a Fortran `DOMAIN error`, so exact enum and candidate-field semantics remain the oracle blocker.
+- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; a candidate `IN` now advances from EOF to a Fortran `DOMAIN error`. A bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain the oracle blocker.
 
 ## Next Best Work
 
