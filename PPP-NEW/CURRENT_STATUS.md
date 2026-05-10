@@ -13,6 +13,9 @@ Version 1.0, May 10, 2026
   - Froude number
   - Speed-length ratio
   - Displacement volume and mass
+  - Inverse B/T and B/L ratios
+  - Midship and waterplane areas
+  - Length-displacement volume ratio
   - Reynolds number
   - ITTC-1957 friction coefficient
   - Frictional resistance

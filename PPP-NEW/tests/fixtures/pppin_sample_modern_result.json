@@ -9,8 +9,13 @@
     "lcb_m_from_fp": 107.58999999999999,
     "lcb_percent_lwl_from_fp": 50.74999999999999,
     "beam_draft_ratio": 2.909090909090909,
+    "draft_beam_ratio": 0.34375,
     "lwl_beam_ratio": 6.625,
+    "beam_lwl_ratio": 0.1509433962264151,
+    "midship_area_m2": 344.96,
+    "waterplane_area_m2": 5088.0,
     "displacement_volume_m3": 44774.4,
+    "length_displacement_ratio": 5.970251173727414,
     "displacement_mass_tonnes": 45932.713728
   },
   "modeling": {
