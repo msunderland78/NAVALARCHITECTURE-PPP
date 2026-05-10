@@ -10,12 +10,33 @@ const jsonButton = document.getElementById("json-button");
 const printButton = document.getElementById("print-button");
 const importFile = document.getElementById("import-file");
 const importJsonFile = document.getElementById("import-json-file");
+const waterType = form.elements["water.type"];
+
+const WATER_PRESETS = {
+  salt_water_15_c: {
+    density_kg_m3: 1025.87,
+    kinematic_viscosity_m2_s: 0.00000118831
+  },
+  fresh_water_15_c: {
+    density_kg_m3: 999.1026,
+    kinematic_viscosity_m2_s: 0.0000011386
+  }
+};
 
 let lastPayload = null;
 
 form.addEventListener("submit", async event => {
   event.preventDefault();
   await runCase();
+});
+
+waterType.addEventListener("change", () => {
+  const preset = WATER_PRESETS[waterType.value];
+  if (!preset) {
+    return;
+  }
+  setValue("water.density_kg_m3", preset.density_kg_m3);
+  setValue("water.kinematic_viscosity_m2_s", preset.kinematic_viscosity_m2_s);
 });
 
 caseJsonButton.addEventListener("click", () => {
