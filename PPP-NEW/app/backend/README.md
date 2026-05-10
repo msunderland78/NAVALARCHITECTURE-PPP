@@ -14,6 +14,7 @@ Implemented:
 - Legacy `OUT` text parser for future oracle fixtures
 - Representative legacy `OUT` text fixture for parser and comparison regression tests
 - Legacy `OUT` to modern-result comparison diagnostics
+- Legacy `OUT` comparison CLI for JSON delta reports
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
 - Speed sweep terms
@@ -64,6 +65,12 @@ Use only copied legacy executables outside `PPP-NEW`:
 
 ```sh
 PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_sweep_cli PPP-NEW/tests/fixtures/pppin_sample_import.json /tmp/PPPFTRN.EXE /tmp/ppp-sweep --appendage-primary-value 0.05 --appendage-primary-value 5 --appendage-model-total 0 --appendage-model-total 0.05 --output /tmp/ppp-sweep-summary.json
+```
+
+## Compare Legacy OUT
+
+```sh
+PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_compare_cli PPP-NEW/tests/fixtures/pppin_sample_import.json PPP-NEW/tests/fixtures/representative_legacy.OUT --point-count 2 --output /tmp/ppp-out-comparison.json
 ```
 
 Current routes:

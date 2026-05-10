@@ -53,6 +53,7 @@ Current status as of May 10, 2026:
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas or missing modern fields.
+- A legacy `OUT` comparison CLI exists for repeatable JSON delta reports.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
