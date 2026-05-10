@@ -111,6 +111,38 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "hull.waterplane_coefficient must be less than or equal to 1"):
             evaluate_case(case, point_count=1)
 
+    def test_invalid_feature_and_modeling_dimensions(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["features"]["bulb_area_station_0_m2"] = -1
+        with self.assertRaisesRegex(ValueError, "features.bulb_area_station_0_m2 must be non-negative"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["deckhouse_cargo_frontal_area_m2"] = -1
+        with self.assertRaisesRegex(ValueError, "modeling.deckhouse_cargo_frontal_area_m2 must be non-negative"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["half_angle_entrance_degrees"] = 0
+        with self.assertRaisesRegex(ValueError, "modeling.half_angle_entrance_degrees must be positive"):
+            evaluate_case(case, point_count=1)
+
+    def test_invalid_propulsion_dimensions(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["propeller_diameter_m"] = 0
+        with self.assertRaisesRegex(ValueError, "propulsion.propeller_diameter_m must be positive"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["expanded_area_ratio"] = 1.1
+        with self.assertRaisesRegex(ValueError, "propulsion.expanded_area_ratio must be between 0 and 1"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["pitch_diameter_ratio"] = -1
+        with self.assertRaisesRegex(ValueError, "propulsion.pitch_diameter_ratio must be non-negative"):
+            evaluate_case(case, point_count=1)
+
     def test_appendage_equivalent_area_mode(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["appendages"]["mode"] = "equivalent_area_form_factor"

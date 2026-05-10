@@ -36,6 +36,7 @@ Implemented:
 - API validation for unsupported estimated wetted-surface and half-angle modes
 - API validation for unsupported stern, propulsion, and water types
 - API validation for hull coefficients greater than 1
+- API validation for invalid feature, propulsion, and modeling dimensions
 
 Not yet implemented:
 

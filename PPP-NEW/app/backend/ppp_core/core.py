@@ -103,7 +103,10 @@ def validate_case(case):
         "hull.draft_aft_m": hull["draft_aft_m"],
         "hull.block_coefficient": hull["block_coefficient"],
         "hull.midship_coefficient": hull["midship_coefficient"],
+        "propulsion.propeller_diameter_m": propulsion["propeller_diameter_m"],
+        "modeling.depth_at_bow_m": modeling["depth_at_bow_m"],
         "modeling.wetted_surface_m2": modeling["wetted_surface_m2"],
+        "modeling.half_angle_entrance_degrees": modeling["half_angle_entrance_degrees"],
         "water.density_kg_m3": water["density_kg_m3"],
         "water.kinematic_viscosity_m2_s": water["kinematic_viscosity_m2_s"],
         "speed_sweep.initial_speed_knots": speed_sweep["initial_speed_knots"]
@@ -119,6 +122,20 @@ def validate_case(case):
     for name, value in bounded.items():
         if value > 1:
             raise ValueError(f"{name} must be less than or equal to 1")
+    non_negative = {
+        "features.bulb_area_station_0_m2": features["bulb_area_station_0_m2"],
+        "features.bulb_vertical_center_m": features["bulb_vertical_center_m"],
+        "features.transom_immersed_area_zero_speed_m2": features["transom_immersed_area_zero_speed_m2"],
+        "modeling.deckhouse_cargo_frontal_area_m2": modeling["deckhouse_cargo_frontal_area_m2"]
+    }
+    for name, value in non_negative.items():
+        if value < 0:
+            raise ValueError(f"{name} must be non-negative")
+    if propulsion["expanded_area_ratio"] < 0 or propulsion["expanded_area_ratio"] > 1:
+        raise ValueError("propulsion.expanded_area_ratio must be between 0 and 1")
+    pitch_diameter_ratio = propulsion.get("pitch_diameter_ratio")
+    if pitch_diameter_ratio is not None and pitch_diameter_ratio < 0:
+        raise ValueError("propulsion.pitch_diameter_ratio must be non-negative")
     if speed_sweep["speed_increment_knots"] < 0:
         raise ValueError("speed_sweep.speed_increment_knots must be non-negative")
     if features["stern_type"] not in STERN_TYPES:
