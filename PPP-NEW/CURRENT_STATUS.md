@@ -12,6 +12,7 @@ Version 1.0, May 10, 2026
   - Speed sweep
   - Froude number
   - Speed-length ratio
+  - Displacement volume and mass
   - Reynolds number
   - ITTC-1957 friction coefficient
   - Frictional resistance

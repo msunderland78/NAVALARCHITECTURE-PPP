@@ -20,6 +20,7 @@ Implemented:
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
 - Speed sweep terms
+- Displacement volume and mass
 - ITTC-1957 friction coefficient
 - Frictional resistance `RF`
 - Percent appendage resistance based on currently implemented bare-hull resistance

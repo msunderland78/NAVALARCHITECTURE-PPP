@@ -43,12 +43,15 @@ def evaluate_case(case, point_count=1):
     cp = cb / cm
     lcb_percent = hull["lcb_percent_lwl_from_midships_forward_positive"]
     lcb_m_from_fp = lwl * (0.5 - lcb_percent / 100)
+    displacement_volume = lwl * beam * mean_draft * cb
     derived = {
         "mean_draft_m": mean_draft,
         "prismatic_coefficient": cp,
         "lcb_m_from_fp": lcb_m_from_fp,
         "beam_draft_ratio": beam / mean_draft,
-        "lwl_beam_ratio": lwl / beam
+        "lwl_beam_ratio": lwl / beam,
+        "displacement_volume_m3": displacement_volume,
+        "displacement_mass_tonnes": displacement_volume * water["density_kg_m3"] / 1000
     }
     speeds = []
     for index in range(point_count):

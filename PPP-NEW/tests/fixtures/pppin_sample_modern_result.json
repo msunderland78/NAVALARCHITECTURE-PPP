@@ -8,7 +8,9 @@
     "prismatic_coefficient": 0.6122448979591837,
     "lcb_m_from_fp": 107.58999999999999,
     "beam_draft_ratio": 2.909090909090909,
-    "lwl_beam_ratio": 6.625
+    "lwl_beam_ratio": 6.625,
+    "displacement_volume_m3": 44774.4,
+    "displacement_mass_tonnes": 45932.713728
   },
   "modeling": {
     "wetted_surface_mode": "user",
