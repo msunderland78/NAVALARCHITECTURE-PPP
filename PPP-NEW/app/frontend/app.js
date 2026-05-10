@@ -4,15 +4,21 @@ const summary = document.getElementById("summary");
 const checks = document.getElementById("checks");
 const table = document.getElementById("results-table");
 const plot = document.getElementById("plot");
+const caseJsonButton = document.getElementById("case-json-button");
 const csvButton = document.getElementById("csv-button");
 const jsonButton = document.getElementById("json-button");
 const importFile = document.getElementById("import-file");
+const importJsonFile = document.getElementById("import-json-file");
 
 let lastPayload = null;
 
 form.addEventListener("submit", async event => {
   event.preventDefault();
   await runCase();
+});
+
+caseJsonButton.addEventListener("click", () => {
+  downloadText(JSON.stringify(buildPayload(), null, 2), "ppp-case.json", "application/json");
 });
 
 csvButton.addEventListener("click", async () => {
@@ -45,6 +51,21 @@ function downloadText(text, filename, type) {
   link.click();
   URL.revokeObjectURL(url);
 }
+
+importJsonFile.addEventListener("change", async () => {
+  const file = importJsonFile.files[0];
+  if (!file) {
+    return;
+  }
+  const payload = JSON.parse(await file.text());
+  applyCase(payload.case || payload);
+  if (payload.point_count) {
+    setValue("point_count", payload.point_count);
+  }
+  statusBox.textContent = "Imported";
+  await runCase();
+  importJsonFile.value = "";
+});
 
 importFile.addEventListener("change", async () => {
   const file = importFile.files[0];
