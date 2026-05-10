@@ -1,3 +1,4 @@
+from hashlib import sha256
 from pathlib import Path
 
 from .legacy_oracle import run_oracle
@@ -69,9 +70,16 @@ def summarize_attempt(index, options, result):
         "returncode": result["returncode"],
         "out_exists": result["out_exists"],
         "calculation_completed": bool(result["parsed_out"] and result["parsed_out"].get("calculation_completed")),
+        "input_sha256": sha256(result["input"].encode("ascii")).hexdigest(),
+        "input_line_count": len(result["input"].splitlines()),
+        "input_first_record": first_line(result["input"]),
         "stderr_tail": tail_text(result["stderr"]),
         "stdout_tail": tail_text(result["stdout"])
     }
+
+
+def first_line(text):
+    return text.splitlines()[0] if text.splitlines() else ""
 
 
 def tail_text(text, max_lines=8):

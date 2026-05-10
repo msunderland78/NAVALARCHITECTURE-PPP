@@ -62,6 +62,7 @@ Version 1.0, May 10, 2026
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
 - Legacy oracle sweep options now include alternate first-record ordering probes.
+- Legacy oracle sweep attempt summaries now include generated `IN` SHA-256, line count, and first record.
 - Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.

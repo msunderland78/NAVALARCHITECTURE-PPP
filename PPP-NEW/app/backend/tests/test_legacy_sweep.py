@@ -1,9 +1,11 @@
 import json
 import tempfile
 import unittest
+from hashlib import sha256
 from pathlib import Path
 
 from ppp_core import candidate_option_sets, run_oracle_sweep
+from ppp_core.legacy_in import generate_candidate_legacy_in
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -53,7 +55,12 @@ class LegacySweepTest(unittest.TestCase):
             self.assertEqual(result["attempt_count"], 2)
             self.assertEqual(result["out_count"], 1)
             self.assertTrue(result["successful_attempts"][0]["out_exists"])
-            self.assertEqual(result["successful_attempts"][0]["options"]["pitch_diameter_ratio"], 0.8)
+            successful = result["successful_attempts"][0]
+            expected_input = generate_candidate_legacy_in(case, successful["options"])
+            self.assertEqual(successful["options"]["pitch_diameter_ratio"], 0.8)
+            self.assertEqual(successful["input_line_count"], 8)
+            self.assertEqual(successful["input_first_record"], "212 32 21 11 11 321")
+            self.assertEqual(successful["input_sha256"], sha256(expected_input.encode("ascii")).hexdigest())
 
 
 if __name__ == "__main__":
