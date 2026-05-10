@@ -25,6 +25,7 @@ WATER_TYPES = {
 def evaluate_case(case, point_count=1):
     point_count = validate_point_count(point_count)
     validate_case(case)
+    validate_speed_sweep(case["speed_sweep"], point_count)
     hull = case["hull"]
     features = case["features"]
     propulsion = case["propulsion"]
@@ -168,6 +169,11 @@ def validate_case(case):
         raise ValueError("appendages.equivalent_wetted_area_form_factor_m2 must be non-negative")
     if margin["design_margin_percent"] < 0:
         raise ValueError("margin.design_margin_percent must be non-negative")
+
+
+def validate_speed_sweep(speed_sweep, point_count):
+    if point_count > 1 and speed_sweep["speed_increment_knots"] <= 0:
+        raise ValueError("speed_sweep.speed_increment_knots must be positive when point_count is greater than 1")
 
 
 def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, margin):

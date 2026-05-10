@@ -47,6 +47,16 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["error"], "point_count must be between 1 and 100")
 
+    def test_bad_speed_increment_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["speed_sweep"]["speed_increment_knots"] = 0
+        body = json.dumps({"case": case, "point_count": 2}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "speed_sweep.speed_increment_knots must be positive when point_count is greater than 1")
+
     def test_bad_coefficient_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["hull"]["block_coefficient"] = 1.1

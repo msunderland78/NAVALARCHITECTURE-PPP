@@ -151,6 +151,14 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "propulsion.pitch_diameter_ratio must be non-negative"):
             evaluate_case(case, point_count=1)
 
+    def test_multi_point_sweep_requires_positive_increment(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["speed_sweep"]["speed_increment_knots"] = 0
+
+        evaluate_case(case, point_count=1)
+        with self.assertRaisesRegex(ValueError, "speed_sweep.speed_increment_knots must be positive when point_count is greater than 1"):
+            evaluate_case(case, point_count=2)
+
     def test_appendage_equivalent_area_mode(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["appendages"]["mode"] = "equivalent_area_form_factor"

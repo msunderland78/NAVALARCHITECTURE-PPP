@@ -37,6 +37,7 @@ Version 1.0, May 10, 2026
 - API validation rejects unsupported stern, propulsion, and water types.
 - API validation rejects hull coefficients greater than 1.
 - API validation rejects invalid feature, propulsion, and modeling dimensions.
+- API validation rejects duplicate multi-point speed sweeps caused by zero speed increment.
 - Browser workspace with:
   - Editable sample case
   - Water-property presets
@@ -82,7 +83,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-52 tests OK
+54 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

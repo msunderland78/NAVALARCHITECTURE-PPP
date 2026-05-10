@@ -35,6 +35,7 @@ Current status as of May 10, 2026:
 - Unsupported stern, propulsion, and water type values now fail explicitly before calculation.
 - Hull coefficients greater than 1 now fail explicitly before calculation.
 - Invalid feature, propulsion, and modeling dimensions now fail explicitly before calculation.
+- Multi-point speed sweeps with zero speed increment now fail explicitly before calculation to avoid duplicate rows.
 - Result rows now expose the visible legacy report columns, using explicit `null` placeholders for unrecovered Holtrop and propulsion terms.
 - A reusable legacy `.PPP` importer exists in `PPP-NEW/app/backend/ppp_core/legacy_ppp.py` and has been manually checked against the ignored `PPP-OLD/PPPIN.PPP`.
 - The HTTP API exposes `POST /api/import/ppp` for raw legacy `.PPP` uploads, and the browser workspace has an `Import .PPP` control.
