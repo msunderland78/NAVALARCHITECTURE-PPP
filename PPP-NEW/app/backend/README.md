@@ -7,6 +7,7 @@ This backend contains the first modern PPP calculation modules.
 Implemented:
 
 - Legacy `.PPP` `Contents` stream import for the observed sample layout
+- Legacy `OUT` text parser for future oracle fixtures
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
 - Speed sweep terms
@@ -58,5 +59,6 @@ Current routes:
 - `POST /api/export/csv`
 - `POST /api/export/json`
 - `POST /api/import/ppp`
+- `POST /api/import/out`
 
 The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, API-backed evaluation, applicability checks, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.

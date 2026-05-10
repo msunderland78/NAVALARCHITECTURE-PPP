@@ -95,6 +95,14 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(payload["project"]["name"], "Holtrop and Mennen Example")
         self.assertAlmostEqual(payload["hull"]["lwl_m"], 212.0)
 
+    def test_import_out_route(self):
+        body = b"Input Verification:\nLength of Waterline LWL (m) = 212.0\n"
+        status, content_type, payload = route("POST", "/api/import/out", body)
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "application/json")
+        self.assertAlmostEqual(payload["input_verification"]["length_of_waterline_lwl_m"]["numeric_value"], 212.0)
+
     def test_bad_import_route(self):
         status, content_type, payload = route("POST", "/api/import/ppp", b"not a ppp file")
 

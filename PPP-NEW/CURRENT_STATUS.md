@@ -39,6 +39,7 @@ Version 1.0, May 10, 2026
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
 - Static notes for the legacy temporary `IN` writer.
+- Legacy `OUT` text parser for future oracle fixtures.
 
 ## Verification
 
@@ -51,10 +52,10 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-19 tests OK
+22 tests OK
 ```
 
-Local HTTP smoke testing passes for `/health`, `/`, and `/api/evaluate` with a temporary backend server. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, and `/api/import/out` with a temporary backend server. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 
@@ -62,6 +63,7 @@ Local HTTP smoke testing passes for `/health`, `/`, and `/api/evaluate` with a t
 - Current resistance totals are explicitly marked `partial_source_safe_components`.
 - Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
 - Legacy `OUT` oracle is not generated yet.
+- Legacy `OUT` parser is ready, but no real legacy `OUT` fixture has been captured yet.
 - `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; static writer shape is partially recovered, but exact column semantics remain the oracle blocker.
 
 ## Next Best Work

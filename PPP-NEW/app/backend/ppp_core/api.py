@@ -3,6 +3,7 @@ import struct
 
 from .core import evaluate_case
 from .export import speeds_to_csv
+from .legacy_out import parse_legacy_out
 from .legacy_ppp import import_legacy_ppp
 
 
@@ -36,6 +37,10 @@ def import_response(body):
     return 200, "application/json", import_legacy_ppp(body, "upload.ppp")
 
 
+def import_out_response(body):
+    return 200, "application/json", parse_legacy_out(body.decode("utf-8", errors="replace"), "upload.OUT")
+
+
 def route(method, path, body=b""):
     try:
         if method == "GET" and path == "/health":
@@ -48,6 +53,8 @@ def route(method, path, body=b""):
             return json_export_response(body)
         if method == "POST" and path == "/api/import/ppp":
             return import_response(body)
+        if method == "POST" and path == "/api/import/out":
+            return import_out_response(body)
         return 404, "application/json", {"error": "not found"}
     except (KeyError, ValueError, json.JSONDecodeError, struct.error) as error:
         return 400, "application/json", {"error": str(error)}
