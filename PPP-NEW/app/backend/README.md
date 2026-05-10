@@ -12,6 +12,7 @@ Implemented:
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields
 - Legacy oracle sweep CLI for JSON summaries of controlled probes
 - Legacy `OUT` text parser for future oracle fixtures
+- Representative legacy `OUT` text fixture for parser and comparison regression tests
 - Legacy `OUT` to modern-result comparison diagnostics
 - Minimal OLE Compound Document stream extraction
 - Hull derivations

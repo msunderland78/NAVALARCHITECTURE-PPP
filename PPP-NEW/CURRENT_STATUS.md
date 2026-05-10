@@ -48,6 +48,7 @@ Version 1.0, May 10, 2026
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
 - Legacy oracle sweep CLI for JSON summaries of controlled probes.
 - Legacy `OUT` text parser for future oracle fixtures.
+- Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics.
 - Candidate `IN` field map recovered from GUI writer/report cross-references.
 
