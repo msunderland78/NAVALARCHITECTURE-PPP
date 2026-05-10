@@ -34,6 +34,7 @@ Implemented:
 - Dependency-free HTTP routes
 - API validation for invalid physical inputs
 - API validation for unsupported estimated wetted-surface and half-angle modes
+- API validation for unsupported stern, propulsion, and water types
 
 Not yet implemented:
 

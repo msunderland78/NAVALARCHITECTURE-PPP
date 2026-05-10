@@ -29,6 +29,7 @@ Version 1.0, May 10, 2026
   - `CP`
 - API validation for invalid physical inputs.
 - API validation rejects unsupported estimated wetted-surface and half-angle modes until formulas are implemented.
+- API validation rejects unsupported stern, propulsion, and water types.
 - Browser workspace with:
   - Editable sample case
   - Water-property presets
@@ -70,7 +71,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-42 tests OK
+44 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

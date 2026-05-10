@@ -79,6 +79,22 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "modeling.half_angle_entrance_mode is not supported"):
             evaluate_case(case, point_count=1)
 
+    def test_unsupported_case_enums(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["features"]["stern_type"] = "unknown"
+        with self.assertRaisesRegex(ValueError, "features.stern_type is not supported"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "unknown"
+        with self.assertRaisesRegex(ValueError, "propulsion.type is not supported"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["water"]["type"] = "unknown"
+        with self.assertRaisesRegex(ValueError, "water.type is not supported"):
+            evaluate_case(case, point_count=1)
+
     def test_appendage_equivalent_area_mode(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["appendages"]["mode"] = "equivalent_area_form_factor"

@@ -4,12 +4,30 @@ from math import log10, sqrt
 KNOT_TO_MPS = 0.514444
 METER_TO_FOOT = 3.280839895
 G = 9.80665
+STERN_TYPES = {
+    "normal_shaped_sections",
+    "v_shaped_sections",
+    "u_shaped_sections_with_hogner_stern",
+    "pram_with_gondola"
+}
+PROPULSION_TYPES = {
+    "single_screw_conventional_stern",
+    "single_screw_open_flow_stern",
+    "twin_screw"
+}
+WATER_TYPES = {
+    "custom",
+    "fresh_water_15_c",
+    "salt_water_15_c"
+}
 
 
 def evaluate_case(case, point_count=1):
     point_count = validate_point_count(point_count)
     validate_case(case)
     hull = case["hull"]
+    features = case["features"]
+    propulsion = case["propulsion"]
     water = case["water"]
     modeling = case["modeling"]
     appendages = case["appendages"]
@@ -71,6 +89,8 @@ def validate_point_count(point_count):
 
 def validate_case(case):
     hull = case["hull"]
+    features = case["features"]
+    propulsion = case["propulsion"]
     water = case["water"]
     modeling = case["modeling"]
     speed_sweep = case["speed_sweep"]
@@ -93,6 +113,12 @@ def validate_case(case):
             raise ValueError(f"{name} must be positive")
     if speed_sweep["speed_increment_knots"] < 0:
         raise ValueError("speed_sweep.speed_increment_knots must be non-negative")
+    if features["stern_type"] not in STERN_TYPES:
+        raise ValueError("features.stern_type is not supported")
+    if propulsion["type"] not in PROPULSION_TYPES:
+        raise ValueError("propulsion.type is not supported")
+    if water["type"] not in WATER_TYPES:
+        raise ValueError("water.type is not supported")
     if modeling.get("wetted_surface_mode", "user") != "user":
         raise ValueError("modeling.wetted_surface_mode is not supported")
     if modeling.get("half_angle_entrance_mode", "user") != "user":
