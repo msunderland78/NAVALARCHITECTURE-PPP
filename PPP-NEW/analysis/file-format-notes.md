@@ -61,8 +61,8 @@ Known binary prefix values:
 
 | Offset | Type | Value | Meaning |
 |---:|---|---:|---|
-| `0x0005` | string | `Holtrop and Mennen Example` | Project name |
-| `0x0020` | string | `Test 1.0` | Run identification |
+| `0x0004` | counted string | `Holtrop and Mennen Example` | Project name, text starts at `0x0005` |
+| `0x001f` | counted string | `Test 1.0` | Run identification, text starts at `0x0020` |
 | `0x0028` | double | `212.0` | LWL, m |
 | `0x0030` | double | `32.0` | Beam on LWL, m |
 | `0x0038` | double | `11.0` | Draft forward, m |
@@ -75,10 +75,10 @@ Known binary prefix values:
 | `0x0070` | double | `4.0` | Vertical center of bulb area, m |
 | `0x0078` | double | `21.0` | Bulb area, m^2 |
 | `0x0088` | int32 | `2` | Stern enum candidate |
-| `0x008d` | string | `normal shaped sections` | Stern label |
+| `0x008c` | counted string | `normal shaped sections` | Stern label, text starts at `0x008d` |
 | `0x00a3` | double | `8.0` | Propeller diameter, m |
 | `0x00ab` | double | `0.8` | Expanded area ratio |
-| `0x00bf` | string | `single-screw with "conventional" stern` | Propulsion label |
+| `0x00bf` | counted string | `single-screw with "conventional" stern` | Propulsion label, text starts at `0x00c0` |
 | `0x00e6` | double | `0.05` | Propulsion or margin fraction candidate |
 | `0x00ee` | double | `0.05` | Propulsion or appendage fraction candidate |
 | `0x01ae` | double | `21.0` | Depth at bow, m |

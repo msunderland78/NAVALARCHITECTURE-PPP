@@ -25,9 +25,14 @@ Current status as of May 10, 2026:
 - Phase 1 evidence preservation is complete for the currently supplied files.
 - `PPPIN.PPP` has been normalized into `PPP-NEW/tests/fixtures/pppin_sample_import.json` for future importer and calculation tests.
 - The first backend calculation core scaffold exists in `PPP-NEW/app/backend/ppp_core` with hull derivations, speed sweep terms, ITTC friction coefficient, and legacy applicability checks.
+- The core now computes the source-safe `RF` frictional resistance column from water density, speed, wetted surface, and ITTC-1957 `CF`.
+- A reusable legacy `.PPP` importer exists in `PPP-NEW/app/backend/ppp_core/legacy_ppp.py` and has been manually checked against the ignored `PPP-OLD/PPPIN.PPP`.
+- A CSV exporter exists for current speed rows.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
+- Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
 The next milestone is to build a minimal `.PPP` importer and calculation-core skeleton around the normalized Holtrop and Mennen sample, then recover the exact `In` file format and produce a legacy `Out` oracle.
+The next milestone is to recover the first source-derived resistance components, starting with wetted surface, form factor, frictional resistance, and effective power.
 
 ## Legacy File Inventory
 
@@ -518,6 +523,8 @@ Exit criteria:
 
 ### Phase 2: Formula Recovery
 
+Status: started.
+
 Deliverables:
 
 - `PPP-NEW/analysis/holtrop-mennen-sources.md`
@@ -549,6 +556,8 @@ Exit criteria:
 - Tests pass locally.
 
 ### Phase 4: Legacy Import and Oracle
+
+Status: importer started; oracle pending.
 
 Deliverables:
 

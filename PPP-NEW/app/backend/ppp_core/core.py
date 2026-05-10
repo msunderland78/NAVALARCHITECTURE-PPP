@@ -9,6 +9,7 @@ G = 9.80665
 def evaluate_case(case, point_count=1):
     hull = case["hull"]
     water = case["water"]
+    modeling = case["modeling"]
     speed_sweep = case["speed_sweep"]
     lwl = hull["lwl_m"]
     beam = hull["beam_lwl_m"]
@@ -30,7 +31,13 @@ def evaluate_case(case, point_count=1):
     speeds = []
     for index in range(point_count):
         speed_knots = speed_sweep["initial_speed_knots"] + speed_sweep["speed_increment_knots"] * index
-        speeds.append(evaluate_speed(lwl, speed_knots, water["kinematic_viscosity_m2_s"]))
+        speeds.append(evaluate_speed(
+            lwl,
+            speed_knots,
+            water["kinematic_viscosity_m2_s"],
+            water["density_kg_m3"],
+            modeling["wetted_surface_m2"]
+        ))
     return {
         "project": case["project"],
         "derived": derived,
@@ -39,17 +46,19 @@ def evaluate_case(case, point_count=1):
     }
 
 
-def evaluate_speed(lwl_m, speed_knots, nu):
+def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface):
     speed_mps = speed_knots * KNOT_TO_MPS
     reynolds = speed_mps * lwl_m / nu
     cf = 0.075 / ((log10(reynolds) - 2) ** 2)
+    rf = 0.5 * rho * speed_mps ** 2 * wetted_surface * cf
     return {
         "speed_knots": speed_knots,
         "speed_mps": speed_mps,
         "froude_number": speed_mps / sqrt(G * lwl_m),
         "speed_length_ratio": speed_knots / sqrt(lwl_m * METER_TO_FOOT),
         "reynolds_number": reynolds,
-        "friction_coefficient": cf
+        "friction_coefficient": cf,
+        "frictional_resistance_n": rf
     }
 
 

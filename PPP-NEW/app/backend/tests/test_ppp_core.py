@@ -33,6 +33,7 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(first["speed_length_ratio"], 0.5687623106703097)
         self.assertAlmostEqual(first["reynolds_number"], 1376687833.982715)
         self.assertAlmostEqual(first["friction_coefficient"], 0.001471656717746287)
+        self.assertAlmostEqual(first["frictional_resistance_n"], 354653.773723008)
 
     def test_sample_case_applicability(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
