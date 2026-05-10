@@ -37,6 +37,40 @@ class LegacyCompareCliTest(unittest.TestCase):
             self.assertLess(result["comparisons"][0]["fields"][0]["absolute_delta"], 0.3)
             self.assertEqual(result["comparisons"][0]["fields"][1]["status"], "missing_modern")
             self.assertEqual(result["summary"]["status_counts"], {"numeric_delta": 2, "missing_modern": 2})
+            self.assertTrue(result["passed"])
+            self.assertEqual(result["failures"], [])
+
+    def test_main_returns_failure_for_thresholds(self):
+        case_path = ROOT / "tests" / "fixtures" / "pppin_sample_import.json"
+        out_path = ROOT / "tests" / "fixtures" / "representative_legacy.OUT"
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "comparison.json"
+            code = main([
+                str(case_path),
+                str(out_path),
+                "--point-count",
+                "2",
+                "--field",
+                "frictional_resistance_n",
+                "--field",
+                "wave_resistance_n",
+                "--max-absolute-delta",
+                "0.1",
+                "--fail-on-missing-modern",
+                "--require-matched-speed-count",
+                "3",
+                "--output",
+                str(output)
+            ])
+            result = json.loads(output.read_text())
+
+            self.assertEqual(code, 1)
+            self.assertFalse(result["passed"])
+            self.assertEqual([failure["rule"] for failure in result["failures"]], [
+                "require_matched_speed_count",
+                "max_absolute_delta",
+                "fail_on_missing_modern"
+            ])
 
 
 if __name__ == "__main__":

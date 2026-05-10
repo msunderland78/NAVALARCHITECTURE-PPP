@@ -14,7 +14,7 @@ Implemented:
 - Legacy `OUT` text parser for future oracle fixtures
 - Representative legacy `OUT` text fixture for parser and comparison regression tests
 - Legacy `OUT` to modern-result comparison diagnostics with status counts and max-delta summary
-- Legacy `OUT` comparison CLI for JSON delta reports
+- Legacy `OUT` comparison CLI for JSON delta reports and optional pass/fail gates
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
 - Speed sweep terms
@@ -70,7 +70,7 @@ PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_sweep_cli PPP-NEW/test
 ## Compare Legacy OUT
 
 ```sh
-PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_compare_cli PPP-NEW/tests/fixtures/pppin_sample_import.json PPP-NEW/tests/fixtures/representative_legacy.OUT --point-count 2 --output /tmp/ppp-out-comparison.json
+PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_compare_cli PPP-NEW/tests/fixtures/pppin_sample_import.json PPP-NEW/tests/fixtures/representative_legacy.OUT --point-count 2 --require-matched-speed-count 2 --max-absolute-delta 100000 --output /tmp/ppp-out-comparison.json
 ```
 
 Current routes:

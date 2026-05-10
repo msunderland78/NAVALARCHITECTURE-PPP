@@ -50,7 +50,7 @@ Version 1.0, May 10, 2026
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts and max-delta summary.
-- Legacy `OUT` comparison CLI for JSON delta reports.
+- Legacy `OUT` comparison CLI for JSON delta reports and optional pass/fail gates.
 - Candidate `IN` field map recovered from GUI writer/report cross-references.
 
 ## Verification
@@ -64,7 +64,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-37 tests OK
+38 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
