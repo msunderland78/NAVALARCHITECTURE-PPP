@@ -38,6 +38,7 @@ Version 1.0, May 10, 2026
   - Letter-size print/PDF layout
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
+- Static notes for the legacy temporary `IN` writer.
 
 ## Verification
 
@@ -61,7 +62,7 @@ Local HTTP smoke testing passes for `/health`, `/`, and `/api/evaluate` with a t
 - Current resistance totals are explicitly marked `partial_source_safe_components`.
 - Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
 - Legacy `OUT` oracle is not generated yet.
-- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; exact `IN` layout remains the oracle blocker.
+- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; static writer shape is partially recovered, but exact column semantics remain the oracle blocker.
 
 ## Next Best Work
 

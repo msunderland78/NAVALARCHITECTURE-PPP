@@ -46,7 +46,7 @@ Notable imported behavior:
 
 Interpretation:
 
-`PPP.EXE` is the document-oriented user interface. It most likely serializes `.PPP` documents, writes a temporary `In` file, invokes `PPPFTRN.exe`, then reads `Out` for display and printing.
+`PPP.EXE` is the document-oriented user interface. It most likely serializes `.PPP` documents, writes a temporary `IN` file, invokes `PPPFTRN.exe`, then reads `Out` for display and printing.
 
 ## `PPPFTRN.EXE`
 

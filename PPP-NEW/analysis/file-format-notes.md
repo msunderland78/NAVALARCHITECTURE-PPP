@@ -91,7 +91,7 @@ Known binary prefix values:
 | `0x01f6` | double | `15.0` | Speed-run value candidate |
 | `0x01fe` | double | `2.0` | Speed-run value candidate |
 
-Some offset meanings are confirmed by adjacent report labels; others are candidates until the original `In` file layout or a legacy `OUT` oracle is recovered.
+Some offset meanings are confirmed by adjacent report labels; others are candidates until the original `IN` file layout or a legacy `OUT` oracle is recovered.
 
 ## Modern Import Strategy
 

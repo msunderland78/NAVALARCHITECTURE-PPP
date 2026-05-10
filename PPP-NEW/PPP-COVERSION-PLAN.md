@@ -20,7 +20,7 @@ Current status as of May 10, 2026:
 - `PPPFTRN.EXE` has been identified as a PE32 Win32 console executable with DEC Visual Fortran runtime strings.
 - `PPPIN.PPP` has been identified as an OLE Compound Document containing one `Contents` stream with an MFC-style serialized document.
 - The sample saved case is the `Holtrop and Mennen Example` run `Test 1.0`.
-- The likely legacy run flow has been recovered: GUI writes `In`, deletes stale `Out`, launches `PPPFTRN.exe`, then reads the generated `OUT`/`Out` report.
+- The likely legacy run flow has been recovered: GUI writes `IN`, deletes stale `In`/`Out`, launches `PPPFTRN.exe`, then reads the generated `OUT`/`Out` report.
 - No hardware-lock work is required from the currently supplied files.
 - Phase 1 evidence preservation is complete for the currently supplied files.
 - `PPPIN.PPP` has been normalized into `PPP-NEW/tests/fixtures/pppin_sample_import.json` for future importer and calculation tests.
@@ -40,10 +40,11 @@ Current status as of May 10, 2026:
 - Container deployment files exist in `PPP-NEW/app`, including a backend Dockerfile, `docker-compose.yml`, and an NGINX reverse-proxy config.
 - `docker-compose config` validates. Runtime compose smoke testing is pending because the current shell user cannot access the Docker socket.
 - Legacy oracle notes exist in `PPP-NEW/analysis/oracle-notes.md`. A copied `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN` on Fortran unit 4; exact `IN` layout recovery is now the oracle blocker.
+- Static `IN` writer notes exist in `PPP-NEW/analysis/in-format-notes.md`; the GUI opens uppercase `IN`, invokes `PPPFTRN.exe`, and reads `Out`, while the Fortran engine writes `OUT`.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
-The next milestone is to build a minimal `.PPP` importer and calculation-core skeleton around the normalized Holtrop and Mennen sample, then recover the exact `In` file format and produce a legacy `Out` oracle.
+The next milestone is to build a minimal `.PPP` importer and calculation-core skeleton around the normalized Holtrop and Mennen sample, then recover the exact `IN` file format and produce a legacy `OUT` oracle.
 The next milestone is to recover the first source-derived resistance components, starting with wetted surface, form factor, frictional resistance, and effective power.
 
 ## Legacy File Inventory
@@ -102,7 +103,7 @@ Important execution strings:
 - `PPP failed. Please check your input data, or whether you have a PPPFTRN.exe file in the folder.`
 - `Please check and adjust relevant data before running PPP.`
 
-These strings and the C runtime `system` import indicate that the MFC shell writes an `In` file, deletes stale `Out`, invokes `PPPFTRN.exe`, waits briefly, reads generated output, and displays or prints the report.
+These strings and the C runtime `system` import indicate that the MFC shell writes an `IN` file, deletes stale `In`/`Out`, invokes `PPPFTRN.exe`, waits briefly, reads generated output, and displays or prints the report.
 
 Important validation strings:
 
@@ -252,7 +253,7 @@ Recovered sample case:
 | Kinematic viscosity | `1.188310e-006 m^2/s` |
 | Appendage drag | `5.00 percent bare-hull resistance` |
 
-Binary values near the end of the serialized state suggest speed-run inputs including `15` and `2`, likely initial ship speed and speed increment, but this must be confirmed by recovering the exact `In` file layout or running the legacy executable under an isolated Windows/Wine environment.
+Binary values near the end of the serialized state suggest speed-run inputs including `15` and `2`, likely initial ship speed and speed increment, but this must be confirmed by recovering the exact `IN` file layout or running the legacy executable under an isolated Windows/Wine environment.
 
 ## Inferred Legacy Architecture
 
@@ -262,10 +263,10 @@ The legacy application likely follows this flow:
 2. The user enters hull, feature, propulsion, appendage, water, margin, and run inputs through dialogs.
 3. `PPP.EXE` serializes document state into a `Contents` stream when saving `.PPP` files.
 4. On run, `PPP.EXE` validates hull ratios and coefficient ranges.
-5. `PPP.EXE` deletes stale `In` and `Out` files.
-6. `PPP.EXE` writes current inputs to an `In` file.
+5. `PPP.EXE` deletes stale `In` and `Out` files through Windows shell commands.
+6. `PPP.EXE` writes current inputs to an `IN` file.
 7. `PPP.EXE` invokes `PPPFTRN.exe` through the C runtime `system` call.
-8. `PPPFTRN.EXE` reads `In`, performs Holtrop and Mennen resistance and powering calculations over the requested speed range, and writes `OUT`.
+8. `PPPFTRN.EXE` reads `IN`, performs Holtrop and Mennen resistance and powering calculations over the requested speed range, and writes `OUT`.
 9. `PPP.EXE` reads `Out`/`OUT` into the document report view.
 10. `PPP.EXE` can print the report and may expose report export workflows for Microsoft Word or Excel.
 
@@ -456,7 +457,7 @@ The immediate oracle target is the supplied Holtrop and Mennen sample.
 
 Oracle tasks:
 
-1. Recover or synthesize the legacy `In` file corresponding to `PPPIN.PPP`.
+1. Recover or synthesize the legacy `IN` file corresponding to `PPPIN.PPP`.
 2. Run `PPPFTRN.EXE` in an isolated compatibility environment if feasible.
 3. Capture the generated `OUT` file without modifying `PPP-OLD`.
 4. Store copied oracle text and parsed expected values under `PPP-NEW/tests/fixtures/`.
@@ -640,7 +641,7 @@ Exit criteria:
 
 These questions should be answered before declaring the app complete:
 
-- What is the exact legacy `In` file layout written by `PPP.EXE`?
+- What is the exact legacy `IN` file layout written by `PPP.EXE`?
 - How many speed points does PPP run from the `Run ...` dialog?
 - Does the legacy run dialog store final speed, count, or only initial speed plus increment?
 - Are English units actually implemented or only exposed in command strings?
