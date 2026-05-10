@@ -81,6 +81,9 @@ class ApiTest(unittest.TestCase):
         self.assertIn("import-json-file", (FRONTEND / "index.html").read_text())
         self.assertIn("print-button", (FRONTEND / "index.html").read_text())
         self.assertIn("@media print", (FRONTEND / "styles.css").read_text())
+        self.assertIn("size: 8.5in 11in", (FRONTEND / "styles.css").read_text())
+        self.assertIn("margin: 1in", (FRONTEND / "styles.css").read_text())
+        self.assertIn("width: 6.5in", (FRONTEND / "styles.css").read_text())
 
 
 if __name__ == "__main__":

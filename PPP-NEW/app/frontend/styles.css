@@ -293,14 +293,25 @@ td:first-child {
 }
 
 @media print {
+  @page {
+    size: 8.5in 11in;
+    margin: 1in;
+  }
+
+  html,
   body {
     background: #fff;
+    width: 6.5in;
+    margin: 0;
   }
 
   .topbar,
   .workspace,
   .outputs {
     display: block;
+    width: 6.5in;
+    max-width: 6.5in;
+    padding: 0;
   }
 
   .inputs,
@@ -317,21 +328,36 @@ td:first-child {
     margin-top: 12px;
   }
 
+  .summary,
+  .checks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   canvas {
-    max-width: 100%;
+    width: 6.5in;
+    max-width: 6.5in;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .table-wrap {
     overflow: visible;
+    width: 6.5in;
   }
 
   table {
+    width: 6.5in;
     min-width: 0;
-    font-size: 10px;
+    table-layout: fixed;
+    font-size: 8px;
   }
 
   th,
   td {
-    padding: 5px;
+    padding: 4px 3px;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 }
