@@ -181,6 +181,38 @@ button:hover {
   font-size: 18px;
 }
 
+.checks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.check {
+  padding: 9px 10px;
+  border-right: 1px solid var(--line);
+}
+
+.check:last-child {
+  border-right: 0;
+}
+
+.check strong,
+.check span {
+  display: block;
+}
+
+.check strong {
+  font-size: 13px;
+}
+
+.check span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 canvas {
   width: 100%;
   height: auto;
@@ -243,16 +275,19 @@ td:first-child {
   .two,
   .three,
   .four,
-  .summary {
+  .summary,
+  .checks {
     grid-template-columns: 1fr;
   }
 
-  .metric {
+  .metric,
+  .check {
     border-right: 0;
     border-bottom: 1px solid var(--line);
   }
 
-  .metric:last-child {
+  .metric:last-child,
+  .check:last-child {
     border-bottom: 0;
   }
 }

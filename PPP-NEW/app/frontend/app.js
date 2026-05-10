@@ -1,6 +1,7 @@
 const form = document.getElementById("case-form");
 const statusBox = document.getElementById("status");
 const summary = document.getElementById("summary");
+const checks = document.getElementById("checks");
 const table = document.getElementById("results-table");
 const plot = document.getElementById("plot");
 const csvButton = document.getElementById("csv-button");
@@ -78,6 +79,7 @@ async function runCase() {
   const result = await response.json();
   lastPayload = payload;
   renderSummary(result);
+  renderChecks(result);
   renderTable(result);
   renderPlot(result);
   statusBox.textContent = result.applicability.every(item => item.ok) ? "Complete" : "Check inputs";
@@ -202,6 +204,13 @@ function renderSummary(result) {
 
 function metric(label, value) {
   return `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`;
+}
+
+function renderChecks(result) {
+  checks.innerHTML = result.applicability.map(item => {
+    const className = item.ok ? "ok" : "warn";
+    return `<div class="check ${className}"><strong>${item.label}</strong><span>${item.value.toFixed(4)} within ${item.lower} to ${item.upper}</span></div>`;
+  }).join("");
 }
 
 function renderTable(result) {
