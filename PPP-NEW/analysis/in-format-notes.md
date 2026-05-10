@@ -110,6 +110,7 @@ The following offsets are within the `CPPPDoc` object used by the MFC GUI. Float
 A candidate `IN` was generated in `/tmp/ppp-oracle-candidate` from the recovered writer order and the normalized `PPPIN.PPP` sample. A copied `PPPFTRN.EXE` was run under Wine with a 20-second timeout. No files in `PPP-OLD` were modified, and no legacy executable was copied into `PPP-NEW`.
 
 The current candidate generator is implemented as `PPP-NEW/app/backend/ppp_core/legacy_in.py` and exposed through `POST /api/export/legacy-in-candidate`. The current normalized sample candidate is pinned at `PPP-NEW/tests/fixtures/pppin_sample_candidate.IN` so changes to the assumed record order are visible in tests. It is an oracle-recovery tool, not a production runtime dependency.
+The same generator is available from the terminal with `python -m ppp_core.legacy_in_cli`, including options for the unresolved appendage, propulsion, water, stern, and first-record-order candidate fields.
 
 Observed result:
 

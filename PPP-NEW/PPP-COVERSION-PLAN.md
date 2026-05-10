@@ -55,6 +55,7 @@ Current status as of May 10, 2026:
 - Static `IN` writer notes exist in `PPP-NEW/analysis/in-format-notes.md`; the GUI opens uppercase `IN`, invokes `PPPFTRN.exe`, and reads `Out`, while the Fortran engine writes `OUT`.
 - The candidate `IN` field map now reaches the Fortran calculation path under Wine but still fails with a `DOMAIN error`; a bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain unresolved.
 - A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
+- A candidate legacy `IN` CLI exists so oracle attempts can be reproduced from terminal workflows without the browser API.
 - Browser candidate legacy `IN` export is available for controlled oracle experiments.
 - The normalized sample candidate `IN` is pinned as a fixture so static recovery changes are regression-visible.
 - The current modern sample result is pinned as a fixture so future formula additions have an explicit baseline diff.
