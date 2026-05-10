@@ -30,6 +30,7 @@ Current status as of May 10, 2026:
 - A reusable legacy `.PPP` importer exists in `PPP-NEW/app/backend/ppp_core/legacy_ppp.py` and has been manually checked against the ignored `PPP-OLD/PPPIN.PPP`.
 - A CSV exporter exists for current speed rows.
 - A dependency-free HTTP layer exists with `GET /health`, `POST /api/evaluate`, and `POST /api/export/csv`.
+- A first browser interface exists in `PPP-NEW/app/frontend` and is served by the backend at `/`.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
@@ -575,6 +576,8 @@ Exit criteria:
 - New output can be compared against either legacy output or documented Holtrop and Mennen benchmark values.
 
 ### Phase 5: Web Interface
+
+Status: started.
 
 Deliverables:
 

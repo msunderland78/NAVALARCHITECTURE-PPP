@@ -3,6 +3,7 @@ import unittest
 from pathlib import Path
 
 from ppp_core import route
+from server import FRONTEND
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -42,6 +43,13 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 404)
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload, {"error": "not found"})
+
+    def test_frontend_files_exist(self):
+        self.assertTrue((FRONTEND / "index.html").exists())
+        self.assertTrue((FRONTEND / "styles.css").exists())
+        self.assertTrue((FRONTEND / "app.js").exists())
+        self.assertIn("case-form", (FRONTEND / "index.html").read_text())
+        self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())
 
 
 if __name__ == "__main__":

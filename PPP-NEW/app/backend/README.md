@@ -50,6 +50,9 @@ http://127.0.0.1:8000/health
 
 Current routes:
 
+- `GET /`
 - `GET /health`
 - `POST /api/evaluate`
 - `POST /api/export/csv`
+
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, API-backed evaluation, a speed table, a canvas plot, and CSV download.
