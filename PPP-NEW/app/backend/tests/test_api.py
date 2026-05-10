@@ -131,6 +131,7 @@ class ApiTest(unittest.TestCase):
         self.assertTrue((FRONTEND / "index.html").exists())
         self.assertTrue((FRONTEND / "styles.css").exists())
         self.assertTrue((FRONTEND / "app.js").exists())
+        self.assertTrue((ROOT / "tests" / "fixtures" / "README.md").exists())
         self.assertIn("case-form", (FRONTEND / "index.html").read_text())
         self.assertIn("checks", (FRONTEND / "index.html").read_text())
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())

@@ -45,6 +45,7 @@ Version 1.0, May 10, 2026
 - Candidate legacy `IN` generator for controlled oracle experiments.
 - Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Pinned current modern sample result fixture for regression baselining.
+- Fixture manifest distinguishing source, representative, modern baseline, and future oracle artifacts.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
 - Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes.

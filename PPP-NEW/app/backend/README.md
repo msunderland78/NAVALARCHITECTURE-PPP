@@ -16,6 +16,7 @@ Implemented:
 - Legacy `OUT` to modern-result comparison diagnostics with status counts and max-delta summary
 - Legacy `OUT` comparison CLI for JSON delta reports and optional pass/fail gates
 - Pinned current modern sample result fixture for regression baselining
+- Fixture manifest distinguishing source, representative, modern baseline, and future oracle artifacts
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
 - Speed sweep terms
