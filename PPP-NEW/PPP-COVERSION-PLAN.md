@@ -26,8 +26,10 @@ Current status as of May 10, 2026:
 - `PPPIN.PPP` has been normalized into `PPP-NEW/tests/fixtures/pppin_sample_import.json` for future importer and calculation tests.
 - The first backend calculation core scaffold exists in `PPP-NEW/app/backend/ppp_core` with hull derivations, speed sweep terms, ITTC friction coefficient, and legacy applicability checks.
 - The core now computes the source-safe `RF` frictional resistance column from water density, speed, wetted surface, and ITTC-1957 `CF`.
+- The core now reports partial resistance components, percent appendage resistance, design margin resistance, partial total resistance, and effective power with `resistance_status` marking the result as incomplete until Holtrop-specific components are implemented.
 - A reusable legacy `.PPP` importer exists in `PPP-NEW/app/backend/ppp_core/legacy_ppp.py` and has been manually checked against the ignored `PPP-OLD/PPPIN.PPP`.
 - A CSV exporter exists for current speed rows.
+- A dependency-free HTTP layer exists with `GET /health`, `POST /api/evaluate`, and `POST /api/export/csv`.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 

@@ -10,6 +10,8 @@ def evaluate_case(case, point_count=1):
     hull = case["hull"]
     water = case["water"]
     modeling = case["modeling"]
+    appendages = case["appendages"]
+    margin = case["margin"]
     speed_sweep = case["speed_sweep"]
     lwl = hull["lwl_m"]
     beam = hull["beam_lwl_m"]
@@ -36,7 +38,9 @@ def evaluate_case(case, point_count=1):
             speed_knots,
             water["kinematic_viscosity_m2_s"],
             water["density_kg_m3"],
-            modeling["wetted_surface_m2"]
+            modeling["wetted_surface_m2"],
+            appendages,
+            margin
         ))
     return {
         "project": case["project"],
@@ -46,11 +50,12 @@ def evaluate_case(case, point_count=1):
     }
 
 
-def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface):
+def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, margin):
     speed_mps = speed_knots * KNOT_TO_MPS
     reynolds = speed_mps * lwl_m / nu
     cf = 0.075 / ((log10(reynolds) - 2) ** 2)
     rf = 0.5 * rho * speed_mps ** 2 * wetted_surface * cf
+    components = resistance_components(rf, appendages, margin)
     return {
         "speed_knots": speed_knots,
         "speed_mps": speed_mps,
@@ -58,7 +63,31 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface):
         "speed_length_ratio": speed_knots / sqrt(lwl_m * METER_TO_FOOT),
         "reynolds_number": reynolds,
         "friction_coefficient": cf,
-        "frictional_resistance_n": rf
+        **components,
+        "effective_power_kw": components["total_resistance_n"] * speed_mps / 1000
+    }
+
+
+def resistance_components(rf, appendages, margin):
+    appendage_resistance = 0.0
+    if appendages["mode"] == "percent_bare_hull_resistance":
+        appendage_resistance = rf * appendages["percent_bare_hull_resistance"] / 100
+    subtotal = rf + appendage_resistance
+    design_margin = subtotal * margin["design_margin_percent"] / 100
+    total = subtotal + design_margin
+    return {
+        "frictional_resistance_n": rf,
+        "form_resistance_n": None,
+        "appendage_resistance_n": appendage_resistance,
+        "wave_resistance_n": None,
+        "bulb_resistance_n": None,
+        "transom_resistance_n": None,
+        "correlation_allowance_resistance_n": None,
+        "air_resistance_n": None,
+        "implemented_resistance_subtotal_n": subtotal,
+        "design_margin_resistance_n": design_margin,
+        "total_resistance_n": total,
+        "resistance_status": "partial_source_safe_components"
     }
 
 

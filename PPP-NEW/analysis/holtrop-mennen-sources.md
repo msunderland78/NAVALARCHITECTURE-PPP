@@ -48,6 +48,9 @@ The current backend core implements only terms that are unambiguous:
 - Reynolds number using `V * LWL / nu`.
 - ITTC-1957 friction coefficient.
 - Frictional resistance `RF = 0.5 * rho * V^2 * S * CF` when wetted surface is user supplied.
+- Percent appendage resistance when appendage drag is entered as percent of currently implemented bare-hull resistance.
+- Design-margin resistance as a percentage applied to currently implemented resistance subtotal.
+- Effective power from `PE = RT * V / 1000`.
 - Legacy GUI applicability checks for `Fn`, `B/T`, `LWL/B`, and `CP`.
 
 ## Formula Recovery Work Queue

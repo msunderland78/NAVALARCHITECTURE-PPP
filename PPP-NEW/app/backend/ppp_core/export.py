@@ -9,7 +9,13 @@ SPEED_COLUMNS = [
     "speed_length_ratio",
     "reynolds_number",
     "friction_coefficient",
-    "frictional_resistance_n"
+    "frictional_resistance_n",
+    "appendage_resistance_n",
+    "implemented_resistance_subtotal_n",
+    "design_margin_resistance_n",
+    "total_resistance_n",
+    "effective_power_kw",
+    "resistance_status"
 ]
 
 

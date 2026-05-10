@@ -34,6 +34,13 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(first["reynolds_number"], 1376687833.982715)
         self.assertAlmostEqual(first["friction_coefficient"], 0.001471656717746287)
         self.assertAlmostEqual(first["frictional_resistance_n"], 354653.773723008)
+        self.assertAlmostEqual(first["appendage_resistance_n"], 17732.6886861504)
+        self.assertAlmostEqual(first["implemented_resistance_subtotal_n"], 372386.4624091584)
+        self.assertAlmostEqual(first["design_margin_resistance_n"], 18619.32312045792)
+        self.assertAlmostEqual(first["total_resistance_n"], 391005.78552961635)
+        self.assertAlmostEqual(first["effective_power_kw"], 3017.258704964969)
+        self.assertEqual(first["resistance_status"], "partial_source_safe_components")
+        self.assertIsNone(first["wave_resistance_n"])
 
     def test_sample_case_applicability(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

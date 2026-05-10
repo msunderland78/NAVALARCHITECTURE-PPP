@@ -12,15 +12,18 @@ Implemented:
 - Speed sweep terms
 - ITTC-1957 friction coefficient
 - Frictional resistance `RF`
+- Percent appendage resistance based on currently implemented bare-hull resistance
+- Design-margin resistance
+- Partial total resistance and effective power
 - Legacy applicability checks
 - CSV export for speed rows
+- Dependency-free HTTP routes
 
 Not yet implemented:
 
 - Full Holtrop and Mennen resistance components
 - Propulsion factors
 - Required thrust
-- HTTP API
 - Legacy `OUT` oracle comparison
 
 ## Run Tests
@@ -30,3 +33,23 @@ From the repository root:
 ```sh
 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests
 ```
+
+## Run Development Server
+
+From the repository root:
+
+```sh
+PYTHONPATH=PPP-NEW/app/backend python3 PPP-NEW/app/backend/server.py
+```
+
+Default URL:
+
+```text
+http://127.0.0.1:8000/health
+```
+
+Current routes:
+
+- `GET /health`
+- `POST /api/evaluate`
+- `POST /api/export/csv`
