@@ -22,8 +22,12 @@ Current status as of May 10, 2026:
 - The sample saved case is the `Holtrop and Mennen Example` run `Test 1.0`.
 - The likely legacy run flow has been recovered: GUI writes `In`, deletes stale `Out`, launches `PPPFTRN.exe`, then reads the generated `OUT`/`Out` report.
 - No hardware-lock work is required from the currently supplied files.
+- Phase 1 evidence preservation is complete for the currently supplied files.
+- `PPPIN.PPP` has been normalized into `PPP-NEW/tests/fixtures/pppin_sample_import.json` for future importer and calculation tests.
+- The first backend calculation core scaffold exists in `PPP-NEW/app/backend/ppp_core` with hull derivations, speed sweep terms, ITTC friction coefficient, and legacy applicability checks.
+- Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 
-The next milestone is to recover the exact `In` file format and produce a legacy `Out` oracle for the supplied Holtrop and Mennen sample.
+The next milestone is to build a minimal `.PPP` importer and calculation-core skeleton around the normalized Holtrop and Mennen sample, then recover the exact `In` file format and produce a legacy `Out` oracle.
 
 ## Legacy File Inventory
 
@@ -497,6 +501,8 @@ Deployment tests:
 
 ### Phase 1: Evidence Preservation
 
+Status: complete for current artifacts.
+
 Deliverables:
 
 - `PPP-NEW/analysis/legacy-inventory.md`
@@ -526,6 +532,8 @@ Exit criteria:
 - Open questions are isolated to known terms.
 
 ### Phase 3: Core Calculation Library
+
+Status: started.
 
 Deliverables:
 

@@ -1,2 +1,4 @@
 PPP-OLD/
 *-OLD/
+__pycache__/
+*.pyc
