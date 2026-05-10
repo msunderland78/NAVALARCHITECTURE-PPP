@@ -47,6 +47,7 @@ Current status as of May 10, 2026:
 - A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
 - Browser candidate legacy `IN` export is available for controlled oracle experiments.
 - The normalized sample candidate `IN` is pinned as a fixture so static recovery changes are regression-visible.
+- The current modern sample result is pinned as a fixture so future formula additions have an explicit baseline diff.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
 - A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.

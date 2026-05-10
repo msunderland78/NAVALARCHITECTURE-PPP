@@ -1,0 +1,119 @@
+{
+  "project": {
+    "name": "Holtrop and Mennen Example",
+    "run_id": "Test 1.0"
+  },
+  "derived": {
+    "mean_draft_m": 11.0,
+    "prismatic_coefficient": 0.6122448979591837,
+    "lcb_m_from_fp": 107.58999999999999,
+    "beam_draft_ratio": 2.909090909090909,
+    "lwl_beam_ratio": 6.625
+  },
+  "applicability": [
+    {
+      "name": "froude_number",
+      "label": "Fn(Vk = 15.00)",
+      "value": 0.16923925200101986,
+      "lower": 0.0,
+      "upper": 1.0,
+      "ok": true
+    },
+    {
+      "name": "froude_number",
+      "label": "Fn(Vk = 17.00)",
+      "value": 0.19180448560115582,
+      "lower": 0.0,
+      "upper": 1.0,
+      "ok": true
+    },
+    {
+      "name": "beam_draft_ratio",
+      "label": "B/T",
+      "value": 2.909090909090909,
+      "lower": 2.1,
+      "upper": 4.0,
+      "ok": true
+    },
+    {
+      "name": "lwl_beam_ratio",
+      "label": "LWL/B",
+      "value": 6.625,
+      "lower": 3.9,
+      "upper": 14.9,
+      "ok": true
+    },
+    {
+      "name": "prismatic_coefficient",
+      "label": "Cp",
+      "value": 0.6122448979591837,
+      "lower": 0.55,
+      "upper": 0.85,
+      "ok": true
+    }
+  ],
+  "speeds": [
+    {
+      "speed_knots": 15.0,
+      "speed_mps": 7.71666,
+      "froude_number": 0.16923925200101986,
+      "speed_length_ratio": 0.5687623106703097,
+      "reynolds_number": 1376687833.982715,
+      "friction_coefficient": 0.001471656717746287,
+      "residual_resistance_coefficient": null,
+      "correlation_allowance_coefficient": null,
+      "appendage_mode": "percent_bare_hull_resistance",
+      "appendage_equivalent_wetted_area_form_factor_m2": null,
+      "frictional_resistance_n": 354653.773723008,
+      "rf_form_resistance_n": null,
+      "form_resistance_n": null,
+      "appendage_resistance_n": 17732.688686150403,
+      "wave_resistance_n": null,
+      "bulb_resistance_n": null,
+      "transom_resistance_n": null,
+      "correlation_allowance_resistance_n": null,
+      "air_resistance_n": null,
+      "implemented_resistance_subtotal_n": 372386.4624091584,
+      "design_margin_resistance_n": 18619.32312045792,
+      "total_resistance_n": 391005.78552961635,
+      "resistance_status": "partial_source_safe_components",
+      "effective_power_kw": 3017.258704964969,
+      "wake_fraction": null,
+      "thrust_deduction": null,
+      "required_thrust_n": null,
+      "hull_efficiency": null,
+      "relative_rotative_efficiency": null
+    },
+    {
+      "speed_knots": 17.0,
+      "speed_mps": 8.745548,
+      "froude_number": 0.19180448560115582,
+      "speed_length_ratio": 0.644597285426351,
+      "reynolds_number": 1560246211.847077,
+      "friction_coefficient": 0.0014494986690413152,
+      "residual_resistance_coefficient": null,
+      "correlation_allowance_coefficient": null,
+      "appendage_mode": "percent_bare_hull_resistance",
+      "appendage_equivalent_wetted_area_form_factor_m2": null,
+      "frictional_resistance_n": 448674.3204301622,
+      "rf_form_resistance_n": null,
+      "form_resistance_n": null,
+      "appendage_resistance_n": 22433.71602150811,
+      "wave_resistance_n": null,
+      "bulb_resistance_n": null,
+      "transom_resistance_n": null,
+      "correlation_allowance_resistance_n": null,
+      "air_resistance_n": null,
+      "implemented_resistance_subtotal_n": 471108.0364516703,
+      "design_margin_resistance_n": 23555.401822583513,
+      "total_resistance_n": 494663.4382742538,
+      "resistance_status": "partial_source_safe_components",
+      "effective_power_kw": 4326.102843272524,
+      "wake_fraction": null,
+      "thrust_deduction": null,
+      "required_thrust_n": null,
+      "hull_efficiency": null,
+      "relative_rotative_efficiency": null
+    }
+  ]
+}

@@ -9,6 +9,13 @@ ROOT = Path(__file__).resolve().parents[3]
 
 
 class PppCoreTest(unittest.TestCase):
+    def test_sample_case_modern_result_fixture(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        expected = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_modern_result.json").read_text())
+        result = evaluate_case(case, point_count=2)
+
+        self.assertEqual(result, expected)
+
     def test_sample_case_derivations(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         result = evaluate_case(case, point_count=1)
