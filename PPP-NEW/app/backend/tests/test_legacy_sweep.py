@@ -61,6 +61,21 @@ class LegacySweepTest(unittest.TestCase):
             self.assertEqual(successful["input_line_count"], 8)
             self.assertEqual(successful["input_first_record"], "212 32 21 11 11 321")
             self.assertEqual(successful["input_sha256"], sha256(expected_input.encode("ascii")).hexdigest())
+            self.assertIsNone(successful["failure_kind"])
+
+    def test_run_oracle_sweep_classifies_fortran_failure(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        option_sets = candidate_option_sets(stern_corrections=[0], pitch_diameter_ratios=[0], water_type_codes=[1])
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            fake_exe = temp / "fake.exe"
+            fake_exe.write_bytes(b"legacy")
+            fake_wine = temp / "fake_wine.sh"
+            fake_wine.write_text("#!/bin/sh\nprintf 'forrtl: severe (6201): **: DOMAIN error\\n' >&2\nexit 1\n")
+            fake_wine.chmod(0o755)
+            result = run_oracle_sweep(case, fake_exe, temp / "sweep", option_sets, wine=str(fake_wine), timeout_seconds=5)
+
+            self.assertEqual(result["attempts"][0]["failure_kind"], "domain_error")
 
 
 if __name__ == "__main__":

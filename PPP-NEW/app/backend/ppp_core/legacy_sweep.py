@@ -10,6 +10,13 @@ DEFAULT_WATER_TYPE_CODES = [1, 2, 3]
 DEFAULT_APPENDAGE_PRIMARY_VALUES = [None]
 DEFAULT_APPENDAGE_MODEL_TOTALS = [None]
 DEFAULT_FIRST_RECORD_ORDERS = [None]
+FORTRAN_FAILURE_PATTERNS = {
+    "DOMAIN error": "domain_error",
+    "SING error": "sing_error",
+    "TLOSS error": "tloss_error",
+    "end-of-file": "end_of_file",
+    "severe": "fortran_runtime_error"
+}
 
 
 def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, water_type_codes=None, appendage_primary_values=None, appendage_model_totals=None, first_record_orders=None):
@@ -73,9 +80,18 @@ def summarize_attempt(index, options, result):
         "input_sha256": sha256(result["input"].encode("ascii")).hexdigest(),
         "input_line_count": len(result["input"].splitlines()),
         "input_first_record": first_line(result["input"]),
+        "failure_kind": failure_kind(result["stderr"], result["stdout"]),
         "stderr_tail": tail_text(result["stderr"]),
         "stdout_tail": tail_text(result["stdout"])
     }
+
+
+def failure_kind(stderr, stdout):
+    text = f"{stderr}\n{stdout}"
+    for pattern, kind in FORTRAN_FAILURE_PATTERNS.items():
+        if pattern.lower() in text.lower():
+            return kind
+    return None
 
 
 def first_line(text):

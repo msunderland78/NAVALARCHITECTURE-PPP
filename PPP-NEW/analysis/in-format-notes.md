@@ -132,6 +132,7 @@ All 27 attempts failed with the same Fortran `DOMAIN error`, and no `OUT` was pr
 The sweep shape is now implemented in `PPP-NEW/app/backend/ppp_core/legacy_sweep.py` and exposed through `python -m ppp_core.legacy_sweep_cli` so future option probes can be repeated consistently against copied executables outside `PPP-NEW`. Sweep options now include overrides for the two unresolved appendage fields written ahead of `ABT`, `HB`, and `ATR`.
 Sweep options also include `--first-record-order depth_before_drafts` and `--first-record-order drafts_before_depth` for testing the unresolved first-record ordering without hand-editing candidate `IN` files.
 Each sweep attempt summary records the generated input SHA-256, line count, and first record so failed runs can be reviewed against candidate changes without opening every temporary attempt directory.
+Known Fortran runtime failures are classified in sweep summaries, including `domain_error`, `sing_error`, `tloss_error`, and `end_of_file`.
 
 ## Strong Inferences
 

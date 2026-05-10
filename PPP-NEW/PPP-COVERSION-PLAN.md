@@ -67,6 +67,7 @@ Current status as of May 10, 2026:
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
 - Oracle sweep options now include alternate first-record ordering probes for the unresolved depth/draft layout.
 - Oracle sweep summaries now record generated `IN` fingerprints and first records for repeatable failure analysis.
+- Oracle sweep summaries now classify common Fortran runtime failures for faster triage.
 - A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.
