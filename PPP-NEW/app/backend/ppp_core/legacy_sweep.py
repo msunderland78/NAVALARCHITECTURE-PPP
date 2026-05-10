@@ -8,27 +8,31 @@ DEFAULT_PITCH_DIAMETER_RATIOS = [0, 0.8, 1.0]
 DEFAULT_WATER_TYPE_CODES = [1, 2, 3]
 DEFAULT_APPENDAGE_PRIMARY_VALUES = [None]
 DEFAULT_APPENDAGE_MODEL_TOTALS = [None]
+DEFAULT_FIRST_RECORD_ORDERS = [None]
 
 
-def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, water_type_codes=None, appendage_primary_values=None, appendage_model_totals=None):
-    stern_values = stern_corrections or DEFAULT_STERN_CORRECTIONS
-    pitch_values = pitch_diameter_ratios or DEFAULT_PITCH_DIAMETER_RATIOS
-    water_values = water_type_codes or DEFAULT_WATER_TYPE_CODES
-    appendage_primary = appendage_primary_values or DEFAULT_APPENDAGE_PRIMARY_VALUES
-    appendage_model = appendage_model_totals or DEFAULT_APPENDAGE_MODEL_TOTALS
+def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, water_type_codes=None, appendage_primary_values=None, appendage_model_totals=None, first_record_orders=None):
+    stern_values = defaulted(stern_corrections, DEFAULT_STERN_CORRECTIONS)
+    pitch_values = defaulted(pitch_diameter_ratios, DEFAULT_PITCH_DIAMETER_RATIOS)
+    water_values = defaulted(water_type_codes, DEFAULT_WATER_TYPE_CODES)
+    appendage_primary = defaulted(appendage_primary_values, DEFAULT_APPENDAGE_PRIMARY_VALUES)
+    appendage_model = defaulted(appendage_model_totals, DEFAULT_APPENDAGE_MODEL_TOTALS)
+    first_orders = defaulted(first_record_orders, DEFAULT_FIRST_RECORD_ORDERS)
     return [
         clean_options({
             "stern_correction": stern,
             "pitch_diameter_ratio": pitch,
             "water_type_code": water,
             "appendage_primary_value": primary,
-            "appendage_model_total": model
+            "appendage_model_total": model,
+            "first_record_order": first_order
         })
         for stern in stern_values
         for pitch in pitch_values
         for water in water_values
         for primary in appendage_primary
         for model in appendage_model
+        for first_order in first_orders
     ]
 
 
@@ -76,3 +80,7 @@ def tail_text(text, max_lines=8):
 
 def clean_options(options):
     return {key: value for key, value in options.items() if value is not None}
+
+
+def defaulted(values, defaults):
+    return defaults if values is None else values

@@ -17,6 +17,11 @@ STERN_CORRECTION_CANDIDATES = {
     "pram_with_gondola": 0
 }
 
+FIRST_RECORD_ORDERS = {
+    "depth_before_drafts",
+    "drafts_before_depth"
+}
+
 
 def generate_candidate_legacy_in(case, options=None):
     options = options or {}
@@ -29,14 +34,7 @@ def generate_candidate_legacy_in(case, options=None):
     margin = case["margin"]
     speed_sweep = case["speed_sweep"]
     rows = [
-        [
-            hull["lwl_m"],
-            hull["beam_lwl_m"],
-            modeling["depth_at_bow_m"],
-            hull["draft_forward_m"],
-            hull["draft_aft_m"],
-            modeling["deckhouse_cargo_frontal_area_m2"]
-        ],
+        first_record_values(hull, modeling, options.get("first_record_order", "depth_before_drafts")),
         [
             hull["block_coefficient"],
             hull["midship_coefficient"],
@@ -73,6 +71,28 @@ def generate_candidate_legacy_in(case, options=None):
         ]
     ]
     return "".join(" ".join(format_legacy_number(value) for value in row) + "\n" for row in rows)
+
+
+def first_record_values(hull, modeling, order):
+    if order not in FIRST_RECORD_ORDERS:
+        raise ValueError("first_record_order is not supported")
+    if order == "drafts_before_depth":
+        return [
+            hull["lwl_m"],
+            hull["beam_lwl_m"],
+            hull["draft_forward_m"],
+            hull["draft_aft_m"],
+            modeling["depth_at_bow_m"],
+            modeling["deckhouse_cargo_frontal_area_m2"]
+        ]
+    return [
+        hull["lwl_m"],
+        hull["beam_lwl_m"],
+        modeling["depth_at_bow_m"],
+        hull["draft_forward_m"],
+        hull["draft_aft_m"],
+        modeling["deckhouse_cargo_frontal_area_m2"]
+    ]
 
 
 def appendage_primary_value(appendages):

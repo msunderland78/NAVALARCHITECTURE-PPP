@@ -40,6 +40,12 @@ class LegacyInTest(unittest.TestCase):
         self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
         self.assertEqual(lines[5], "0.8 0.8 2")
 
+    def test_generate_candidate_legacy_in_first_record_order(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        text = generate_candidate_legacy_in(case, {"first_record_order": "drafts_before_depth"})
+
+        self.assertEqual(text.splitlines()[0], "212 32 11 11 21 321")
+
     def test_generate_candidate_legacy_in_appendage_area_mode(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["appendages"]["mode"] = "equivalent_area_form_factor"

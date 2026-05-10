@@ -51,7 +51,7 @@ The writer uses the C++ `ostream << double`, `ostream << char const *`, `ostream
 
 The `IN` writer begins at approximately `0x00403f30`. It opens `IN`, changes stream float formatting, writes numeric values from the `CPPPDoc` object, separates values with spaces, and ends records with `endl`.
 
-The current static pass recovers this candidate record structure. Field names are mapped by cross-referencing the writer offsets with the GUI report-building code and visible report labels.
+The current static pass recovers this candidate record structure. Field names are mapped by cross-referencing the writer offsets with the GUI report-building code and visible report labels. The default candidate keeps `depth_at_bow` before `TF` and `TA`; the tooling can also emit the alternate `TF`, `TA`, `depth_at_bow` first-record order for controlled oracle probes.
 
 | Writer address range | Candidate output fields |
 |---|---|
@@ -128,6 +128,7 @@ A bounded follow-up sweep varied only obvious unresolved fields:
 All 27 attempts failed with the same Fortran `DOMAIN error`, and no `OUT` was produced. This suggests the blocker is not only one of those simple enum or placeholder values. The next static target is the exact first-record ordering and the appendage/model-calculation fields around `0x840` and `0x8f8`.
 
 The sweep shape is now implemented in `PPP-NEW/app/backend/ppp_core/legacy_sweep.py` and exposed through `python -m ppp_core.legacy_sweep_cli` so future option probes can be repeated consistently against copied executables outside `PPP-NEW`. Sweep options now include overrides for the two unresolved appendage fields written ahead of `ABT`, `HB`, and `ATR`.
+Sweep options also include `--first-record-order depth_before_drafts` and `--first-record-order drafts_before_depth` for testing the unresolved first-record ordering without hand-editing candidate `IN` files.
 
 ## Strong Inferences
 

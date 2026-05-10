@@ -60,6 +60,7 @@ Current status as of May 10, 2026:
 - The fixture manifest distinguishes source fixtures, representative text, modern baselines, and future captured oracle artifacts.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
+- Oracle sweep options now include alternate first-record ordering probes for the unresolved depth/draft layout.
 - A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.

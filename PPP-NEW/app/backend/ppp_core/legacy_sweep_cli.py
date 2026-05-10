@@ -22,6 +22,7 @@ def main(argv=None):
     parser.add_argument("--water-type-code", action="append", type=int)
     parser.add_argument("--appendage-primary-value", action="append", type=float)
     parser.add_argument("--appendage-model-total", action="append", type=float)
+    parser.add_argument("--first-record-order", action="append", choices=["depth_before_drafts", "drafts_before_depth"])
     parser.add_argument("--capture-out")
     parser.add_argument("--capture-parsed-out")
     args = parser.parse_args(argv)
@@ -33,7 +34,8 @@ def main(argv=None):
         args.pitch_diameter_ratio,
         args.water_type_code,
         args.appendage_primary_value,
-        args.appendage_model_total
+        args.appendage_model_total,
+        args.first_record_order
     )
     result = run_oracle_sweep(
         case,

@@ -41,6 +41,8 @@ class LegacySweepCliTest(unittest.TestCase):
                 "0.8",
                 "--water-type-code",
                 "1",
+                "--first-record-order",
+                "drafts_before_depth",
                 "--appendage-primary-value",
                 "0.05",
                 "--appendage-model-total",
@@ -58,6 +60,7 @@ class LegacySweepCliTest(unittest.TestCase):
             self.assertEqual(result["attempt_count"], 2)
             self.assertEqual(result["out_count"], 1)
             self.assertEqual(result["successful_attempts"][0]["options"]["pitch_diameter_ratio"], 0.8)
+            self.assertEqual(result["successful_attempts"][0]["options"]["first_record_order"], "drafts_before_depth")
             self.assertEqual(result["case_json"], str(case_path))
             self.assertEqual(result["legacy_exe"], str(fake_exe))
             self.assertEqual(result["captured_out"], str(captured_out))

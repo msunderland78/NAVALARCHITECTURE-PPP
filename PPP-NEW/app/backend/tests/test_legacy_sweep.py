@@ -26,6 +26,18 @@ class LegacySweepTest(unittest.TestCase):
         self.assertEqual(options[3]["appendage_primary_value"], 5)
         self.assertEqual(options[3]["appendage_model_total"], 0.05)
 
+    def test_candidate_option_sets_first_record_order(self):
+        options = candidate_option_sets(stern_corrections=[0], pitch_diameter_ratios=[0.8], water_type_codes=[3], first_record_orders=["depth_before_drafts", "drafts_before_depth"])
+
+        self.assertEqual(len(options), 2)
+        self.assertEqual(options[0]["first_record_order"], "depth_before_drafts")
+        self.assertEqual(options[1]["first_record_order"], "drafts_before_depth")
+
+    def test_candidate_option_sets_empty_values_are_not_defaulted(self):
+        options = candidate_option_sets(stern_corrections=[], pitch_diameter_ratios=[0.8], water_type_codes=[3])
+
+        self.assertEqual(options, [])
+
     def test_run_oracle_sweep_with_fake_wine(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         option_sets = candidate_option_sets(stern_corrections=[0], pitch_diameter_ratios=[0, 0.8], water_type_codes=[1])
