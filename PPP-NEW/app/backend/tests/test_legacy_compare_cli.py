@@ -36,6 +36,7 @@ class LegacyCompareCliTest(unittest.TestCase):
             self.assertEqual(result["comparisons"][0]["fields"][0]["field"], "frictional_resistance_n")
             self.assertLess(result["comparisons"][0]["fields"][0]["absolute_delta"], 0.3)
             self.assertEqual(result["comparisons"][0]["fields"][1]["status"], "missing_modern")
+            self.assertEqual(result["summary"]["status_counts"], {"numeric_delta": 2, "missing_modern": 2})
 
 
 if __name__ == "__main__":

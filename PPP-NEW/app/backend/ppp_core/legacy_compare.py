@@ -58,6 +58,7 @@ def compare_legacy_out_to_result(parsed_out, modern_result, fields=None, speed_t
         for index, row in enumerate(modern_rows)
         if index not in matched_modern_indexes
     ]
+    summary = comparison_summary(matches)
 
     return {
         "legacy_program": parsed_out.get("program"),
@@ -65,6 +66,7 @@ def compare_legacy_out_to_result(parsed_out, modern_result, fields=None, speed_t
         "matched_speed_count": len(matches),
         "unmatched_legacy_speeds": unmatched_legacy,
         "unmatched_modern_speeds": unmatched_modern,
+        "summary": summary,
         "comparisons": matches
     }
 
@@ -116,3 +118,25 @@ def compare_field(field, legacy_value, modern_value):
     comparison["relative_delta"] = None if legacy_value == 0 else delta / legacy_value
     comparison["status"] = "numeric_delta"
     return comparison
+
+
+def comparison_summary(matches):
+    status_counts = {}
+    max_absolute_delta = None
+    max_absolute_delta_field = None
+    for match in matches:
+        for field in match["fields"]:
+            status = field["status"]
+            status_counts[status] = status_counts.get(status, 0) + 1
+            absolute_delta = field.get("absolute_delta")
+            if absolute_delta is not None and (max_absolute_delta is None or absolute_delta > max_absolute_delta):
+                max_absolute_delta = absolute_delta
+                max_absolute_delta_field = {
+                    "speed_knots": match["speed_knots"],
+                    "field": field["field"],
+                    "absolute_delta": absolute_delta
+                }
+    return {
+        "status_counts": status_counts,
+        "max_absolute_delta": max_absolute_delta_field
+    }
