@@ -6,6 +6,7 @@ from .legacy_in import generate_candidate_legacy_in
 from .legacy_out import parse_legacy_out
 from .legacy_oracle import run_oracle, stage_oracle_run
 from .legacy_ppp import import_contents_stream, import_legacy_ppp
+from .legacy_sweep import candidate_option_sets, run_oracle_sweep
 
 __all__ = [
     "evaluate_case",
@@ -17,6 +18,8 @@ __all__ = [
     "parse_legacy_out",
     "route",
     "run_oracle",
+    "run_oracle_sweep",
     "stage_oracle_run",
+    "candidate_option_sets",
     "speeds_to_csv"
 ]

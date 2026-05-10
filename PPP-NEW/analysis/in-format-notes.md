@@ -127,6 +127,8 @@ A bounded follow-up sweep varied only obvious unresolved fields:
 
 All 27 attempts failed with the same Fortran `DOMAIN error`, and no `OUT` was produced. This suggests the blocker is not only one of those simple enum or placeholder values. The next static target is the exact first-record ordering and the appendage/model-calculation fields around `0x840` and `0x8f8`.
 
+The sweep shape is now implemented in `PPP-NEW/app/backend/ppp_core/legacy_sweep.py` so future option probes can be repeated consistently against copied executables outside `PPP-NEW`.
+
 ## Strong Inferences
 
 - The temporary input filename is uppercase `IN`, not lowercase `In`.

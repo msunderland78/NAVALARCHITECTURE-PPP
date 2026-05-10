@@ -48,6 +48,7 @@ Current status as of May 10, 2026:
 - Browser candidate legacy `IN` export is available for controlled oracle experiments.
 - The normalized sample candidate `IN` is pinned as a fixture so static recovery changes are regression-visible.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
+- A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas or missing modern fields.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
