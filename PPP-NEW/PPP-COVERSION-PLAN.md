@@ -37,6 +37,7 @@ Current status as of May 10, 2026:
 - A first browser interface exists in `PPP-NEW/app/frontend` and is served by the backend at `/`.
 - Container deployment files exist in `PPP-NEW/app`, including a backend Dockerfile, `docker-compose.yml`, and an NGINX reverse-proxy config.
 - `docker-compose config` validates. Runtime compose smoke testing is pending because the current shell user cannot access the Docker socket.
+- Legacy oracle notes exist in `PPP-NEW/analysis/oracle-notes.md`. A copied `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN` on Fortran unit 4; exact `IN` layout recovery is now the oracle blocker.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
@@ -566,7 +567,7 @@ Exit criteria:
 
 ### Phase 4: Legacy Import and Oracle
 
-Status: importer started; oracle pending.
+Status: importer started; Wine startup confirmed; legacy `IN` layout pending.
 
 Deliverables:
 
