@@ -12,8 +12,10 @@ class LegacyInTest(unittest.TestCase):
     def test_generate_candidate_legacy_in(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         text = generate_candidate_legacy_in(case)
+        fixture = (ROOT / "tests" / "fixtures" / "pppin_sample_candidate.IN").read_text()
         lines = text.splitlines()
 
+        self.assertEqual(text, fixture)
         self.assertEqual(len(lines), 8)
         self.assertEqual(lines[0], "212 32 21 11 11 321")
         self.assertEqual(lines[1], "0.6 0.98 0.75 0.05")

@@ -43,6 +43,7 @@ Version 1.0, May 10, 2026
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
 - Static notes for the legacy temporary `IN` writer.
 - Candidate legacy `IN` generator for controlled oracle experiments.
+- Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Legacy `OUT` to modern-result comparison diagnostics.

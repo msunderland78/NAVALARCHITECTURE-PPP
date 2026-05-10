@@ -19,7 +19,7 @@ class LegacyOracleTest(unittest.TestCase):
             paths = stage_oracle_run(case, fake_exe, temp / "work")
 
             self.assertEqual(paths["exe"].read_bytes(), b"legacy")
-            self.assertEqual(paths["input"].read_text().splitlines()[0], "212 32 21 11 11 321")
+            self.assertEqual(paths["input"].read_text(), (ROOT / "tests" / "fixtures" / "pppin_sample_candidate.IN").read_text())
 
     def test_run_oracle_with_fake_wine(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
