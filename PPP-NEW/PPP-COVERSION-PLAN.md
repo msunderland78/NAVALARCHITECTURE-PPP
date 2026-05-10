@@ -30,6 +30,7 @@ Current status as of May 10, 2026:
 - Evaluation results now expose the active modeling source values for wetted surface and half angle of entrance, preparing the output contract for future estimated-mode formulas.
 - Estimated wetted-surface and half-angle modes now fail explicitly until their source-derived formulas are implemented.
 - Unsupported stern, propulsion, and water type values now fail explicitly before calculation.
+- Hull coefficients greater than 1 now fail explicitly before calculation.
 - Result rows now expose the visible legacy report columns, using explicit `null` placeholders for unrecovered Holtrop and propulsion terms.
 - A reusable legacy `.PPP` importer exists in `PPP-NEW/app/backend/ppp_core/legacy_ppp.py` and has been manually checked against the ignored `PPP-OLD/PPPIN.PPP`.
 - The HTTP API exposes `POST /api/import/ppp` for raw legacy `.PPP` uploads, and the browser workspace has an `Import .PPP` control.

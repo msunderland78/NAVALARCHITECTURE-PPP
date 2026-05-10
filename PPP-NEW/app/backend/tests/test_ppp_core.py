@@ -95,6 +95,22 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "water.type is not supported"):
             evaluate_case(case, point_count=1)
 
+    def test_invalid_coefficients(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["block_coefficient"] = 1.1
+        with self.assertRaisesRegex(ValueError, "hull.block_coefficient must be less than or equal to 1"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["midship_coefficient"] = 1.1
+        with self.assertRaisesRegex(ValueError, "hull.midship_coefficient must be less than or equal to 1"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["waterplane_coefficient"] = 1.1
+        with self.assertRaisesRegex(ValueError, "hull.waterplane_coefficient must be less than or equal to 1"):
+            evaluate_case(case, point_count=1)
+
     def test_appendage_equivalent_area_mode(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["appendages"]["mode"] = "equivalent_area_form_factor"

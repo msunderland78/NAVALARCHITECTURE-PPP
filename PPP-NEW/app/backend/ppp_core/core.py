@@ -111,6 +111,14 @@ def validate_case(case):
     for name, value in positive.items():
         if value <= 0:
             raise ValueError(f"{name} must be positive")
+    bounded = {
+        "hull.block_coefficient": hull["block_coefficient"],
+        "hull.midship_coefficient": hull["midship_coefficient"],
+        "hull.waterplane_coefficient": hull["waterplane_coefficient"]
+    }
+    for name, value in bounded.items():
+        if value > 1:
+            raise ValueError(f"{name} must be less than or equal to 1")
     if speed_sweep["speed_increment_knots"] < 0:
         raise ValueError("speed_sweep.speed_increment_knots must be non-negative")
     if features["stern_type"] not in STERN_TYPES:
