@@ -30,6 +30,7 @@ Current status as of May 10, 2026:
 - A reusable legacy `.PPP` importer exists in `PPP-NEW/app/backend/ppp_core/legacy_ppp.py` and has been manually checked against the ignored `PPP-OLD/PPPIN.PPP`.
 - The HTTP API exposes `POST /api/import/ppp` for raw legacy `.PPP` uploads, and the browser workspace has an `Import .PPP` control.
 - A CSV exporter exists for current speed rows.
+- JSON result export is available through `POST /api/export/json` and the browser workspace.
 - A dependency-free HTTP layer exists with `GET /health`, `POST /api/evaluate`, and `POST /api/export/csv`.
 - A first browser interface exists in `PPP-NEW/app/frontend` and is served by the backend at `/`.
 - Container deployment files exist in `PPP-NEW/app`, including a backend Dockerfile, `docker-compose.yml`, and an NGINX reverse-proxy config.

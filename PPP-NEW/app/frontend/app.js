@@ -4,6 +4,7 @@ const summary = document.getElementById("summary");
 const table = document.getElementById("results-table");
 const plot = document.getElementById("plot");
 const csvButton = document.getElementById("csv-button");
+const jsonButton = document.getElementById("json-button");
 const importFile = document.getElementById("import-file");
 
 let lastPayload = null;
@@ -21,14 +22,28 @@ csvButton.addEventListener("click", async () => {
     body: JSON.stringify(payload)
   });
   const text = await response.text();
-  const blob = new Blob([text], {type: "text/csv"});
+  downloadText(text, "ppp-results.csv", "text/csv");
+});
+
+jsonButton.addEventListener("click", async () => {
+  const response = await fetch("/api/export/json", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(buildPayload())
+  });
+  const text = JSON.stringify(await response.json(), null, 2);
+  downloadText(text, "ppp-results.json", "application/json");
+});
+
+function downloadText(text, filename, type) {
+  const blob = new Blob([text], {type});
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "ppp-results.csv";
+  link.download = filename;
   link.click();
   URL.revokeObjectURL(url);
-});
+}
 
 importFile.addEventListener("change", async () => {
   const file = importFile.files[0];

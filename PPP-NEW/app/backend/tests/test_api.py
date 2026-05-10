@@ -38,6 +38,16 @@ class ApiTest(unittest.TestCase):
         self.assertIn("speed_knots,speed_mps", payload)
         self.assertIn("391005.78552961635", payload)
 
+    def test_json_export_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/export/json", body)
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["project"]["run_id"], "Test 1.0")
+        self.assertAlmostEqual(payload["speeds"][0]["effective_power_kw"], 3017.258704964969)
+
     def test_import_route(self):
         status, content_type, payload = route("POST", "/api/import/ppp", sample_ole_document())
 
