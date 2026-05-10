@@ -46,6 +46,7 @@ Version 1.0, May 10, 2026
   - Modern case JSON import/export
   - CSV and JSON result export
   - Applicability panel
+  - Derived hydrostatic summary
   - Result table
   - Explicit user-mode controls for wetted surface and half angle
   - HTML min/max constraints aligned with backend numeric validation

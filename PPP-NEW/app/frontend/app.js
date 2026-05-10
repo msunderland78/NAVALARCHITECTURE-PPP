@@ -310,6 +310,12 @@ function renderSummary(result) {
   summary.innerHTML = [
     metric("CP", result.derived.prismatic_coefficient.toFixed(4)),
     metric("B/T", result.derived.beam_draft_ratio.toFixed(2)),
+    metric("L/B", result.derived.lwl_beam_ratio.toFixed(2)),
+    metric("LCB FP", `${formatNumber(result.derived.lcb_m_from_fp)} m`),
+    metric("Disp", `${formatNumber(result.derived.displacement_mass_tonnes)} t`),
+    metric("Awp", `${formatNumber(result.derived.waterplane_area_m2)} m2`),
+    metric("Am", `${formatNumber(result.derived.midship_area_m2)} m2`),
+    metric("L/V^(1/3)", result.derived.length_displacement_ratio.toFixed(2)),
     metric("Last RT", `${formatNumber(last.total_resistance_n / 1000)} kN`),
     metric("Applicability", failed.length === 0 ? "OK" : `${failed.length} warning`)
   ].join("");
