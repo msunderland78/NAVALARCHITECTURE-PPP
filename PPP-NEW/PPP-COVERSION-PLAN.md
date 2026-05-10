@@ -56,6 +56,7 @@ Current status as of May 10, 2026:
 - The candidate `IN` field map now reaches the Fortran calculation path under Wine but still fails with a `DOMAIN error`; a bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain unresolved.
 - A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
 - A candidate legacy `IN` CLI exists so oracle attempts can be reproduced from terminal workflows without the browser API.
+- A candidate legacy `IN` matrix CLI exists for dry-run option audits without launching Wine.
 - Browser candidate legacy `IN` export is available for controlled oracle experiments.
 - Browser candidate legacy `IN` export now exposes controlled oracle variant fields for unresolved record-order and appendage/propulsion probes.
 - The normalized sample candidate `IN` is pinned as a fixture so static recovery changes are regression-visible.

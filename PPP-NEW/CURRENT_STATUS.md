@@ -59,6 +59,7 @@ Version 1.0, May 10, 2026
 - Static notes for the legacy temporary `IN` writer.
 - Candidate legacy `IN` generator for controlled oracle experiments.
 - Candidate legacy `IN` CLI for terminal-based oracle experiments.
+- Candidate legacy `IN` matrix CLI for dry-run option audits without Wine.
 - Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Pinned current modern sample result fixture for regression baselining.
 - Fixture manifest distinguishing source, representative, modern baseline, and future oracle artifacts.
@@ -85,7 +86,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-57 tests OK
+58 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

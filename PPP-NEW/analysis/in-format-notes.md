@@ -111,6 +111,7 @@ A candidate `IN` was generated in `/tmp/ppp-oracle-candidate` from the recovered
 
 The current candidate generator is implemented as `PPP-NEW/app/backend/ppp_core/legacy_in.py` and exposed through `POST /api/export/legacy-in-candidate`. The current normalized sample candidate is pinned at `PPP-NEW/tests/fixtures/pppin_sample_candidate.IN` so changes to the assumed record order are visible in tests. It is an oracle-recovery tool, not a production runtime dependency.
 The same generator is available from the terminal with `python -m ppp_core.legacy_in_cli`, including options for the unresolved appendage, propulsion, water, stern, and first-record-order candidate fields.
+Candidate matrices can be generated without running Wine or a legacy executable with `python -m ppp_core.legacy_in_matrix_cli`; it writes one `IN` file per option set plus a JSON summary containing fingerprints and first records.
 
 Observed result:
 
