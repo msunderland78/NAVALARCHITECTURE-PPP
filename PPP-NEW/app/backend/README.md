@@ -29,6 +29,7 @@ Implemented:
 - Explicit null placeholders for unrecovered legacy report columns
 - Legacy applicability checks
 - CSV export for speed rows
+- Modern evaluation CLI for reproducible result fixture refreshes
 - Dependency-free HTTP routes
 - API validation for invalid physical inputs
 
@@ -67,6 +68,12 @@ Use only copied legacy executables outside `PPP-NEW`:
 
 ```sh
 PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_sweep_cli PPP-NEW/tests/fixtures/pppin_sample_import.json /tmp/PPPFTRN.EXE /tmp/ppp-sweep --appendage-primary-value 0.05 --appendage-primary-value 5 --appendage-model-total 0 --appendage-model-total 0.05 --capture-out /tmp/ppp-oracle.OUT --capture-parsed-out /tmp/ppp-oracle-parsed.json --output /tmp/ppp-sweep-summary.json
+```
+
+## Run Modern Evaluation
+
+```sh
+PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.evaluate_cli PPP-NEW/tests/fixtures/pppin_sample_import.json --point-count 2 --output /tmp/ppp-modern-result.json
 ```
 
 ## Compare Legacy OUT
