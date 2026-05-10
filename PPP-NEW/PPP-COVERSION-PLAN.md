@@ -32,6 +32,8 @@ Current status as of May 10, 2026:
 - A CSV exporter exists for current speed rows.
 - A dependency-free HTTP layer exists with `GET /health`, `POST /api/evaluate`, and `POST /api/export/csv`.
 - A first browser interface exists in `PPP-NEW/app/frontend` and is served by the backend at `/`.
+- Container deployment files exist in `PPP-NEW/app`, including a backend Dockerfile, `docker-compose.yml`, and an NGINX reverse-proxy config.
+- `docker-compose config` validates. Runtime compose smoke testing is pending because the current shell user cannot access the Docker socket.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
@@ -597,6 +599,8 @@ Exit criteria:
 - Result plots render and are nonblank.
 
 ### Phase 6: Container Deployment
+
+Status: started; config validated; runtime smoke pending Docker socket access.
 
 Deliverables:
 

@@ -1,4 +1,5 @@
 import json
+import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -66,4 +67,4 @@ def run(host="127.0.0.1", port=8000):
 
 
 if __name__ == "__main__":
-    run()
+    run(os.getenv("PPP_HOST", "127.0.0.1"), int(os.getenv("PPP_PORT", "8000")))
