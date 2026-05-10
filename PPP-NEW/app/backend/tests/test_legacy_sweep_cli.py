@@ -39,6 +39,10 @@ class LegacySweepCliTest(unittest.TestCase):
                 "0.8",
                 "--water-type-code",
                 "1",
+                "--appendage-primary-value",
+                "0.05",
+                "--appendage-model-total",
+                "0",
                 "--output",
                 str(output)
             ])

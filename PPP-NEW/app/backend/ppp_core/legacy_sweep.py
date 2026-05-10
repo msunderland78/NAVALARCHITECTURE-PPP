@@ -6,21 +6,29 @@ from .legacy_oracle import run_oracle
 DEFAULT_STERN_CORRECTIONS = [0, -10, 10]
 DEFAULT_PITCH_DIAMETER_RATIOS = [0, 0.8, 1.0]
 DEFAULT_WATER_TYPE_CODES = [1, 2, 3]
+DEFAULT_APPENDAGE_PRIMARY_VALUES = [None]
+DEFAULT_APPENDAGE_MODEL_TOTALS = [None]
 
 
-def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, water_type_codes=None):
+def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, water_type_codes=None, appendage_primary_values=None, appendage_model_totals=None):
     stern_values = stern_corrections or DEFAULT_STERN_CORRECTIONS
     pitch_values = pitch_diameter_ratios or DEFAULT_PITCH_DIAMETER_RATIOS
     water_values = water_type_codes or DEFAULT_WATER_TYPE_CODES
+    appendage_primary = appendage_primary_values or DEFAULT_APPENDAGE_PRIMARY_VALUES
+    appendage_model = appendage_model_totals or DEFAULT_APPENDAGE_MODEL_TOTALS
     return [
-        {
+        clean_options({
             "stern_correction": stern,
             "pitch_diameter_ratio": pitch,
-            "water_type_code": water
-        }
+            "water_type_code": water,
+            "appendage_primary_value": primary,
+            "appendage_model_total": model
+        })
         for stern in stern_values
         for pitch in pitch_values
         for water in water_values
+        for primary in appendage_primary
+        for model in appendage_model
     ]
 
 
@@ -64,3 +72,7 @@ def summarize_attempt(index, options, result):
 
 def tail_text(text, max_lines=8):
     return "\n".join(text.splitlines()[-max_lines:])
+
+
+def clean_options(options):
+    return {key: value for key, value in options.items() if value is not None}

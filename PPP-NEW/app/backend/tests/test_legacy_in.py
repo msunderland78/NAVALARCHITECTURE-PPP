@@ -31,11 +31,13 @@ class LegacyInTest(unittest.TestCase):
         text = generate_candidate_legacy_in(case, {
             "stern_correction": -10,
             "pitch_diameter_ratio": 0.8,
-            "water_type_code": 2
+            "water_type_code": 2,
+            "appendage_primary_value": 5,
+            "appendage_model_total": 0.05
         })
         lines = text.splitlines()
 
-        self.assertEqual(lines[2], "0.05 0 21 4 16 -10 1")
+        self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
         self.assertEqual(lines[5], "0.8 0.8 2")
 
     def test_generate_candidate_legacy_in_appendage_area_mode(self):

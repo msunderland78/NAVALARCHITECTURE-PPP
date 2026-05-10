@@ -19,11 +19,19 @@ def main(argv=None):
     parser.add_argument("--stern-correction", action="append", type=int)
     parser.add_argument("--pitch-diameter-ratio", action="append", type=float)
     parser.add_argument("--water-type-code", action="append", type=int)
+    parser.add_argument("--appendage-primary-value", action="append", type=float)
+    parser.add_argument("--appendage-model-total", action="append", type=float)
     args = parser.parse_args(argv)
 
     payload = json.loads(Path(args.case_json).read_text())
     case = payload.get("case", payload)
-    option_sets = candidate_option_sets(args.stern_correction, args.pitch_diameter_ratio, args.water_type_code)
+    option_sets = candidate_option_sets(
+        args.stern_correction,
+        args.pitch_diameter_ratio,
+        args.water_type_code,
+        args.appendage_primary_value,
+        args.appendage_model_total
+    )
     result = run_oracle_sweep(
         case,
         args.legacy_exe,

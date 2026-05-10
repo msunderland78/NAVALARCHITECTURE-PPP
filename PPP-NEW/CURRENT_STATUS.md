@@ -45,7 +45,7 @@ Version 1.0, May 10, 2026
 - Candidate legacy `IN` generator for controlled oracle experiments.
 - Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
-- Reusable legacy oracle option sweep helper for bounded `IN` format probes.
+- Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
 - Legacy oracle sweep CLI for JSON summaries of controlled probes.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Legacy `OUT` to modern-result comparison diagnostics.
@@ -62,7 +62,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-35 tests OK
+36 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

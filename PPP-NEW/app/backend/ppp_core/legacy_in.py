@@ -44,8 +44,8 @@ def generate_candidate_legacy_in(case, options=None):
             margin["design_margin_percent"] / 100
         ],
         [
-            appendage_primary_value(appendages),
-            appendage_model_total(appendages),
+            options.get("appendage_primary_value", appendage_primary_value(appendages)),
+            options.get("appendage_model_total", appendage_model_total(appendages)),
             features["bulb_area_station_0_m2"],
             features["bulb_vertical_center_m"],
             features["transom_immersed_area_zero_speed_m2"],
