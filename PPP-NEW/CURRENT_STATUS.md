@@ -20,6 +20,7 @@ Version 1.0, May 10, 2026
   - Design margin resistance
   - Partial total resistance
   - Effective power
+  - Explicit placeholders for unimplemented legacy report columns
 - Legacy applicability checks:
   - `Fn`
   - `B/T`

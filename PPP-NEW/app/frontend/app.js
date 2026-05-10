@@ -274,13 +274,28 @@ function renderChecks(result) {
 function renderTable(result) {
   const columns = [
     ["speed_knots", "V kn"],
+    ["speed_mps", "V m/s"],
     ["froude_number", "Fn"],
+    ["speed_length_ratio", "SLR"],
     ["friction_coefficient", "CF"],
+    ["residual_resistance_coefficient", "CR"],
+    ["correlation_allowance_coefficient", "CA"],
     ["appendage_mode", "Appendage"],
     ["frictional_resistance_n", "RF N"],
+    ["rf_form_resistance_n", "RF*K1 N"],
     ["appendage_resistance_n", "RAPP N"],
+    ["wave_resistance_n", "RW N"],
+    ["bulb_resistance_n", "RB N"],
+    ["transom_resistance_n", "RTR N"],
+    ["correlation_allowance_resistance_n", "RA N"],
+    ["air_resistance_n", "RAIR N"],
     ["total_resistance_n", "RT N"],
     ["effective_power_kw", "PE kW"],
+    ["wake_fraction", "w"],
+    ["thrust_deduction", "t"],
+    ["required_thrust_n", "REQ.THR N"],
+    ["hull_efficiency", "etaH"],
+    ["relative_rotative_efficiency", "etaRR"],
     ["resistance_status", "Status"]
   ];
   table.tHead.innerHTML = `<tr>${columns.map(column => `<th>${column[1]}</th>`).join("")}</tr>`;
@@ -290,6 +305,9 @@ function renderTable(result) {
 }
 
 function formatCell(value) {
+  if (value === null || value === undefined) {
+    return "";
+  }
   if (typeof value === "number") {
     return Math.abs(value) >= 1000 ? formatNumber(value) : value.toFixed(4);
   }

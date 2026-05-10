@@ -41,7 +41,15 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(first["total_resistance_n"], 391005.78552961635)
         self.assertAlmostEqual(first["effective_power_kw"], 3017.258704964969)
         self.assertEqual(first["resistance_status"], "partial_source_safe_components")
+        self.assertIsNone(first["residual_resistance_coefficient"])
+        self.assertIsNone(first["correlation_allowance_coefficient"])
+        self.assertIsNone(first["rf_form_resistance_n"])
         self.assertIsNone(first["wave_resistance_n"])
+        self.assertIsNone(first["wake_fraction"])
+        self.assertIsNone(first["thrust_deduction"])
+        self.assertIsNone(first["required_thrust_n"])
+        self.assertIsNone(first["hull_efficiency"])
+        self.assertIsNone(first["relative_rotative_efficiency"])
 
     def test_sample_case_applicability(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

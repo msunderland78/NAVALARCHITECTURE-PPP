@@ -107,8 +107,15 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, marg
         "speed_length_ratio": speed_knots / sqrt(lwl_m * METER_TO_FOOT),
         "reynolds_number": reynolds,
         "friction_coefficient": cf,
+        "residual_resistance_coefficient": None,
+        "correlation_allowance_coefficient": None,
         **components,
-        "effective_power_kw": components["total_resistance_n"] * speed_mps / 1000
+        "effective_power_kw": components["total_resistance_n"] * speed_mps / 1000,
+        "wake_fraction": None,
+        "thrust_deduction": None,
+        "required_thrust_n": None,
+        "hull_efficiency": None,
+        "relative_rotative_efficiency": None
     }
 
 
@@ -127,6 +134,7 @@ def resistance_components(rf, wetted_surface, appendages, margin):
         "appendage_mode": appendage_mode,
         "appendage_equivalent_wetted_area_form_factor_m2": equivalent_area,
         "frictional_resistance_n": rf,
+        "rf_form_resistance_n": None,
         "form_resistance_n": None,
         "appendage_resistance_n": appendage_resistance,
         "wave_resistance_n": None,

@@ -145,6 +145,8 @@ class ApiTest(unittest.TestCase):
         self.assertIn("fresh_water_15_c", (FRONTEND / "app.js").read_text())
         self.assertIn("appendages.mode", (FRONTEND / "index.html").read_text())
         self.assertIn("equivalent_wetted_area_form_factor_m2", (FRONTEND / "app.js").read_text())
+        self.assertIn("required_thrust_n", (FRONTEND / "app.js").read_text())
+        self.assertIn("RF*K1 N", (FRONTEND / "app.js").read_text())
 
 
 if __name__ == "__main__":
