@@ -14,6 +14,7 @@ def main(argv=None):
     parser.add_argument("workdir")
     parser.add_argument("--output")
     parser.add_argument("--wine", default="wine")
+    parser.add_argument("--wine-arg", action="append", default=[])
     parser.add_argument("--wineprefix")
     parser.add_argument("--timeout-seconds", type=int, default=20)
     parser.add_argument("--keep-going", action="store_true")
@@ -45,6 +46,7 @@ def main(argv=None):
         args.workdir,
         option_sets,
         wine=args.wine,
+        wine_args=args.wine_arg,
         timeout_seconds=args.timeout_seconds,
         wineprefix=args.wineprefix,
         stop_on_out=not args.keep_going

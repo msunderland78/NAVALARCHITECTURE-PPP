@@ -67,12 +67,14 @@ Current status as of May 10, 2026:
 - The current modern sample result is pinned as a fixture so future formula additions have an explicit baseline diff.
 - The fixture manifest distinguishes source fixtures, representative text, modern baselines, and future captured oracle artifacts.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
+- The legacy oracle runner records the exact Wine command and accepts explicit Wine arguments for console-mode experiments.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
 - Oracle sweep options now include alternate first-record ordering probes for the unresolved depth/draft layout.
 - Oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
 - Oracle sweep summaries now record generated `IN` fingerprints and first records for repeatable failure analysis.
 - Oracle sweep summaries now classify common Fortran runtime failures for faster triage.
 - A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.
+- The legacy oracle sweep CLI accepts explicit Wine arguments and carries the command into attempt summaries.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas, missing modern fields, status counts, max absolute delta, and max relative delta summaries.

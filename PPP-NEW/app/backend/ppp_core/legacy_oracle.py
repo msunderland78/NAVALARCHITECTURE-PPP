@@ -26,9 +26,9 @@ def stage_oracle_run(case, legacy_exe_path, workdir, options=None):
     }
 
 
-def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", timeout_seconds=20, wineprefix=None):
+def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None):
     paths = stage_oracle_run(case, legacy_exe_path, workdir, options)
-    command = [wine, str(paths["exe"])]
+    command = [wine, *(wine_args or []), str(paths["exe"])]
     env = None
     if wineprefix:
         env = os.environ.copy()
@@ -45,6 +45,7 @@ def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", timeou
         )
     result = {
         "returncode": completed.returncode,
+        "command": [str(part) for part in command],
         "workdir": str(paths["workdir"]),
         "input": paths["input"].read_text(encoding="ascii"),
         "stdout": paths["stdout"].read_text(encoding="utf-8", errors="replace"),

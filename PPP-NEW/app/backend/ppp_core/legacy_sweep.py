@@ -49,7 +49,7 @@ def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, wa
     ]
 
 
-def run_oracle_sweep(case, legacy_exe_path, workdir, option_sets=None, wine="wine", timeout_seconds=20, wineprefix=None, stop_on_out=True):
+def run_oracle_sweep(case, legacy_exe_path, workdir, option_sets=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None, stop_on_out=True):
     root = Path(workdir)
     root.mkdir(parents=True, exist_ok=True)
     attempts = []
@@ -60,6 +60,7 @@ def run_oracle_sweep(case, legacy_exe_path, workdir, option_sets=None, wine="win
             root / f"attempt-{index:03d}",
             options,
             wine=wine,
+            wine_args=wine_args,
             timeout_seconds=timeout_seconds,
             wineprefix=wineprefix
         )
@@ -78,6 +79,7 @@ def summarize_attempt(index, options, result):
     return {
         "index": index,
         "options": dict(options),
+        "command": result["command"],
         "workdir": result["workdir"],
         "returncode": result["returncode"],
         "out_exists": result["out_exists"],

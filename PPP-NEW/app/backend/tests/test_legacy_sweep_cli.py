@@ -31,6 +31,7 @@ class LegacySweepCliTest(unittest.TestCase):
                 str(temp / "sweep"),
                 "--wine",
                 str(fake_wine),
+                "--wine-arg=--backend=curses",
                 "--timeout-seconds",
                 "5",
                 "--stern-correction",
@@ -60,6 +61,7 @@ class LegacySweepCliTest(unittest.TestCase):
             self.assertEqual(result["attempt_count"], 2)
             self.assertEqual(result["out_count"], 1)
             self.assertEqual(result["successful_attempts"][0]["options"]["pitch_diameter_ratio"], 0.8)
+            self.assertIn("--backend=curses", result["successful_attempts"][0]["command"])
             self.assertEqual(result["successful_attempts"][0]["options"]["first_record_order"], "drafts_before_depth")
             self.assertEqual(result["case_json"], str(case_path))
             self.assertEqual(result["legacy_exe"], str(fake_exe))

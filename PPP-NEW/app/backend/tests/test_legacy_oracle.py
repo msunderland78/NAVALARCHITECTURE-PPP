@@ -33,10 +33,26 @@ class LegacyOracleTest(unittest.TestCase):
             result = run_oracle(case, fake_exe, temp / "work", wine=str(fake_wine), timeout_seconds=5)
 
             self.assertEqual(result["returncode"], 7)
+            self.assertEqual(result["command"], [str(fake_wine), str(temp / "work" / "PPPFTRN.EXE")])
             self.assertIn("212 32 21 11 11 321", result["input"])
             self.assertEqual(result["stdout"], "fake stdout")
             self.assertEqual(result["stderr"], "fake stderr")
             self.assertFalse(result["out_exists"])
+
+    def test_run_oracle_with_fake_wine_args(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            fake_exe = temp / "fake.exe"
+            fake_exe.write_bytes(b"legacy")
+            fake_wine = temp / "fake_wine.sh"
+            fake_wine.write_text("#!/bin/sh\nprintf '%s\\n' \"$@\"\nexit 0\n")
+            fake_wine.chmod(0o755)
+            result = run_oracle(case, fake_exe, temp / "work", wine=str(fake_wine), wine_args=["--backend=curses"], timeout_seconds=5)
+
+            self.assertEqual(result["returncode"], 0)
+            self.assertEqual(result["command"], [str(fake_wine), "--backend=curses", str(temp / "work" / "PPPFTRN.EXE")])
+            self.assertIn("--backend=curses", result["stdout"])
 
 
 if __name__ == "__main__":

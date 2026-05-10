@@ -68,12 +68,14 @@ Version 1.0, May 10, 2026
 - Pinned current modern sample result fixture for regression baselining.
 - Fixture manifest distinguishing source, representative, modern baseline, and future oracle artifacts.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
+- Reproducible legacy oracle runner records the exact Wine command and supports explicit Wine arguments.
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
 - Legacy oracle sweep options now include alternate first-record ordering probes.
 - Legacy oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
 - Legacy oracle sweep attempt summaries now include generated `IN` SHA-256, line count, and first record.
 - Legacy oracle sweep attempt summaries classify common Fortran runtime failure kinds.
 - Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes.
+- Legacy oracle sweep CLI supports explicit Wine arguments for console-mode experiments.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts, max absolute delta, and max relative delta summaries.
@@ -93,10 +95,10 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-63 tests OK
+64 tests OK
 ```
 
-Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now reaches a Wine/Fortran `CONOUT$` console output failure in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now reaches a Wine/Fortran `CONOUT$` console output failure in `/tmp`, and future console experiments can be recorded with explicit `--wine-arg` values. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 

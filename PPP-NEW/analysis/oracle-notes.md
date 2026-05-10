@@ -52,6 +52,12 @@ Smoke command:
 python3 PPP-NEW/tools/run_legacy_oracle.py --exe PPP-OLD/PPPFTRN.EXE --workdir /tmp/ppp-oracle-runner-smoke --wineprefix /home/sundema/.cache/ppp-wine/prefix --timeout 5
 ```
 
+Console-mode Wine experiments can be made reproducible by passing one or more explicit Wine arguments. The resulting JSON records the exact command used.
+
+```sh
+python3 PPP-NEW/tools/run_legacy_oracle.py --exe PPP-OLD/PPPFTRN.EXE --workdir /tmp/ppp-oracle-console --wineprefix /home/sundema/.cache/ppp-wine/prefix --wine wineconsole --wine-arg=--backend=curses --timeout 5
+```
+
 The older candidate reproduced return code `3`, no `OUT`, and a Fortran `DOMAIN error`.
 
 Observed behavior:
@@ -71,6 +77,8 @@ forrtl: severe (38): error during write, unit 6, file CONOUT$
 ```
 
 No `OUT` was produced. This suggests the corrected numerical input may have moved past the prior domain failure, but Wine console handling now needs to be controlled before treating the result as a successful oracle run.
+
+Local `wineconsole --backend=curses` probes still fail before the Fortran engine completes in the current headless shell because Wine tries to create a display-backed window. Those probes are now reproducible through `--wine wineconsole --wine-arg=--backend=curses`, but they are not yet a working oracle path. The confirmed CLI probe returned code `2`, recorded command `wineconsole --backend=curses /tmp/ppp-oracle-console-repro/PPPFTRN.EXE`, and produced no `OUT`.
 
 ## Next Oracle Tasks
 

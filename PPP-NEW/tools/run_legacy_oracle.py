@@ -17,6 +17,7 @@ def main():
     parser.add_argument("--exe", required=True)
     parser.add_argument("--workdir", default="/tmp/ppp-oracle-repro")
     parser.add_argument("--wine", default="wine")
+    parser.add_argument("--wine-arg", action="append", default=[])
     parser.add_argument("--wineprefix", default=None)
     parser.add_argument("--timeout", type=int, default=20)
     parser.add_argument("--stern-correction", type=float, default=None)
@@ -35,6 +36,7 @@ def main():
         args.workdir,
         options,
         wine=args.wine,
+        wine_args=args.wine_arg,
         timeout_seconds=args.timeout,
         wineprefix=args.wineprefix
     )
