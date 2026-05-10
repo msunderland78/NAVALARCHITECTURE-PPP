@@ -45,6 +45,7 @@ Current status as of May 10, 2026:
 - Static `IN` writer notes exist in `PPP-NEW/analysis/in-format-notes.md`; the GUI opens uppercase `IN`, invokes `PPPFTRN.exe`, and reads `Out`, while the Fortran engine writes `OUT`.
 - The candidate `IN` field map now reaches the Fortran calculation path under Wine but still fails with a `DOMAIN error`; a bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain unresolved.
 - A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
+- Browser candidate legacy `IN` export is available for controlled oracle experiments.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas or missing modern fields.

@@ -31,6 +31,7 @@ Version 1.0, May 10, 2026
   - Editable sample case
   - Water-property presets
   - Legacy `.PPP` import
+  - Candidate legacy `IN` export
   - Legacy `OUT` comparison upload
   - Modern case JSON import/export
   - CSV and JSON result export

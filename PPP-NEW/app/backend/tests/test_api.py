@@ -135,6 +135,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("checks", (FRONTEND / "index.html").read_text())
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())
         self.assertIn("case-json-button", (FRONTEND / "index.html").read_text())
+        self.assertIn("legacy-in-button", (FRONTEND / "index.html").read_text())
         self.assertIn("import-json-file", (FRONTEND / "index.html").read_text())
         self.assertIn("import-out-file", (FRONTEND / "index.html").read_text())
         self.assertIn("print-button", (FRONTEND / "index.html").read_text())
@@ -148,6 +149,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("equivalent_wetted_area_form_factor_m2", (FRONTEND / "app.js").read_text())
         self.assertIn("required_thrust_n", (FRONTEND / "app.js").read_text())
         self.assertIn("RF*K1 N", (FRONTEND / "app.js").read_text())
+        self.assertIn("/api/export/legacy-in-candidate", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/compare/out", (FRONTEND / "app.js").read_text())
 
 

@@ -8,6 +8,7 @@ const oracle = document.getElementById("oracle");
 const caseJsonButton = document.getElementById("case-json-button");
 const csvButton = document.getElementById("csv-button");
 const jsonButton = document.getElementById("json-button");
+const legacyInButton = document.getElementById("legacy-in-button");
 const printButton = document.getElementById("print-button");
 const importFile = document.getElementById("import-file");
 const importJsonFile = document.getElementById("import-json-file");
@@ -68,6 +69,20 @@ jsonButton.addEventListener("click", async () => {
     return;
   }
   downloadText(JSON.stringify(payload, null, 2), "ppp-results.json", "application/json");
+});
+
+legacyInButton.addEventListener("click", async () => {
+  const response = await fetch("/api/export/legacy-in-candidate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(buildPayload())
+  });
+  const text = await response.text();
+  if (!response.ok) {
+    statusBox.textContent = text || "Legacy IN export failed";
+    return;
+  }
+  downloadText(text, "PPP-candidate.IN", "text/plain");
 });
 
 printButton.addEventListener("click", () => {
