@@ -4,12 +4,14 @@ const summary = document.getElementById("summary");
 const checks = document.getElementById("checks");
 const table = document.getElementById("results-table");
 const plot = document.getElementById("plot");
+const oracle = document.getElementById("oracle");
 const caseJsonButton = document.getElementById("case-json-button");
 const csvButton = document.getElementById("csv-button");
 const jsonButton = document.getElementById("json-button");
 const printButton = document.getElementById("print-button");
 const importFile = document.getElementById("import-file");
 const importJsonFile = document.getElementById("import-json-file");
+const importOutFile = document.getElementById("import-out-file");
 const waterType = form.elements["water.type"];
 
 const WATER_PRESETS = {
@@ -119,6 +121,41 @@ importFile.addEventListener("change", async () => {
   importFile.value = "";
 });
 
+importOutFile.addEventListener("change", async () => {
+  const file = importOutFile.files[0];
+  if (!file) {
+    return;
+  }
+  statusBox.textContent = "Comparing";
+  const body = buildPayload();
+  body.legacy_out_text = await file.text();
+  body.fields = [
+    "frictional_resistance_n",
+    "rf_form_resistance_n",
+    "appendage_resistance_n",
+    "wave_resistance_n",
+    "bulb_resistance_n",
+    "transom_resistance_n",
+    "total_resistance_n",
+    "effective_power_kw",
+    "required_thrust_n"
+  ];
+  const response = await fetch("/api/compare/out", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body)
+  });
+  const comparison = await response.json();
+  if (!response.ok) {
+    statusBox.textContent = comparison.error || "Compare failed";
+    importOutFile.value = "";
+    return;
+  }
+  renderOracleComparison(comparison);
+  statusBox.textContent = `Compared ${comparison.matched_speed_count} speeds`;
+  importOutFile.value = "";
+});
+
 async function runCase() {
   statusBox.textContent = "Running";
   const payload = buildPayload();
@@ -137,6 +174,7 @@ async function runCase() {
   renderChecks(result);
   renderTable(result);
   renderPlot(result);
+  oracle.innerHTML = "";
   statusBox.textContent = result.applicability.every(item => item.ok) ? "Complete" : "Check inputs";
 }
 
@@ -302,6 +340,44 @@ function renderTable(result) {
   table.tBodies[0].innerHTML = result.speeds.map(row => {
     return `<tr>${columns.map(column => `<td>${formatCell(row[column[0]])}</td>`).join("")}</tr>`;
   }).join("");
+}
+
+function renderOracleComparison(comparison) {
+  const rows = comparison.comparisons.flatMap(speedRow => {
+    return speedRow.fields.map(field => {
+      return {
+        speed_knots: speedRow.speed_knots,
+        field: field.field,
+        legacy: field.legacy,
+        modern: field.modern,
+        delta: field.absolute_delta,
+        status: field.status
+      };
+    });
+  });
+  if (rows.length === 0) {
+    oracle.innerHTML = `<div class="oracle-empty">No matching speeds. Legacy: ${comparison.unmatched_legacy_speeds.join(", ")} Modern: ${comparison.unmatched_modern_speeds.join(", ")}</div>`;
+    return;
+  }
+  oracle.innerHTML = `
+    <h2>Legacy OUT Comparison</h2>
+    <div class="oracle-meta">${comparison.matched_speed_count} matched speeds</div>
+    <div class="oracle-table">
+      <table>
+        <thead><tr><th>V kn</th><th>Field</th><th>Legacy</th><th>Modern</th><th>Abs delta</th><th>Status</th></tr></thead>
+        <tbody>${rows.map(row => `
+          <tr>
+            <td>${formatCell(row.speed_knots)}</td>
+            <td>${row.field}</td>
+            <td>${formatCell(row.legacy)}</td>
+            <td>${formatCell(row.modern)}</td>
+            <td>${formatCell(row.delta)}</td>
+            <td>${row.status}</td>
+          </tr>
+        `).join("")}</tbody>
+      </table>
+    </div>
+  `;
 }
 
 function formatCell(value) {

@@ -31,6 +31,7 @@ Version 1.0, May 10, 2026
   - Editable sample case
   - Water-property presets
   - Legacy `.PPP` import
+  - Legacy `OUT` comparison upload
   - Modern case JSON import/export
   - CSV and JSON result export
   - Applicability panel
@@ -60,7 +61,7 @@ Current result:
 32 tests OK
 ```
 
-Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 

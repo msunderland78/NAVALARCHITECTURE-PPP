@@ -67,4 +67,4 @@ Current routes:
 - `POST /api/import/out`
 - `POST /api/compare/out`
 
-The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, API-backed evaluation, applicability checks, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.

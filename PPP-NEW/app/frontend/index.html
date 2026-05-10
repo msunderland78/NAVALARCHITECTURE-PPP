@@ -118,6 +118,7 @@
         <button type="button" id="print-button">Print</button>
         <label class="file-action">Import JSON<input type="file" id="import-json-file" accept=".json,application/json"></label>
         <label class="file-action">Import .PPP<input type="file" id="import-file" accept=".ppp"></label>
+        <label class="file-action">Compare OUT<input type="file" id="import-out-file" accept=".out,.txt,text/plain"></label>
       </div>
     </form>
 
@@ -125,6 +126,7 @@
       <div class="summary" id="summary"></div>
       <div class="checks" id="checks"></div>
       <canvas id="plot" width="900" height="360"></canvas>
+      <div class="oracle" id="oracle"></div>
       <div class="table-wrap">
         <table id="results-table">
           <thead></thead>
