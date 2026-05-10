@@ -10,6 +10,7 @@ Implemented:
 - Candidate legacy `IN` generator for controlled oracle experiments
 - Reproducible legacy oracle runner for isolated compatibility tests outside `PPP-NEW`
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes
+- Legacy oracle sweep CLI for JSON summaries of controlled probes
 - Legacy `OUT` text parser for future oracle fixtures
 - Legacy `OUT` to modern-result comparison diagnostics
 - Minimal OLE Compound Document stream extraction
@@ -54,6 +55,14 @@ Default URL:
 
 ```text
 http://127.0.0.1:8000/health
+```
+
+## Run Legacy Oracle Sweep
+
+Use only copied legacy executables outside `PPP-NEW`:
+
+```sh
+PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_sweep_cli PPP-NEW/tests/fixtures/pppin_sample_import.json /tmp/PPPFTRN.EXE /tmp/ppp-sweep --output /tmp/ppp-sweep-summary.json
 ```
 
 Current routes:
