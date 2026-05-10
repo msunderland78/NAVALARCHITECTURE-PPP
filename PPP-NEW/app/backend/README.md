@@ -13,6 +13,7 @@ Implemented:
 - ITTC-1957 friction coefficient
 - Frictional resistance `RF`
 - Percent appendage resistance based on currently implemented bare-hull resistance
+- Equivalent-area appendage resistance from `SAPP(1+K2)`
 - Design-margin resistance
 - Partial total resistance and effective power
 - Legacy applicability checks

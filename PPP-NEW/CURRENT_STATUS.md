@@ -16,6 +16,7 @@ Version 1.0, May 10, 2026
   - ITTC-1957 friction coefficient
   - Frictional resistance
   - Percent appendage resistance
+  - Equivalent-area appendage resistance from `SAPP(1+K2)`
   - Design margin resistance
   - Partial total resistance
   - Effective power
@@ -49,10 +50,10 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-16 tests OK
+19 tests OK
 ```
 
-`docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes for `/health`, `/`, and `/api/evaluate` with a temporary backend server. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 

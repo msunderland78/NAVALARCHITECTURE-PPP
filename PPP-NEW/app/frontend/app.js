@@ -179,8 +179,9 @@ function buildPayload() {
         pitch_diameter_ratio: null
       },
       appendages: {
-        mode: "percent_bare_hull_resistance",
-        percent_bare_hull_resistance: numberValue(data, "appendages.percent_bare_hull_resistance")
+        mode: data.get("appendages.mode"),
+        percent_bare_hull_resistance: numberValue(data, "appendages.percent_bare_hull_resistance"),
+        equivalent_wetted_area_form_factor_m2: numberValue(data, "appendages.equivalent_wetted_area_form_factor_m2")
       },
       modeling: {
         air_drag: data.get("modeling.air_drag") === "true",
@@ -223,7 +224,9 @@ function applyCase(caseData) {
   setValue("propulsion.type", caseData.propulsion.type);
   setValue("propulsion.propeller_diameter_m", caseData.propulsion.propeller_diameter_m);
   setValue("propulsion.expanded_area_ratio", caseData.propulsion.expanded_area_ratio);
+  setValue("appendages.mode", caseData.appendages.mode || "percent_bare_hull_resistance");
   setValue("appendages.percent_bare_hull_resistance", caseData.appendages.percent_bare_hull_resistance);
+  setValue("appendages.equivalent_wetted_area_form_factor_m2", caseData.appendages.equivalent_wetted_area_form_factor_m2 || 0);
   setValue("modeling.air_drag", String(caseData.modeling.air_drag));
   setValue("modeling.depth_at_bow_m", caseData.modeling.depth_at_bow_m);
   setValue("modeling.deckhouse_cargo_frontal_area_m2", caseData.modeling.deckhouse_cargo_frontal_area_m2);
@@ -273,6 +276,7 @@ function renderTable(result) {
     ["speed_knots", "V kn"],
     ["froude_number", "Fn"],
     ["friction_coefficient", "CF"],
+    ["appendage_mode", "Appendage"],
     ["frictional_resistance_n", "RF N"],
     ["appendage_resistance_n", "RAPP N"],
     ["total_resistance_n", "RT N"],

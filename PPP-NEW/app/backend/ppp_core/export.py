@@ -9,6 +9,8 @@ SPEED_COLUMNS = [
     "speed_length_ratio",
     "reynolds_number",
     "friction_coefficient",
+    "appendage_mode",
+    "appendage_equivalent_wetted_area_form_factor_m2",
     "frictional_resistance_n",
     "appendage_resistance_n",
     "implemented_resistance_subtotal_n",

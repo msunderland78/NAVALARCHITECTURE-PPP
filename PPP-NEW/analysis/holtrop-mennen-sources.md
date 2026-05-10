@@ -49,6 +49,7 @@ The current backend core implements only terms that are unambiguous:
 - ITTC-1957 friction coefficient.
 - Frictional resistance `RF = 0.5 * rho * V^2 * S * CF` when wetted surface is user supplied.
 - Percent appendage resistance when appendage drag is entered as percent of currently implemented bare-hull resistance.
+- Equivalent-area appendage resistance using the visible legacy input `Appendage Total SAPP(1+K2)` and the same ITTC friction coefficient already computed for the hull.
 - Design-margin resistance as a percentage applied to currently implemented resistance subtotal.
 - Effective power from `PE = RT * V / 1000`.
 - Legacy GUI applicability checks for `Fn`, `B/T`, `LWL/B`, and `CP`.

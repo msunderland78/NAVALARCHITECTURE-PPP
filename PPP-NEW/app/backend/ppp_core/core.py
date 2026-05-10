@@ -83,8 +83,13 @@ def validate_case(case):
             raise ValueError(f"{name} must be positive")
     if speed_sweep["speed_increment_knots"] < 0:
         raise ValueError("speed_sweep.speed_increment_knots must be non-negative")
-    if appendages["percent_bare_hull_resistance"] < 0:
+    appendage_mode = appendages.get("mode", "percent_bare_hull_resistance")
+    if appendage_mode not in ("percent_bare_hull_resistance", "equivalent_area_form_factor"):
+        raise ValueError("appendages.mode is not supported")
+    if appendages.get("percent_bare_hull_resistance", 0) < 0:
         raise ValueError("appendages.percent_bare_hull_resistance must be non-negative")
+    if (appendages.get("equivalent_wetted_area_form_factor_m2") or 0) < 0:
+        raise ValueError("appendages.equivalent_wetted_area_form_factor_m2 must be non-negative")
     if margin["design_margin_percent"] < 0:
         raise ValueError("margin.design_margin_percent must be non-negative")
 
@@ -94,7 +99,7 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, marg
     reynolds = speed_mps * lwl_m / nu
     cf = 0.075 / ((log10(reynolds) - 2) ** 2)
     rf = 0.5 * rho * speed_mps ** 2 * wetted_surface * cf
-    components = resistance_components(rf, appendages, margin)
+    components = resistance_components(rf, wetted_surface, appendages, margin)
     return {
         "speed_knots": speed_knots,
         "speed_mps": speed_mps,
@@ -107,14 +112,20 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, marg
     }
 
 
-def resistance_components(rf, appendages, margin):
+def resistance_components(rf, wetted_surface, appendages, margin):
+    appendage_mode = appendages.get("mode", "percent_bare_hull_resistance")
     appendage_resistance = 0.0
-    if appendages["mode"] == "percent_bare_hull_resistance":
-        appendage_resistance = rf * appendages["percent_bare_hull_resistance"] / 100
+    equivalent_area = appendages.get("equivalent_wetted_area_form_factor_m2")
+    if appendage_mode == "percent_bare_hull_resistance":
+        appendage_resistance = rf * appendages.get("percent_bare_hull_resistance", 0) / 100
+    if appendage_mode == "equivalent_area_form_factor":
+        appendage_resistance = rf / wetted_surface * (appendages.get("equivalent_wetted_area_form_factor_m2") or 0)
     subtotal = rf + appendage_resistance
     design_margin = subtotal * margin["design_margin_percent"] / 100
     total = subtotal + design_margin
     return {
+        "appendage_mode": appendage_mode,
+        "appendage_equivalent_wetted_area_form_factor_m2": equivalent_area,
         "frictional_resistance_n": rf,
         "form_resistance_n": None,
         "appendage_resistance_n": appendage_resistance,

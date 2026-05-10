@@ -35,6 +35,7 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(first["friction_coefficient"], 0.001471656717746287)
         self.assertAlmostEqual(first["frictional_resistance_n"], 354653.773723008)
         self.assertAlmostEqual(first["appendage_resistance_n"], 17732.6886861504)
+        self.assertEqual(first["appendage_mode"], "percent_bare_hull_resistance")
         self.assertAlmostEqual(first["implemented_resistance_subtotal_n"], 372386.4624091584)
         self.assertAlmostEqual(first["design_margin_resistance_n"], 18619.32312045792)
         self.assertAlmostEqual(first["total_resistance_n"], 391005.78552961635)
@@ -47,6 +48,19 @@ class PppCoreTest(unittest.TestCase):
         result = evaluate_case(case, point_count=1)
 
         self.assertTrue(all(check["ok"] for check in result["applicability"]))
+
+    def test_appendage_equivalent_area_mode(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["appendages"]["mode"] = "equivalent_area_form_factor"
+        case["appendages"]["percent_bare_hull_resistance"] = 99.0
+        case["appendages"]["equivalent_wetted_area_form_factor_m2"] = 250.0
+        result = evaluate_case(case, point_count=1)
+        first = result["speeds"][0]
+        expected_appendage = first["frictional_resistance_n"] / case["modeling"]["wetted_surface_m2"] * 250.0
+
+        self.assertEqual(first["appendage_mode"], "equivalent_area_form_factor")
+        self.assertAlmostEqual(first["appendage_resistance_n"], expected_appendage)
+        self.assertAlmostEqual(first["implemented_resistance_subtotal_n"], first["frictional_resistance_n"] + expected_appendage)
 
 
 if __name__ == "__main__":

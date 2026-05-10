@@ -42,7 +42,8 @@
   },
   "appendages": {
     "mode": "percent_bare_hull_resistance",
-    "percent_bare_hull_resistance": 5.0
+    "percent_bare_hull_resistance": 5.0,
+    "equivalent_wetted_area_form_factor_m2": null
   },
   "modeling": {
     "air_drag": true,

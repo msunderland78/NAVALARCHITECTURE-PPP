@@ -47,6 +47,26 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["error"], "point_count must be between 1 and 100")
 
+    def test_bad_appendage_mode_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["appendages"]["mode"] = "unknown"
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "appendages.mode is not supported")
+
+    def test_bad_appendage_area_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["appendages"]["equivalent_wetted_area_form_factor_m2"] = -1
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "appendages.equivalent_wetted_area_form_factor_m2 must be non-negative")
+
     def test_csv_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
@@ -105,6 +125,8 @@ class ApiTest(unittest.TestCase):
         self.assertIn("width: 6.5in", (FRONTEND / "styles.css").read_text())
         self.assertIn("WATER_PRESETS", (FRONTEND / "app.js").read_text())
         self.assertIn("fresh_water_15_c", (FRONTEND / "app.js").read_text())
+        self.assertIn("appendages.mode", (FRONTEND / "index.html").read_text())
+        self.assertIn("equivalent_wetted_area_form_factor_m2", (FRONTEND / "app.js").read_text())
 
 
 if __name__ == "__main__":
