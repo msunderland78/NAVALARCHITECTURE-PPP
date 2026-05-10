@@ -65,6 +65,29 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(payload["matched_speed_count"], 2)
         self.assertEqual(payload["comparisons"][0]["fields"][0]["field"], "frictional_resistance_n")
 
+    def test_compare_out_route_uses_speed_tolerance(self):
+        modern_result = {
+            "speeds": [
+                {
+                    "speed_knots": 15.0004,
+                    "frictional_resistance_n": 354653.8
+                }
+            ]
+        }
+        body = json.dumps({
+            "modern_result": modern_result,
+            "legacy_out_text": sample_out(),
+            "fields": ["frictional_resistance_n"],
+            "speed_tolerance": 0.001
+        }).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/compare/out", body)
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["matched_speed_count"], 1)
+        self.assertEqual(payload["unmatched_legacy_speeds"], [17.0])
+        self.assertEqual(payload["unmatched_modern_speeds"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

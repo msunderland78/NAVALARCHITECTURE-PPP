@@ -58,7 +58,12 @@ def compare_out_response(body):
     modern_result = payload.get("modern_result")
     if modern_result is None:
         modern_result = evaluate_case(payload["case"], payload.get("point_count", 1))
-    return 200, "application/json", compare_legacy_out_to_result(parsed_out, modern_result, payload.get("fields"))
+    return 200, "application/json", compare_legacy_out_to_result(
+        parsed_out,
+        modern_result,
+        payload.get("fields"),
+        payload.get("speed_tolerance", 1e-6)
+    )
 
 
 def route(method, path, body=b""):
