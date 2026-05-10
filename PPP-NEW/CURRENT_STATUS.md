@@ -5,6 +5,8 @@ Version 1.0, May 10, 2026
 ## Implemented
 
 - Legacy evidence notes for supplied files.
+- Legacy inventory updated for the added manuals, spreadsheets, and Finder metadata.
+- `470Manuals.pdf` reviewed for PPP 1.8 behavior, source, speed sweep, applicability, and resistance-component evidence.
 - Legacy `.PPP` import for the observed OLE `Contents` stream layout.
 - Modern case JSON save/load.
 - Source-safe partial calculation core:

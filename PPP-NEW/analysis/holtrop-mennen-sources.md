@@ -23,6 +23,22 @@ The corresponding primary publication records are:
 | 1982 | Holtrop and Mennen, `An approximate power prediction method` | International Shipbuilding Progress, volume 29, issue 335, pages 166-170, first published July 1, 1982, DOI `10.3233/ISP-1982-2933501`, official record: `https://journals.sagepub.com/doi/10.3233/ISP-1982-2933501` | Main approximate resistance and power prediction method |
 | 1984 | Holtrop, `A Statistical Re-Analysis of Resistance and Propulsion Data` | International Shipbuilding Progress, cited directly by PPP strings | Later correction/reanalysis terms likely used by PPP 1.8 |
 
+## Local Manual Evidence
+
+The newly supplied `PPP-OLD/470Manuals.pdf` is a University of Michigan conceptual ship design software manual. It confirms the PPP program identity and intended behavior without requiring the legacy executables at runtime.
+
+Recovered manual evidence:
+
+- Program name/version: `Power Prediction Program (PPP1.8)`.
+- Author/date: M. G. Parsons, January 1996.
+- Method: Holtrop and Mennen resistance and hull/propeller interaction, with an explicit air-drag estimate added.
+- GUI/software environment: Windows Visual C++ interfaces developed by Dr. Jun Li during 1997-1998 under the DARPA COMPASS project.
+- Speed sweep: PPP calculates eight speeds from an initial speed and an increment.
+- Applicability limits: `CP`, `L/B`, `B/T`, and `Fn`, matching the GUI strings already implemented as checks.
+- Resistance structure: `RT` is built from frictional resistance with form factor, wave, appendage, bulb, transom, model-ship correlation, air resistance, and design margin.
+
+The manual strengthens confidence in the output contract and work queue, but exact numerical parity still requires a captured legacy `OUT` oracle.
+
 ## Implementation Rule
 
 Only implement a formula when at least one of these is true:
