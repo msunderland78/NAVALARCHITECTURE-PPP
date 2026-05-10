@@ -21,6 +21,7 @@ Implemented:
 - Hull derivations
 - Speed sweep terms
 - Displacement volume and mass
+- LCB in meters and percent LWL from forward perpendicular
 - ITTC-1957 friction coefficient
 - Frictional resistance `RF`
 - Percent appendage resistance based on currently implemented bare-hull resistance

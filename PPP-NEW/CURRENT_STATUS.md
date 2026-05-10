@@ -22,6 +22,7 @@ Version 1.0, May 10, 2026
   - Partial total resistance
   - Effective power
   - Explicit modeling source values for wetted surface and half angle of entrance
+  - LCB converted to meters and percent LWL from forward perpendicular
   - Explicit placeholders for unimplemented legacy report columns
 - Legacy applicability checks:
   - `Fn`

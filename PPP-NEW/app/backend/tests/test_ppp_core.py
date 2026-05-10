@@ -26,6 +26,7 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(result["derived"]["beam_draft_ratio"], 2.909090909090909)
         self.assertAlmostEqual(result["derived"]["lwl_beam_ratio"], 6.625)
         self.assertAlmostEqual(result["derived"]["lcb_m_from_fp"], 107.59)
+        self.assertAlmostEqual(result["derived"]["lcb_percent_lwl_from_fp"], 50.75)
         self.assertAlmostEqual(result["derived"]["displacement_volume_m3"], 44774.4)
         self.assertAlmostEqual(result["derived"]["displacement_mass_tonnes"], 45932.713728)
         self.assertEqual(result["modeling"]["wetted_surface_mode"], "user")

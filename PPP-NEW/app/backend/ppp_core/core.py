@@ -48,6 +48,7 @@ def evaluate_case(case, point_count=1):
         "mean_draft_m": mean_draft,
         "prismatic_coefficient": cp,
         "lcb_m_from_fp": lcb_m_from_fp,
+        "lcb_percent_lwl_from_fp": lcb_m_from_fp / lwl * 100,
         "beam_draft_ratio": beam / mean_draft,
         "lwl_beam_ratio": lwl / beam,
         "displacement_volume_m3": displacement_volume,

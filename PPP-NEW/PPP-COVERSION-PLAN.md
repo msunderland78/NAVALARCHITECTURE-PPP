@@ -27,6 +27,7 @@ Current status as of May 10, 2026:
 - The first backend calculation core scaffold exists in `PPP-NEW/app/backend/ppp_core` with hull derivations, speed sweep terms, ITTC friction coefficient, and legacy applicability checks.
 - The core now computes the source-safe `RF` frictional resistance column from water density, speed, wetted surface, and ITTC-1957 `CF`.
 - The core now reports displacement volume and displacement mass derived from the normalized hull and water inputs.
+- The core now reports LCB in both meters and percent LWL from the forward perpendicular.
 - The core now reports partial resistance components, percent appendage resistance, equivalent-area appendage resistance from `SAPP(1+K2)`, design margin resistance, partial total resistance, and effective power with `resistance_status` marking the result as incomplete until Holtrop-specific components are implemented.
 - Evaluation results now expose the active modeling source values for wetted surface and half angle of entrance, preparing the output contract for future estimated-mode formulas.
 - Estimated wetted-surface and half-angle modes now fail explicitly until their source-derived formulas are implemented.
