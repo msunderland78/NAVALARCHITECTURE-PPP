@@ -67,6 +67,16 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["error"], "appendages.equivalent_wetted_area_form_factor_m2 must be non-negative")
 
+    def test_bad_modeling_mode_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["wetted_surface_mode"] = "estimated"
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "modeling.wetted_surface_mode is not supported")
+
     def test_csv_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")

@@ -93,6 +93,10 @@ def validate_case(case):
             raise ValueError(f"{name} must be positive")
     if speed_sweep["speed_increment_knots"] < 0:
         raise ValueError("speed_sweep.speed_increment_knots must be non-negative")
+    if modeling.get("wetted_surface_mode", "user") != "user":
+        raise ValueError("modeling.wetted_surface_mode is not supported")
+    if modeling.get("half_angle_entrance_mode", "user") != "user":
+        raise ValueError("modeling.half_angle_entrance_mode is not supported")
     appendage_mode = appendages.get("mode", "percent_bare_hull_resistance")
     if appendage_mode not in ("percent_bare_hull_resistance", "equivalent_area_form_factor"):
         raise ValueError("appendages.mode is not supported")

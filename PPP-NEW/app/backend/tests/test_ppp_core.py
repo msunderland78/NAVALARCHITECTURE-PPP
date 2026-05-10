@@ -68,6 +68,17 @@ class PppCoreTest(unittest.TestCase):
 
         self.assertTrue(all(check["ok"] for check in result["applicability"]))
 
+    def test_unsupported_modeling_modes(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["wetted_surface_mode"] = "estimated"
+        with self.assertRaisesRegex(ValueError, "modeling.wetted_surface_mode is not supported"):
+            evaluate_case(case, point_count=1)
+
+        case["modeling"]["wetted_surface_mode"] = "user"
+        case["modeling"]["half_angle_entrance_mode"] = "estimated"
+        with self.assertRaisesRegex(ValueError, "modeling.half_angle_entrance_mode is not supported"):
+            evaluate_case(case, point_count=1)
+
     def test_appendage_equivalent_area_mode(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["appendages"]["mode"] = "equivalent_area_form_factor"
