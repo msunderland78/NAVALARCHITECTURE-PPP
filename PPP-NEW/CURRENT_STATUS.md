@@ -20,6 +20,7 @@ Version 1.0, May 10, 2026
   - Design margin resistance
   - Partial total resistance
   - Effective power
+  - Explicit modeling source values for wetted surface and half angle of entrance
   - Explicit placeholders for unimplemented legacy report columns
 - Legacy applicability checks:
   - `Fn`

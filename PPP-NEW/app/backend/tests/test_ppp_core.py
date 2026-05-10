@@ -26,6 +26,10 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(result["derived"]["beam_draft_ratio"], 2.909090909090909)
         self.assertAlmostEqual(result["derived"]["lwl_beam_ratio"], 6.625)
         self.assertAlmostEqual(result["derived"]["lcb_m_from_fp"], 107.59)
+        self.assertEqual(result["modeling"]["wetted_surface_mode"], "user")
+        self.assertAlmostEqual(result["modeling"]["wetted_surface_m2"], 7890.0)
+        self.assertEqual(result["modeling"]["half_angle_entrance_mode"], "user")
+        self.assertAlmostEqual(result["modeling"]["half_angle_entrance_degrees"], 12.11)
 
     def test_sample_case_speed_terms(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

@@ -47,8 +47,18 @@ def evaluate_case(case, point_count=1):
     return {
         "project": case["project"],
         "derived": derived,
+        "modeling": modeling_result(modeling),
         "applicability": applicability(case, derived, speeds),
         "speeds": speeds
+    }
+
+
+def modeling_result(modeling):
+    return {
+        "wetted_surface_mode": modeling.get("wetted_surface_mode", "user"),
+        "wetted_surface_m2": modeling["wetted_surface_m2"],
+        "half_angle_entrance_mode": modeling.get("half_angle_entrance_mode", "user"),
+        "half_angle_entrance_degrees": modeling["half_angle_entrance_degrees"]
     }
 
 

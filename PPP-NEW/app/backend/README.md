@@ -26,6 +26,7 @@ Implemented:
 - Equivalent-area appendage resistance from `SAPP(1+K2)`
 - Design-margin resistance
 - Partial total resistance and effective power
+- Explicit modeling source values for wetted surface and half angle of entrance
 - Explicit null placeholders for unrecovered legacy report columns
 - Legacy applicability checks
 - CSV export for speed rows

@@ -10,6 +10,12 @@
     "beam_draft_ratio": 2.909090909090909,
     "lwl_beam_ratio": 6.625
   },
+  "modeling": {
+    "wetted_surface_mode": "user",
+    "wetted_surface_m2": 7890.0,
+    "half_angle_entrance_mode": "user",
+    "half_angle_entrance_degrees": 12.11
+  },
   "applicability": [
     {
       "name": "froude_number",
