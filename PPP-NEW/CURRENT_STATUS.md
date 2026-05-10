@@ -61,12 +61,14 @@ Version 1.0, May 10, 2026
 - Candidate legacy `IN` generator for controlled oracle experiments.
 - Candidate legacy `IN` CLI for terminal-based oracle experiments.
 - Candidate legacy `IN` matrix CLI for dry-run option audits without Wine.
+- Candidate legacy `IN` propeller/wetted-surface record order corrected from direct writer disassembly.
 - Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Pinned current modern sample result fixture for regression baselining.
 - Fixture manifest distinguishing source, representative, modern baseline, and future oracle artifacts.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
 - Legacy oracle sweep options now include alternate first-record ordering probes.
+- Legacy oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
 - Legacy oracle sweep attempt summaries now include generated `IN` SHA-256, line count, and first record.
 - Legacy oracle sweep attempt summaries classify common Fortran runtime failure kinds.
 - Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes.
@@ -89,10 +91,10 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-60 tests OK
+63 tests OK
 ```
 
-Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now reaches a Wine/Fortran `CONOUT$` console output failure in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 
@@ -101,11 +103,11 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 - Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
 - Legacy `OUT` oracle is not generated yet.
 - Legacy `OUT` parser and comparison diagnostics are ready, but no real legacy `OUT` fixture has been captured yet.
-- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; a candidate `IN` now advances from EOF to a Fortran `DOMAIN error`. A bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain the oracle blocker.
+- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; the earlier candidate advanced from EOF to a Fortran `DOMAIN error`. Direct writer disassembly corrected the propeller/wetted-surface row, and the corrected candidate now fails at Wine/Fortran `CONOUT$` console handling instead of the prior numerical domain error. No real `OUT` has been captured yet.
 
 ## Next Best Work
 
-1. Recover the legacy `IN` file format written by `PPP.EXE`.
+1. Resolve Wine/Fortran `CONOUT$` console handling for the corrected candidate `IN`.
 2. Generate a legacy `OUT` oracle from the supplied sample.
 3. Parse and compare `OUT` into golden regression fixtures.
 4. Implement Holtrop and Mennen component formulas against primary sources and oracle deltas.

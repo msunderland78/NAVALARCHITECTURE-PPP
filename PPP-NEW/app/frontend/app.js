@@ -322,6 +322,7 @@ function buildLegacyOptions() {
   const data = new FormData(form);
   const values = {
     first_record_order: data.get("legacy_options.first_record_order") || null,
+    propeller_record_order: data.get("legacy_options.propeller_record_order") || null,
     stern_correction: optionalNumberValue(data, "legacy_options.stern_correction"),
     pitch_diameter_ratio: optionalNumberValue(data, "legacy_options.pitch_diameter_ratio"),
     water_type_code: optionalNumberValue(data, "legacy_options.water_type_code"),

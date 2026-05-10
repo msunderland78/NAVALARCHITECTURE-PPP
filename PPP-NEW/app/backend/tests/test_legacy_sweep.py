@@ -35,6 +35,13 @@ class LegacySweepTest(unittest.TestCase):
         self.assertEqual(options[0]["first_record_order"], "depth_before_drafts")
         self.assertEqual(options[1]["first_record_order"], "drafts_before_depth")
 
+    def test_candidate_option_sets_propeller_record_order(self):
+        options = candidate_option_sets(stern_corrections=[0], pitch_diameter_ratios=[0.8], water_type_codes=[3], propeller_record_orders=["wetted_half_dp", "dp_wetted_half"])
+
+        self.assertEqual(len(options), 2)
+        self.assertEqual(options[0]["propeller_record_order"], "wetted_half_dp")
+        self.assertEqual(options[1]["propeller_record_order"], "dp_wetted_half")
+
     def test_candidate_option_sets_empty_values_are_not_defaulted(self):
         options = candidate_option_sets(stern_corrections=[], pitch_diameter_ratios=[0.8], water_type_codes=[3])
 
@@ -76,6 +83,20 @@ class LegacySweepTest(unittest.TestCase):
             result = run_oracle_sweep(case, fake_exe, temp / "sweep", option_sets, wine=str(fake_wine), timeout_seconds=5)
 
             self.assertEqual(result["attempts"][0]["failure_kind"], "domain_error")
+
+    def test_run_oracle_sweep_classifies_console_failure(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        option_sets = candidate_option_sets(stern_corrections=[0], pitch_diameter_ratios=[0], water_type_codes=[1])
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            fake_exe = temp / "fake.exe"
+            fake_exe.write_bytes(b"legacy")
+            fake_wine = temp / "fake_wine.sh"
+            fake_wine.write_text("#!/bin/sh\nprintf 'forrtl: severe (38): error during write, unit 6, file CONOUT$\\n' >&2\nexit 38\n")
+            fake_wine.chmod(0o755)
+            result = run_oracle_sweep(case, fake_exe, temp / "sweep", option_sets, wine=str(fake_wine), timeout_seconds=5)
+
+            self.assertEqual(result["attempts"][0]["failure_kind"], "console_output_error")
 
 
 if __name__ == "__main__":

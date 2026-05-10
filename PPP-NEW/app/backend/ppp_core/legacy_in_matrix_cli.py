@@ -19,6 +19,7 @@ def main(argv=None):
     parser.add_argument("--appendage-primary-value", action="append", type=float)
     parser.add_argument("--appendage-model-total", action="append", type=float)
     parser.add_argument("--first-record-order", action="append", choices=["depth_before_drafts", "drafts_before_depth"])
+    parser.add_argument("--propeller-record-order", action="append", choices=["wetted_half_dp", "dp_wetted_half"])
     args = parser.parse_args(argv)
 
     payload = json.loads(Path(args.case_json).read_text())
@@ -29,7 +30,8 @@ def main(argv=None):
         args.water_type_code,
         args.appendage_primary_value,
         args.appendage_model_total,
-        args.first_record_order
+        args.first_record_order,
+        args.propeller_record_order
     )
     result = write_matrix(case, args.workdir, option_sets)
     result["case_json"] = str(Path(args.case_json))

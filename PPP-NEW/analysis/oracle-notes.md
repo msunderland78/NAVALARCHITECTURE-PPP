@@ -44,7 +44,7 @@ This confirms:
 
 A candidate `IN` was generated in `/tmp/ppp-oracle-candidate` from the static writer order documented in `PPP-NEW/analysis/in-format-notes.md`. The copied Fortran engine was run under Wine with a 20-second timeout.
 
-Reproducible oracle support now exists in `PPP-NEW/app/backend/ppp_core/legacy_oracle.py`, with a CLI wrapper at `PPP-NEW/tools/run_legacy_oracle.py`. The tool stages a copied executable and generated `IN` under `/tmp` by default, runs Wine with a timeout, and captures stdout, stderr, optional `OUT`, and parsed `OUT` data. It must not be pointed at a destination inside `PPP-NEW`.
+Reproducible oracle support now exists in `PPP-NEW/app/backend/ppp_core/legacy_oracle.py`, with sweep and candidate-input CLIs under `PPP-NEW/app/backend/ppp_core`. The tools stage copied executables and generated `IN` files under `/tmp` by default, run Wine with a timeout, and capture stdout, stderr, optional `OUT`, and parsed `OUT` data. They must not be pointed at a destination inside `PPP-NEW`.
 
 Smoke command:
 
@@ -52,7 +52,7 @@ Smoke command:
 python3 PPP-NEW/tools/run_legacy_oracle.py --exe PPP-OLD/PPPFTRN.EXE --workdir /tmp/ppp-oracle-runner-smoke --wineprefix /home/sundema/.cache/ppp-wine/prefix --timeout 5
 ```
 
-The CLI reproduces the current candidate behavior: return code `3`, no `OUT`, and a Fortran `DOMAIN error`.
+The older candidate reproduced return code `3`, no `OUT`, and a Fortran `DOMAIN error`.
 
 Observed behavior:
 
@@ -64,13 +64,19 @@ No `OUT` was produced. The result indicates that the candidate text format and r
 
 A bounded 27-attempt sweep varied stern correction (`0`, `-10`, `10`), `P/Dp` (`0`, `0.8`, `1.0`), and water type code (`1`, `2`, `3`). Every attempt produced the same Fortran `DOMAIN error`; no `OUT` was captured. This reduces the likelihood that those simple values alone are the blocker.
 
+Direct writer disassembly later corrected the propeller/wetted-surface row from `Dp, wetted surface, half angle` to `wetted surface, half angle, Dp`. A single bounded Wine attempt with the corrected candidate did not reproduce the `DOMAIN error`; it failed earlier with a console output handle error:
+
+```text
+forrtl: severe (38): error during write, unit 6, file CONOUT$
+```
+
+No `OUT` was produced. This suggests the corrected numerical input may have moved past the prior domain failure, but Wine console handling now needs to be controlled before treating the result as a successful oracle run.
+
 ## Next Oracle Tasks
 
-1. Recover the `IN` writer behavior from `PPP.EXE`.
-2. Determine whether `IN` is formatted text, unformatted Fortran records, or a C++ binary stream.
-3. Map `PPPIN.PPP` fields to `IN` records.
-4. Create a generated `IN` file under `PPP-NEW/tests/fixtures/` only after its structure is understood.
-5. Run the copied Fortran engine under Wine and capture `OUT`.
-6. Parse `OUT` into a golden regression fixture.
+1. Resolve Wine/Fortran console output handling for `CONOUT$`.
+2. Rerun the corrected candidate `IN` under a controlled console environment.
+3. If `OUT` is generated, capture only the plain text and parsed oracle fixture under `PPP-NEW/tests/fixtures/`.
+4. If `OUT` is still absent, continue static recovery of remaining unresolved `IN` fields.
 
 Do not add the legacy executables to `PPP-NEW` or git.

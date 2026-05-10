@@ -21,7 +21,7 @@ class LegacyInTest(unittest.TestCase):
         self.assertEqual(lines[1], "0.6 0.98 0.75 0.05")
         self.assertEqual(lines[2], "0.05 0 21 4 16 0 1")
         self.assertEqual(lines[3], "-0.75")
-        self.assertEqual(lines[4], "8 7890 12.11")
+        self.assertEqual(lines[4], "7890 12.11 8")
         self.assertEqual(lines[5], "0.8 0 3")
         self.assertEqual(lines[6], "15 2")
         self.assertEqual(lines[7], "1025.87 1.18831e-06")
@@ -39,6 +39,12 @@ class LegacyInTest(unittest.TestCase):
 
         self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
         self.assertEqual(lines[5], "0.8 0.8 2")
+
+    def test_generate_candidate_legacy_in_old_propeller_record_order(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        text = generate_candidate_legacy_in(case, {"propeller_record_order": "dp_wetted_half"})
+
+        self.assertEqual(text.splitlines()[4], "8 7890 12.11")
 
     def test_generate_candidate_legacy_in_first_record_order(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

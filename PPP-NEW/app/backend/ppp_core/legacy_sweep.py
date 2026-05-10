@@ -10,8 +10,10 @@ DEFAULT_WATER_TYPE_CODES = [1, 2, 3]
 DEFAULT_APPENDAGE_PRIMARY_VALUES = [None]
 DEFAULT_APPENDAGE_MODEL_TOTALS = [None]
 DEFAULT_FIRST_RECORD_ORDERS = [None]
+DEFAULT_PROPELLER_RECORD_ORDERS = [None]
 FORTRAN_FAILURE_PATTERNS = {
     "DOMAIN error": "domain_error",
+    "CONOUT$": "console_output_error",
     "SING error": "sing_error",
     "TLOSS error": "tloss_error",
     "end-of-file": "end_of_file",
@@ -19,13 +21,14 @@ FORTRAN_FAILURE_PATTERNS = {
 }
 
 
-def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, water_type_codes=None, appendage_primary_values=None, appendage_model_totals=None, first_record_orders=None):
+def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, water_type_codes=None, appendage_primary_values=None, appendage_model_totals=None, first_record_orders=None, propeller_record_orders=None):
     stern_values = defaulted(stern_corrections, DEFAULT_STERN_CORRECTIONS)
     pitch_values = defaulted(pitch_diameter_ratios, DEFAULT_PITCH_DIAMETER_RATIOS)
     water_values = defaulted(water_type_codes, DEFAULT_WATER_TYPE_CODES)
     appendage_primary = defaulted(appendage_primary_values, DEFAULT_APPENDAGE_PRIMARY_VALUES)
     appendage_model = defaulted(appendage_model_totals, DEFAULT_APPENDAGE_MODEL_TOTALS)
     first_orders = defaulted(first_record_orders, DEFAULT_FIRST_RECORD_ORDERS)
+    propeller_orders = defaulted(propeller_record_orders, DEFAULT_PROPELLER_RECORD_ORDERS)
     return [
         clean_options({
             "stern_correction": stern,
@@ -33,7 +36,8 @@ def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, wa
             "water_type_code": water,
             "appendage_primary_value": primary,
             "appendage_model_total": model,
-            "first_record_order": first_order
+            "first_record_order": first_order,
+            "propeller_record_order": propeller_order
         })
         for stern in stern_values
         for pitch in pitch_values
@@ -41,6 +45,7 @@ def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, wa
         for primary in appendage_primary
         for model in appendage_model
         for first_order in first_orders
+        for propeller_order in propeller_orders
     ]
 
 

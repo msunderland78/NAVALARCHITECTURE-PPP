@@ -59,7 +59,7 @@ The current static pass recovers this candidate record structure. Field names ar
 | `0x004040c6` to `0x00404132` | `CB`, `CM`, `CWP`, `design_margin_fraction` |
 | `0x0040414b` to `0x00404218` | `appendage_percent_or_total`, `appendage_model_total_candidate`, `ABT`, `HB`, `ATR`, `stern_correction_candidate`, `propulsion_type_code` |
 | `0x0040423c` to `0x0040425b` | `LCB_percent_lwl_from_midships` |
-| `0x0040427b` to `0x004042ca` | `Dp`, `wetted_surface`, `half_angle_entrance` |
+| `0x0040427b` to `0x004042ca` | `wetted_surface`, `half_angle_entrance`, `Dp` |
 | `0x004042f4` to `0x0040433a` | `Ae_Ao`, `P_Dp_candidate`, `water_type_code` |
 | `0x0040435f` to `0x00404397` | `initial_speed_knots`, `speed_increment_knots` |
 | `0x004043be` to `0x0040440d` | `water_density`, `kinematic_viscosity` |
@@ -130,9 +130,10 @@ A bounded follow-up sweep varied only obvious unresolved fields:
 All 27 attempts failed with the same Fortran `DOMAIN error`, and no `OUT` was produced. This suggests the blocker is not only one of those simple enum or placeholder values. The next static target is the exact first-record ordering and the appendage/model-calculation fields around `0x840` and `0x8f8`.
 
 The sweep shape is now implemented in `PPP-NEW/app/backend/ppp_core/legacy_sweep.py` and exposed through `python -m ppp_core.legacy_sweep_cli` so future option probes can be repeated consistently against copied executables outside `PPP-NEW`. Sweep options now include overrides for the two unresolved appendage fields written ahead of `ABT`, `HB`, and `ATR`.
-Sweep options also include `--first-record-order depth_before_drafts` and `--first-record-order drafts_before_depth` for testing the unresolved first-record ordering without hand-editing candidate `IN` files.
+Sweep options also include `--first-record-order depth_before_drafts`, `--first-record-order drafts_before_depth`, `--propeller-record-order wetted_half_dp`, and `--propeller-record-order dp_wetted_half` for testing unresolved record ordering without hand-editing candidate `IN` files.
 Each sweep attempt summary records the generated input SHA-256, line count, and first record so failed runs can be reviewed against candidate changes without opening every temporary attempt directory.
-Known Fortran runtime failures are classified in sweep summaries, including `domain_error`, `sing_error`, `tloss_error`, and `end_of_file`.
+Known Fortran runtime failures are classified in sweep summaries, including `domain_error`, `console_output_error`, `sing_error`, `tloss_error`, and `end_of_file`.
+After correcting the propeller/wetted-surface row to match the direct writer disassembly, a single bounded Wine run no longer reproduced the prior `DOMAIN error`; it failed with `console_output_error` on `CONOUT$`, so the next oracle task is Wine console handling rather than broad field sweeps.
 
 ## Strong Inferences
 

@@ -41,6 +41,8 @@ class LegacyInCliTest(unittest.TestCase):
                 "5",
                 "--appendage-model-total",
                 "0.05",
+                "--propeller-record-order",
+                "dp_wetted_half",
                 "--output",
                 str(output)
             ])
@@ -49,6 +51,7 @@ class LegacyInCliTest(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertEqual(lines[0], "212 32 11 11 21 321")
             self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
+            self.assertEqual(lines[4], "8 7890 12.11")
             self.assertEqual(lines[5], "0.8 0.8 2")
 
 

@@ -21,6 +21,10 @@ FIRST_RECORD_ORDERS = {
     "depth_before_drafts",
     "drafts_before_depth"
 }
+PROPELLER_RECORD_ORDERS = {
+    "wetted_half_dp",
+    "dp_wetted_half"
+}
 
 
 def generate_candidate_legacy_in(case, options=None):
@@ -51,11 +55,7 @@ def generate_candidate_legacy_in(case, options=None):
             options.get("propulsion_type_code", propulsion_code(propulsion["type"]))
         ],
         [hull["lcb_percent_lwl_from_midships_forward_positive"]],
-        [
-            propulsion["propeller_diameter_m"],
-            modeling["wetted_surface_m2"],
-            modeling["half_angle_entrance_degrees"]
-        ],
+        propeller_record_values(propulsion, modeling, options.get("propeller_record_order", "wetted_half_dp")),
         [
             propulsion["expanded_area_ratio"],
             propulsion.get("pitch_diameter_ratio") or options.get("pitch_diameter_ratio", 0),
@@ -92,6 +92,22 @@ def first_record_values(hull, modeling, order):
         hull["draft_forward_m"],
         hull["draft_aft_m"],
         modeling["deckhouse_cargo_frontal_area_m2"]
+    ]
+
+
+def propeller_record_values(propulsion, modeling, order):
+    if order not in PROPELLER_RECORD_ORDERS:
+        raise ValueError("propeller_record_order is not supported")
+    if order == "dp_wetted_half":
+        return [
+            propulsion["propeller_diameter_m"],
+            modeling["wetted_surface_m2"],
+            modeling["half_angle_entrance_degrees"]
+        ]
+    return [
+        modeling["wetted_surface_m2"],
+        modeling["half_angle_entrance_degrees"],
+        propulsion["propeller_diameter_m"]
     ]
 
 

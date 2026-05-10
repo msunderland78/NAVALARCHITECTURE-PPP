@@ -53,10 +53,11 @@ Current status as of May 10, 2026:
 - `docker-compose config` validates. Runtime compose smoke testing is pending because the current shell user cannot access the Docker socket.
 - Legacy oracle notes exist in `PPP-NEW/analysis/oracle-notes.md`. A copied `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN` on Fortran unit 4; exact `IN` layout recovery is now the oracle blocker.
 - Static `IN` writer notes exist in `PPP-NEW/analysis/in-format-notes.md`; the GUI opens uppercase `IN`, invokes `PPPFTRN.exe`, and reads `Out`, while the Fortran engine writes `OUT`.
-- The candidate `IN` field map now reaches the Fortran calculation path under Wine but still fails with a `DOMAIN error`; a bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain unresolved.
+- The earlier candidate `IN` field map reached the Fortran calculation path under Wine but failed with a `DOMAIN error`; direct writer disassembly corrected the propeller/wetted-surface row, and the corrected candidate now fails at Wine/Fortran `CONOUT$` console handling instead of the prior numerical domain error.
 - A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
 - A candidate legacy `IN` CLI exists so oracle attempts can be reproduced from terminal workflows without the browser API.
 - A candidate legacy `IN` matrix CLI exists for dry-run option audits without launching Wine.
+- Direct writer disassembly corrected the default candidate propeller/wetted-surface record order.
 - Browser candidate legacy `IN` export is available for controlled oracle experiments.
 - Browser candidate legacy `IN` export now exposes controlled oracle variant fields for unresolved record-order and appendage/propulsion probes.
 - Browser legacy `OUT` comparison now exposes speed matching tolerance for imperfect legacy report formatting.
@@ -66,6 +67,7 @@ Current status as of May 10, 2026:
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
 - Oracle sweep options now include alternate first-record ordering probes for the unresolved depth/draft layout.
+- Oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
 - Oracle sweep summaries now record generated `IN` fingerprints and first records for repeatable failure analysis.
 - Oracle sweep summaries now classify common Fortran runtime failures for faster triage.
 - A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.
@@ -78,7 +80,7 @@ Current status as of May 10, 2026:
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
-The next milestone is to recover the exact `IN` file format and produce a real legacy `OUT` oracle, then implement source-derived Holtrop and Mennen components against the oracle comparison deltas.
+The next milestone is to resolve Wine/Fortran console handling for the corrected candidate `IN` and produce a real legacy `OUT` oracle, then implement source-derived Holtrop and Mennen components against the oracle comparison deltas.
 
 ## Legacy File Inventory
 

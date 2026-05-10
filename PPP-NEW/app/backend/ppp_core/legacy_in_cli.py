@@ -16,6 +16,7 @@ def main(argv=None):
     parser.add_argument("--appendage-primary-value", type=float)
     parser.add_argument("--appendage-model-total", type=float)
     parser.add_argument("--first-record-order", choices=["depth_before_drafts", "drafts_before_depth"])
+    parser.add_argument("--propeller-record-order", choices=["wetted_half_dp", "dp_wetted_half"])
     args = parser.parse_args(argv)
 
     payload = json.loads(Path(args.case_json).read_text())
@@ -26,7 +27,8 @@ def main(argv=None):
         "water_type_code": args.water_type_code,
         "appendage_primary_value": args.appendage_primary_value,
         "appendage_model_total": args.appendage_model_total,
-        "first_record_order": args.first_record_order
+        "first_record_order": args.first_record_order,
+        "propeller_record_order": args.propeller_record_order
     }))
     if args.output:
         Path(args.output).write_text(text)
