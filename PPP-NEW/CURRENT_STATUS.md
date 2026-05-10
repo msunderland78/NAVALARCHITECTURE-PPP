@@ -43,6 +43,7 @@ Version 1.0, May 10, 2026
 - Candidate legacy `IN` generator for controlled oracle experiments.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Legacy `OUT` text parser for future oracle fixtures.
+- Legacy `OUT` to modern-result comparison diagnostics.
 - Candidate `IN` field map recovered from GUI writer/report cross-references.
 
 ## Verification
@@ -56,7 +57,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-28 tests OK
+32 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. The legacy oracle CLI reproduces the current `DOMAIN error` in `/tmp`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
@@ -67,13 +68,13 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 - Current resistance totals are explicitly marked `partial_source_safe_components`.
 - Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
 - Legacy `OUT` oracle is not generated yet.
-- Legacy `OUT` parser is ready, but no real legacy `OUT` fixture has been captured yet.
+- Legacy `OUT` parser and comparison diagnostics are ready, but no real legacy `OUT` fixture has been captured yet.
 - `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; a candidate `IN` now advances from EOF to a Fortran `DOMAIN error`. A bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain the oracle blocker.
 
 ## Next Best Work
 
 1. Recover the legacy `IN` file format written by `PPP.EXE`.
 2. Generate a legacy `OUT` oracle from the supplied sample.
-3. Parse `OUT` into golden regression fixtures.
-4. Implement Holtrop and Mennen component formulas against primary sources and oracle checks.
+3. Parse and compare `OUT` into golden regression fixtures.
+4. Implement Holtrop and Mennen component formulas against primary sources and oracle deltas.
 5. Run Docker smoke tests from a Docker-enabled account.

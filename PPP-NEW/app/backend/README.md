@@ -10,6 +10,7 @@ Implemented:
 - Candidate legacy `IN` generator for controlled oracle experiments
 - Reproducible legacy oracle runner for isolated compatibility tests outside `PPP-NEW`
 - Legacy `OUT` text parser for future oracle fixtures
+- Legacy `OUT` to modern-result comparison diagnostics
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
 - Speed sweep terms
@@ -30,7 +31,7 @@ Not yet implemented:
 - Full Holtrop and Mennen resistance components
 - Propulsion factors
 - Required thrust
-- Legacy `OUT` oracle comparison
+- A real captured legacy `OUT` oracle fixture
 
 ## Run Tests
 
@@ -64,5 +65,6 @@ Current routes:
 - `POST /api/export/legacy-in-candidate`
 - `POST /api/import/ppp`
 - `POST /api/import/out`
+- `POST /api/compare/out`
 
 The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, API-backed evaluation, applicability checks, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.

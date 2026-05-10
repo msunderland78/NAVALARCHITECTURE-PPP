@@ -3,6 +3,7 @@ import struct
 
 from .core import evaluate_case
 from .export import speeds_to_csv
+from .legacy_compare import compare_legacy_out_to_result
 from .legacy_in import generate_candidate_legacy_in
 from .legacy_out import parse_legacy_out
 from .legacy_ppp import import_legacy_ppp
@@ -49,6 +50,17 @@ def import_out_response(body):
     return 200, "application/json", parse_legacy_out(body.decode("utf-8", errors="replace"), "upload.OUT")
 
 
+def compare_out_response(body):
+    payload = json.loads(body.decode("utf-8"))
+    parsed_out = payload.get("legacy_out")
+    if parsed_out is None:
+        parsed_out = parse_legacy_out(payload["legacy_out_text"], payload.get("legacy_filename", "upload.OUT"))
+    modern_result = payload.get("modern_result")
+    if modern_result is None:
+        modern_result = evaluate_case(payload["case"], payload.get("point_count", 1))
+    return 200, "application/json", compare_legacy_out_to_result(parsed_out, modern_result, payload.get("fields"))
+
+
 def route(method, path, body=b""):
     try:
         if method == "GET" and path == "/health":
@@ -65,6 +77,8 @@ def route(method, path, body=b""):
             return import_response(body)
         if method == "POST" and path == "/api/import/out":
             return import_out_response(body)
+        if method == "POST" and path == "/api/compare/out":
+            return compare_out_response(body)
         return 404, "application/json", {"error": "not found"}
     except (KeyError, ValueError, json.JSONDecodeError, struct.error) as error:
         return 400, "application/json", {"error": str(error)}

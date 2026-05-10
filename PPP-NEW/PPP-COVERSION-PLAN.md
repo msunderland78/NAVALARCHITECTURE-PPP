@@ -46,11 +46,11 @@ Current status as of May 10, 2026:
 - A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - A legacy `OUT` text parser exists for future oracle fixtures.
+- Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas or missing modern fields.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
-The next milestone is to build a minimal `.PPP` importer and calculation-core skeleton around the normalized Holtrop and Mennen sample, then recover the exact `IN` file format and produce a legacy `OUT` oracle.
-The next milestone is to recover the first source-derived resistance components, starting with wetted surface, form factor, frictional resistance, and effective power.
+The next milestone is to recover the exact `IN` file format and produce a real legacy `OUT` oracle, then implement source-derived Holtrop and Mennen components against the oracle comparison deltas.
 
 ## Legacy File Inventory
 
