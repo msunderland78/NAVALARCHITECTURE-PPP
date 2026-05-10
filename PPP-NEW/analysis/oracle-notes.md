@@ -40,6 +40,18 @@ This confirms:
 - The engine expects a working-directory file named `IN`.
 - Recovering the exact legacy `IN` layout is required before a legacy `OUT` oracle can be generated.
 
+## Candidate `IN` Run
+
+A candidate `IN` was generated in `/tmp/ppp-oracle-candidate` from the static writer order documented in `PPP-NEW/analysis/in-format-notes.md`. The copied Fortran engine was run under Wine with a 20-second timeout.
+
+Observed behavior:
+
+```text
+forrtl: severe (6201): **: DOMAIN error
+```
+
+No `OUT` was produced. The result indicates that the candidate text format and record count are close enough to move beyond file-open and end-of-file failure. The next recovery pass should focus on enum encodings and candidate fields including stern correction, appendage model total, pitch-diameter ratio, propulsion type code, and water type code.
+
 ## Next Oracle Tasks
 
 1. Recover the `IN` writer behavior from `PPP.EXE`.

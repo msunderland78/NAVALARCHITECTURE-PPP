@@ -40,6 +40,7 @@ Version 1.0, May 10, 2026
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
 - Static notes for the legacy temporary `IN` writer.
 - Legacy `OUT` text parser for future oracle fixtures.
+- Candidate `IN` field map recovered from GUI writer/report cross-references.
 
 ## Verification
 
@@ -64,7 +65,7 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, and `/api/i
 - Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
 - Legacy `OUT` oracle is not generated yet.
 - Legacy `OUT` parser is ready, but no real legacy `OUT` fixture has been captured yet.
-- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; static writer shape is partially recovered, but exact column semantics remain the oracle blocker.
+- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; a candidate `IN` now advances from EOF to a Fortran `DOMAIN error`, so exact enum and candidate-field semantics remain the oracle blocker.
 
 ## Next Best Work
 
