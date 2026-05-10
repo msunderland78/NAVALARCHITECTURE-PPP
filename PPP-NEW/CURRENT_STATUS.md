@@ -39,6 +39,7 @@ Version 1.0, May 10, 2026
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
 - Static notes for the legacy temporary `IN` writer.
+- Candidate legacy `IN` generator for controlled oracle experiments.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Candidate `IN` field map recovered from GUI writer/report cross-references.
 
@@ -53,10 +54,10 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-22 tests OK
+26 tests OK
 ```
 
-Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, and `/api/import/out` with a temporary backend server. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 

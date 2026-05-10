@@ -42,6 +42,7 @@ Current status as of May 10, 2026:
 - Legacy oracle notes exist in `PPP-NEW/analysis/oracle-notes.md`. A copied `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN` on Fortran unit 4; exact `IN` layout recovery is now the oracle blocker.
 - Static `IN` writer notes exist in `PPP-NEW/analysis/in-format-notes.md`; the GUI opens uppercase `IN`, invokes `PPPFTRN.exe`, and reads `Out`, while the Fortran engine writes `OUT`.
 - The candidate `IN` field map now reaches the Fortran calculation path under Wine but still fails with a `DOMAIN error`; a bounded enum/value sweep did not produce `OUT`, so exact record ordering and appendage/model candidate fields remain unresolved.
+- A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.

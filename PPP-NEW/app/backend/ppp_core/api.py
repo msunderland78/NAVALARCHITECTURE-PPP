@@ -3,6 +3,7 @@ import struct
 
 from .core import evaluate_case
 from .export import speeds_to_csv
+from .legacy_in import generate_candidate_legacy_in
 from .legacy_out import parse_legacy_out
 from .legacy_ppp import import_legacy_ppp
 
@@ -33,6 +34,13 @@ def json_export_response(body):
     return 200, "application/json", evaluate_case(case, point_count)
 
 
+def legacy_in_export_response(body):
+    payload = json.loads(body.decode("utf-8"))
+    case = payload["case"]
+    options = payload.get("options", {})
+    return 200, "text/plain", generate_candidate_legacy_in(case, options)
+
+
 def import_response(body):
     return 200, "application/json", import_legacy_ppp(body, "upload.ppp")
 
@@ -51,6 +59,8 @@ def route(method, path, body=b""):
             return csv_response(body)
         if method == "POST" and path == "/api/export/json":
             return json_export_response(body)
+        if method == "POST" and path == "/api/export/legacy-in-candidate":
+            return legacy_in_export_response(body)
         if method == "POST" and path == "/api/import/ppp":
             return import_response(body)
         if method == "POST" and path == "/api/import/out":

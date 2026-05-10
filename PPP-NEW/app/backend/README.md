@@ -7,6 +7,7 @@ This backend contains the first modern PPP calculation modules.
 Implemented:
 
 - Legacy `.PPP` `Contents` stream import for the observed sample layout
+- Candidate legacy `IN` generator for controlled oracle experiments
 - Legacy `OUT` text parser for future oracle fixtures
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
@@ -58,6 +59,7 @@ Current routes:
 - `POST /api/evaluate`
 - `POST /api/export/csv`
 - `POST /api/export/json`
+- `POST /api/export/legacy-in-candidate`
 - `POST /api/import/ppp`
 - `POST /api/import/out`
 
