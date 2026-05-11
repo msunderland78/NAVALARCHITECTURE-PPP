@@ -88,6 +88,22 @@ class ExportTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "result.speeds.total_resistance_n is required"):
             result_to_markdown(result)
 
+    def test_result_to_markdown_rejects_non_finite_numbers(self):
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        result["derived"]["mean_draft_m"] = "bad"
+        with self.assertRaisesRegex(ValueError, "result.derived.mean_draft_m must be a finite number"):
+            result_to_markdown(result)
+
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        result["applicability"][0]["value"] = True
+        with self.assertRaisesRegex(ValueError, "result.applicability.value must be a finite number"):
+            result_to_markdown(result)
+
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        result["speeds"][0]["effective_power_kw"] = float("inf")
+        with self.assertRaisesRegex(ValueError, "result.speeds.effective_power_kw must be a finite number"):
+            result_to_markdown(result)
+
 
 if __name__ == "__main__":
     unittest.main()

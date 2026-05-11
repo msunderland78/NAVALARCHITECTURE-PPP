@@ -48,6 +48,7 @@ Version 1.0, May 10, 2026
 - Markdown report export includes speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
 - CSV result export now validates result and speed-row shapes before writing output.
 - Markdown report export now validates rendered result sections and row shapes before writing output.
+- Markdown report export now validates rendered numeric values are finite before formatting output.
 - Point-count and legacy comparison tolerance validation now rejects boolean values instead of accepting Python's integer coercion.
 - Backend validation now rejects prismatic coefficient, LCB-derived factor, and half-angle values that would make the recovered Holtrop equations leave the real-number domain.
 - API routes now return controlled 400 responses for malformed JSON shapes and invalid UTF-8 request bodies.
@@ -158,7 +159,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-123 tests OK
+124 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

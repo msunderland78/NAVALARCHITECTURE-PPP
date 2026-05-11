@@ -1,4 +1,5 @@
 import csv
+from math import isfinite
 from io import StringIO
 
 
@@ -43,6 +44,14 @@ REPORT_SPEED_COLUMNS = [
     "resistance_status"
 ]
 
+REPORT_SPEED_NUMERIC_COLUMNS = [
+    "speed_knots",
+    "froude_number",
+    "total_resistance_n",
+    "effective_power_kw",
+    "required_thrust_n"
+]
+
 REPORT_DERIVED_COLUMNS = [
     "mean_draft_m",
     "prismatic_coefficient",
@@ -61,6 +70,12 @@ REPORT_APPLICABILITY_COLUMNS = [
     "lower",
     "upper",
     "ok"
+]
+
+REPORT_APPLICABILITY_NUMERIC_COLUMNS = [
+    "value",
+    "lower",
+    "upper"
 ]
 
 
@@ -168,14 +183,16 @@ def validate_report_result(result):
     for key in REPORT_DERIVED_COLUMNS:
         if key not in result["derived"]:
             raise ValueError(f"result.derived.{key} is required")
+        validate_report_number(result["derived"][key], f"result.derived.{key}")
     for key in REPORT_MODELING_COLUMNS:
         if key not in result["modeling"]:
             raise ValueError(f"result.modeling.{key} is required")
-    validate_report_rows(result, "applicability", REPORT_APPLICABILITY_COLUMNS)
-    validate_report_rows(result, "speeds", REPORT_SPEED_COLUMNS)
+        validate_report_number(result["modeling"][key], f"result.modeling.{key}")
+    validate_report_rows(result, "applicability", REPORT_APPLICABILITY_COLUMNS, REPORT_APPLICABILITY_NUMERIC_COLUMNS)
+    validate_report_rows(result, "speeds", REPORT_SPEED_COLUMNS, REPORT_SPEED_NUMERIC_COLUMNS)
 
 
-def validate_report_rows(result, name, columns):
+def validate_report_rows(result, name, columns, numeric_columns):
     rows = result.get(name)
     if not isinstance(rows, list):
         raise ValueError(f"result.{name} must be a list")
@@ -185,6 +202,13 @@ def validate_report_rows(result, name, columns):
         for column in columns:
             if column not in row:
                 raise ValueError(f"result.{name}.{column} is required")
+        for column in numeric_columns:
+            validate_report_number(row[column], f"result.{name}.{column}")
+
+
+def validate_report_number(value, field):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value):
+        raise ValueError(f"{field} must be a finite number")
 
 
 def input_summary_lines(case):
