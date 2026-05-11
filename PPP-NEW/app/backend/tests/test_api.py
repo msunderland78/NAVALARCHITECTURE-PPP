@@ -48,6 +48,19 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["error"], "hull.lwl_m must be positive")
 
+    def test_malformed_evaluate_payload_route(self):
+        status, content_type, payload = route("POST", "/api/evaluate", b'{"case": null}')
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertIn("object is not subscriptable", payload["error"])
+
+        status, content_type, payload = route("POST", "/api/evaluate", b"\xff")
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertIn("invalid start byte", payload["error"])
+
     def test_bad_point_count_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         body = json.dumps({"case": case, "point_count": 0}).encode("utf-8")

@@ -94,5 +94,5 @@ def route(method, path, body=b""):
         if method == "POST" and path == "/api/compare/out":
             return compare_out_response(body)
         return 404, "application/json", {"error": "not found"}
-    except (KeyError, ValueError, json.JSONDecodeError, struct.error) as error:
+    except (KeyError, TypeError, UnicodeDecodeError, ValueError, json.JSONDecodeError, struct.error) as error:
         return 400, "application/json", {"error": str(error)}
