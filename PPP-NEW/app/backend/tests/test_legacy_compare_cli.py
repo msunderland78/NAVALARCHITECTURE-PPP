@@ -100,6 +100,31 @@ class LegacyCompareCliTest(unittest.TestCase):
             self.assertEqual(result["failures"], [])
             self.assertLess(result["summary"]["max_absolute_delta"]["absolute_delta"], 100)
 
+    def test_main_passes_estimated_mode_oracle_thresholds(self):
+        case_path = ROOT / "tests" / "fixtures" / "pppin_sample_estimated_import.json"
+        out_path = ROOT / "tests" / "fixtures" / "pppin_sample_estimated_legacy_oracle.OUT"
+        with tempfile.TemporaryDirectory() as temp:
+            output = Path(temp) / "comparison.json"
+            code = main([
+                str(case_path),
+                str(out_path),
+                "--point-count",
+                "8",
+                "--require-matched-speed-count",
+                "8",
+                "--max-absolute-delta",
+                "100",
+                "--fail-on-missing-modern",
+                "--output",
+                str(output)
+            ])
+            result = json.loads(output.read_text())
+
+            self.assertEqual(code, 0)
+            self.assertTrue(result["passed"])
+            self.assertEqual(result["failures"], [])
+            self.assertLess(result["summary"]["max_absolute_delta"]["absolute_delta"], 100)
+
 
 if __name__ == "__main__":
     unittest.main()
