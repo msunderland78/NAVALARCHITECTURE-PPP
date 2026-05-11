@@ -49,6 +49,7 @@ Current status as of May 10, 2026:
 - Browser and printed reports include a preliminary engineering review status note tied to result status.
 - Markdown engineering report export is available for review packages and issue attachments.
 - CSV result export now validates result and speed-row shapes before writing output.
+- CSV result export now validates numeric speed-row values are finite before writing output.
 - Markdown report export now validates rendered result sections and row shapes before writing output.
 - Markdown report export now validates rendered numeric values are finite before formatting output.
 - Browser legacy `OUT` comparison upload is available for oracle delta review.

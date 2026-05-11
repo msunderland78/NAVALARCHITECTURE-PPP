@@ -35,6 +35,11 @@ SPEED_COLUMNS = [
     "resistance_status"
 ]
 
+CSV_TEXT_COLUMNS = {
+    "appendage_mode",
+    "resistance_status"
+}
+
 REPORT_SPEED_COLUMNS = [
     "speed_knots",
     "froude_number",
@@ -101,6 +106,8 @@ def validate_speed_rows(result):
         for column in SPEED_COLUMNS:
             if column not in row:
                 raise ValueError(f"result.speeds.{column} is required")
+            if column not in CSV_TEXT_COLUMNS and row[column] is not None:
+                validate_report_number(row[column], f"result.speeds.{column}")
     return speed_rows
 
 

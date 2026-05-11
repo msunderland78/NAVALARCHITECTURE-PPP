@@ -31,6 +31,17 @@ class ExportTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "result.speeds.speed_knots is required"):
             speeds_to_csv({"speeds": [{}]})
 
+    def test_speeds_to_csv_rejects_non_finite_numbers(self):
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        result["speeds"][0]["speed_knots"] = True
+        with self.assertRaisesRegex(ValueError, "result.speeds.speed_knots must be a finite number"):
+            speeds_to_csv(result)
+
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        result["speeds"][0]["total_resistance_n"] = float("nan")
+        with self.assertRaisesRegex(ValueError, "result.speeds.total_resistance_n must be a finite number"):
+            speeds_to_csv(result)
+
     def test_result_to_markdown(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         result = evaluate_case(case, point_count=2)
