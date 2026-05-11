@@ -457,6 +457,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("numeric deltas", (FRONTEND / "app.js").read_text())
         self.assertIn("Engineering review status", (FRONTEND / "app.js").read_text())
         self.assertIn("review.warnings", (FRONTEND / "app.js").read_text())
+        self.assertNotIn('["resistance_status", "Status"]', (FRONTEND / "app.js").read_text())
 
 
 if __name__ == "__main__":

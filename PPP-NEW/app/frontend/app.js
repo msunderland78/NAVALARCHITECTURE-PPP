@@ -430,8 +430,7 @@ function renderTable(result) {
     ["thrust_deduction", "t"],
     ["required_thrust_n", "REQ.THR N"],
     ["hull_efficiency", "etaH"],
-    ["relative_rotative_efficiency", "etaRR"],
-    ["resistance_status", "Status"]
+    ["relative_rotative_efficiency", "etaRR"]
   ];
   table.tHead.innerHTML = `<tr>${columns.map(column => `<th>${column[1]}</th>`).join("")}</tr>`;
   table.tBodies[0].innerHTML = result.speeds.map(row => {
