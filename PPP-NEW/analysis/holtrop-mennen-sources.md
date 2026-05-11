@@ -37,7 +37,7 @@ Recovered manual evidence:
 - Applicability limits: `CP`, `L/B`, `B/T`, and `Fn`, matching the GUI strings already implemented as checks.
 - Resistance structure: `RT` is built from frictional resistance with form factor, wave, appendage, bulb, transom, model-ship correlation, air resistance, and design margin.
 
-The manual strengthens confidence in the output contract and work queue, but exact numerical parity still requires a captured legacy `OUT` oracle.
+The manual strengthens confidence in the output contract and work queue. A captured legacy `OUT` oracle is now available for the normalized sample case.
 
 ## Implementation Rule
 
@@ -64,6 +64,10 @@ The current backend core implements only terms that are unambiguous:
 - Reynolds number using `V * LWL / nu`.
 - ITTC-1957 friction coefficient.
 - Frictional resistance `RF = 0.5 * rho * V^2 * S * CF` when wetted surface is user supplied.
+- Holtrop form-factor resistance `RF*K1`.
+- Holtrop model-ship correlation allowance coefficient `CA`.
+- Correlation allowance resistance `RA = 0.5 * rho * V^2 * S * CA`.
+- PPP legacy air drag `RAIR`, using the pressure coefficient recovered from the captured oracle.
 - Percent appendage resistance when appendage drag is entered as percent of currently implemented bare-hull resistance.
 - Equivalent-area appendage resistance using the visible legacy input `Appendage Total SAPP(1+K2)` and the same ITTC friction coefficient already computed for the hull.
 - Design-margin resistance as a percentage applied to currently implemented resistance subtotal.
@@ -75,22 +79,18 @@ The current backend core implements only terms that are unambiguous:
 Recover and implement in this order:
 
 1. Wetted-surface estimation.
-2. Form factor `1 + k1`.
-3. Frictional resistance `RF`.
-4. Appendage resistance `RAPP`.
-5. Wave resistance `RW`.
-6. Bulbous-bow resistance `RB`.
-7. Transom-stern resistance `RTR`.
-8. Model-ship correlation allowance `RA`.
-9. Air resistance `RAIR`.
-10. Total resistance `RT`.
-11. Effective power `PE`.
-12. Wake fraction `w`.
-13. Thrust deduction `t`.
-14. Hull efficiency `etaH`.
-15. Relative rotative efficiency `etaRR`.
-16. Required thrust `REQ.THR`.
+2. Wave resistance `RW`.
+3. Bulbous-bow resistance `RB`.
+4. Transom-stern resistance `RTR`.
+5. Complete percent appendage resistance after the remaining bare-hull terms are implemented.
+6. Total resistance `RT`.
+7. Effective power `PE`.
+8. Wake fraction `w`.
+9. Thrust deduction `t`.
+10. Hull efficiency `etaH`.
+11. Relative rotative efficiency `etaRR`.
+12. Required thrust `REQ.THR`.
 
 ## Oracle Requirement
 
-The web application should not be considered numerically equivalent to legacy PPP until a legacy `OUT` report is captured and parsed for the sample case. Until then, source-derived formulas should be tested against independent published examples and marked as provisional.
+The web application should not be considered numerically equivalent to legacy PPP until the captured oracle comparison converges across the resistance and propulsion tables. Source-derived formulas should continue to be tested against the oracle and independent published examples.

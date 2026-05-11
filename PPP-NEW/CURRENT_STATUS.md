@@ -21,6 +21,10 @@ Version 1.0, May 10, 2026
   - Reynolds number
   - ITTC-1957 friction coefficient
   - Frictional resistance
+  - Holtrop form-factor resistance `RF*K1`
+  - Holtrop correlation allowance coefficient `CA`
+  - Holtrop correlation allowance resistance `RA`
+  - PPP legacy air-drag resistance `RAIR`
   - Percent appendage resistance
   - Equivalent-area appendage resistance from `SAPP(1+K2)`
   - Design margin resistance
@@ -28,7 +32,7 @@ Version 1.0, May 10, 2026
   - Effective power
   - Explicit modeling source values for wetted surface and half angle of entrance
   - LCB converted to meters and percent LWL from forward perpendicular
-  - Explicit placeholders for unimplemented legacy report columns
+  - Explicit placeholders for remaining unimplemented legacy report columns
 - Legacy applicability checks:
   - `Fn`
   - `B/T`
@@ -108,7 +112,7 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 
 - Full Holtrop and Mennen resistance components are not complete.
 - Current resistance totals are explicitly marked `partial_source_safe_components`.
-- Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
+- Wave, bulb, transom, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
 - The first captured legacy `OUT` oracle is available for the normalized sample only.
 - More oracle cases are needed before full formula equivalence can be trusted.
 - `PPPFTRN.EXE` requires PTY-backed Wine execution because plain piped execution fails at Fortran unit 6 `CONOUT$`.

@@ -4,6 +4,13 @@ from math import log10, sqrt
 KNOT_TO_MPS = 0.514444
 METER_TO_FOOT = 3.280839895
 G = 9.80665
+LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT = 0.737223
+STERN_CORRECTIONS = {
+    "normal_shaped_sections": 0,
+    "v_shaped_sections": -10,
+    "u_shaped_sections_with_hogner_stern": 10,
+    "pram_with_gondola": 10
+}
 STERN_TYPES = {
     "normal_shaped_sections",
     "v_shaped_sections",
@@ -71,6 +78,10 @@ def evaluate_case(case, point_count=1):
             water["kinematic_viscosity_m2_s"],
             water["density_kg_m3"],
             modeling["wetted_surface_m2"],
+            hull,
+            features,
+            modeling,
+            derived,
             appendages,
             margin
         ))
@@ -176,12 +187,14 @@ def validate_speed_sweep(speed_sweep, point_count):
         raise ValueError("speed_sweep.speed_increment_knots must be positive when point_count is greater than 1")
 
 
-def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, margin):
+def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, hull, features, modeling, derived, appendages, margin):
     speed_mps = speed_knots * KNOT_TO_MPS
     reynolds = speed_mps * lwl_m / nu
     cf = 0.075 / ((log10(reynolds) - 2) ** 2)
     rf = 0.5 * rho * speed_mps ** 2 * wetted_surface * cf
-    components = resistance_components(rf, wetted_surface, appendages, margin)
+    form_factor = holtrop_form_factor(hull, features, derived)
+    ca = holtrop_correlation_allowance_coefficient(hull, features)
+    components = resistance_components(speed_mps, rf, form_factor, ca, rho, wetted_surface, modeling, appendages, margin)
     return {
         "speed_knots": speed_knots,
         "speed_mps": speed_mps,
@@ -190,7 +203,7 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, marg
         "reynolds_number": reynolds,
         "friction_coefficient": cf,
         "residual_resistance_coefficient": None,
-        "correlation_allowance_coefficient": None,
+        "correlation_allowance_coefficient": ca,
         **components,
         "effective_power_kw": components["total_resistance_n"] * speed_mps / 1000,
         "wake_fraction": None,
@@ -201,29 +214,60 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, appendages, marg
     }
 
 
-def resistance_components(rf, wetted_surface, appendages, margin):
+def holtrop_form_factor(hull, features, derived):
+    lwl = hull["lwl_m"]
+    beam = hull["beam_lwl_m"]
+    mean_draft = derived["mean_draft_m"]
+    cp = derived["prismatic_coefficient"]
+    displacement_volume = derived["displacement_volume_m3"]
+    lcb_percent = hull["lcb_percent_lwl_from_midships_forward_positive"]
+    stern_correction = STERN_CORRECTIONS[features["stern_type"]]
+    c14 = 1 + 0.011 * stern_correction
+    lr = lwl * (1 - cp + 0.06 * cp * lcb_percent / (4 * cp - 1))
+    one_plus_k1 = 0.93 + 0.487118 * c14 * (beam / lwl) ** 1.06806 * (mean_draft / lwl) ** 0.46106 * (lwl / lr) ** 0.121563 * (lwl ** 3 / displacement_volume) ** 0.36486 * (1 - cp) ** -0.604247
+    return one_plus_k1 - 1
+
+
+def holtrop_correlation_allowance_coefficient(hull, features):
+    lwl = hull["lwl_m"]
+    beam = hull["beam_lwl_m"]
+    mean_draft = (hull["draft_forward_m"] + hull["draft_aft_m"]) / 2
+    cb = hull["block_coefficient"]
+    bulb_area = features["bulb_area_station_0_m2"]
+    bulb_center = features["bulb_vertical_center_m"]
+    c3 = 0 if bulb_area == 0 else 0.56 * bulb_area ** 1.5 / (beam * mean_draft * (0.31 * sqrt(bulb_area) + hull["draft_forward_m"] - bulb_center))
+    c2 = 1 if c3 == 0 else 2.718281828459045 ** (-1.89 * sqrt(c3))
+    c4 = min(hull["draft_forward_m"] / lwl, 0.04)
+    return 0.006 * (lwl + 100) ** -0.16 - 0.00205 + 0.003 * sqrt(lwl / 7.5) * cb ** 4 * c2 * (0.04 - c4)
+
+
+def resistance_components(speed_mps, rf, form_factor, correlation_allowance_coefficient, rho, wetted_surface, modeling, appendages, margin):
+    rf_form_resistance = rf * form_factor
+    correlation_allowance_resistance = 0.5 * rho * speed_mps ** 2 * wetted_surface * correlation_allowance_coefficient
+    air_resistance = LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT * speed_mps ** 2 * modeling["deckhouse_cargo_frontal_area_m2"]
+    implemented_bare_hull_resistance = rf + rf_form_resistance
     appendage_mode = appendages.get("mode", "percent_bare_hull_resistance")
     appendage_resistance = 0.0
     equivalent_area = appendages.get("equivalent_wetted_area_form_factor_m2")
     if appendage_mode == "percent_bare_hull_resistance":
-        appendage_resistance = rf * appendages.get("percent_bare_hull_resistance", 0) / 100
+        appendage_resistance = implemented_bare_hull_resistance * appendages.get("percent_bare_hull_resistance", 0) / 100
     if appendage_mode == "equivalent_area_form_factor":
         appendage_resistance = rf / wetted_surface * (appendages.get("equivalent_wetted_area_form_factor_m2") or 0)
-    subtotal = rf + appendage_resistance
+    subtotal = implemented_bare_hull_resistance + appendage_resistance + correlation_allowance_resistance + air_resistance
     design_margin = subtotal * margin["design_margin_percent"] / 100
     total = subtotal + design_margin
     return {
         "appendage_mode": appendage_mode,
         "appendage_equivalent_wetted_area_form_factor_m2": equivalent_area,
         "frictional_resistance_n": rf,
-        "rf_form_resistance_n": None,
-        "form_resistance_n": None,
+        "rf_form_resistance_n": rf_form_resistance,
+        "form_resistance_n": rf_form_resistance,
         "appendage_resistance_n": appendage_resistance,
         "wave_resistance_n": None,
         "bulb_resistance_n": None,
         "transom_resistance_n": None,
-        "correlation_allowance_resistance_n": None,
-        "air_resistance_n": None,
+        "correlation_allowance_resistance_n": correlation_allowance_resistance,
+        "air_resistance_n": air_resistance,
         "implemented_resistance_subtotal_n": subtotal,
         "design_margin_resistance_n": design_margin,
         "total_resistance_n": total,
