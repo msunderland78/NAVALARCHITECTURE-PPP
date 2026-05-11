@@ -46,6 +46,7 @@ Version 1.0, May 10, 2026
 - Captured oracle comparison now has numeric modern values for every compared legacy report field.
 - Evaluation and JSON export include machine-readable engineering review status metadata.
 - Markdown report export includes speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
+- Point-count and legacy comparison tolerance validation now rejects boolean values instead of accepting Python's integer coercion.
 - Backend validation now rejects prismatic coefficient, LCB-derived factor, and half-angle values that would make the recovered Holtrop equations leave the real-number domain.
 - API routes now return controlled 400 responses for malformed JSON shapes and invalid UTF-8 request bodies.
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.

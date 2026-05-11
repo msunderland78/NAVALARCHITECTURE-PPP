@@ -95,6 +95,7 @@ Current status as of May 10, 2026:
 - Backend validation now rejects non-positive waterplane coefficient inputs, matching the browser constraints.
 - Backend point-count validation now matches the browser's 1 to 20 point limit.
 - Point-count validation now rejects fractional values instead of truncating them.
+- Point-count and legacy comparison tolerance validation now rejects boolean values instead of accepting Python's integer coercion.
 - Browser initial-speed constraints now match backend positive-speed validation.
 - Backend validation now requires the air-drag toggle to be a boolean.
 - Backend validation now rejects non-finite numeric inputs, including modeling dimensions, before formula evaluation.

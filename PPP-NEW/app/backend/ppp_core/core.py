@@ -147,6 +147,8 @@ def modeling_result(modeling, active_modeling):
 
 
 def validate_point_count(point_count):
+    if isinstance(point_count, bool):
+        raise ValueError("point_count must be an integer")
     try:
         numeric = float(point_count)
     except (TypeError, ValueError):

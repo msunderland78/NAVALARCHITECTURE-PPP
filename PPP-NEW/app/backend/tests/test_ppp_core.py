@@ -36,6 +36,8 @@ class PppCoreTest(unittest.TestCase):
 
         with self.assertRaisesRegex(ValueError, "point_count must be an integer"):
             evaluate_case(case, point_count=2.5)
+        with self.assertRaisesRegex(ValueError, "point_count must be an integer"):
+            evaluate_case(case, point_count=True)
 
     def test_estimated_sample_modern_result_fixture(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_estimated_import.json").read_text())
