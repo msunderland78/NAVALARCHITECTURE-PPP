@@ -33,6 +33,8 @@ Both Compose services use `restart: unless-stopped`.
 
 The backend image creates and runs as the unprivileged `ppp` user and disables Python bytecode writes in the runtime filesystem.
 
+The NGINX proxy limits request bodies to 10 MB, forwards standard proxy headers, applies 5 second connect and 30 second send/read timeouts, and returns `X-Content-Type-Options: nosniff` plus `Referrer-Policy: no-referrer`.
+
 ## Start
 
 ```sh

@@ -36,6 +36,16 @@ class DeploymentTest(unittest.TestCase):
 
         self.assertEqual(text.count("restart: unless-stopped"), 2)
 
+    def test_nginx_proxy_has_basic_hardening(self):
+        text = (APP / "nginx" / "default.conf").read_text()
+
+        self.assertIn("client_max_body_size 10m;", text)
+        self.assertIn("add_header X-Content-Type-Options nosniff always;", text)
+        self.assertIn("add_header Referrer-Policy no-referrer always;", text)
+        self.assertIn("proxy_connect_timeout 5s;", text)
+        self.assertIn("proxy_send_timeout 30s;", text)
+        self.assertIn("proxy_read_timeout 30s;", text)
+
 
 if __name__ == "__main__":
     unittest.main()

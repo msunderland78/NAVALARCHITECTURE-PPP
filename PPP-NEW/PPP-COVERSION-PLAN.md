@@ -57,6 +57,7 @@ Current status as of May 10, 2026:
 - The Docker image now copies only runtime backend modules and frontend assets.
 - The Docker backend image now runs as an unprivileged `ppp` user.
 - The Docker backend image now disables Python bytecode writes for the unprivileged runtime filesystem.
+- The NGINX proxy configuration now pins basic response hardening headers and proxy timeouts.
 - The browser summary now exposes derived hydrostatic terms needed for engineering review and printed reports.
 - API validation rejects invalid physical inputs before calculation and the browser displays returned errors in the status area.
 - Browser water-property presets update density and viscosity for salt water and fresh water at 15 C.
