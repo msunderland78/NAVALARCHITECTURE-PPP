@@ -69,6 +69,7 @@ Version 1.0, May 10, 2026
 - Fixture manifest distinguishing source, representative, modern baseline, and future oracle artifacts.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Reproducible legacy oracle runner records the exact Wine command and supports explicit Wine arguments.
+- Reproducible legacy oracle runner supports PTY-backed execution for legacy console programs that write to `CONOUT$`.
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
 - Legacy oracle sweep options now include alternate first-record ordering probes.
 - Legacy oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
@@ -76,6 +77,9 @@ Version 1.0, May 10, 2026
 - Legacy oracle sweep attempt summaries classify common Fortran runtime failure kinds.
 - Legacy oracle sweep CLI for JSON summaries and captured `OUT` artifacts from controlled probes.
 - Legacy oracle sweep CLI supports explicit Wine arguments for console-mode experiments.
+- Captured legacy `OUT` oracle for the normalized `PPPIN.PPP` sample.
+- Parsed captured oracle JSON fixture for the normalized sample.
+- Oracle-to-modern comparison baseline for the current partial implementation.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts, max absolute delta, and max relative delta summaries.
@@ -95,24 +99,23 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-64 tests OK
+70 tests OK
 ```
 
-Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now reaches a Wine/Fortran `CONOUT$` console output failure in `/tmp`, and future console experiments can be recorded with explicit `--wine-arg` values. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 
 - Full Holtrop and Mennen resistance components are not complete.
 - Current resistance totals are explicitly marked `partial_source_safe_components`.
 - Wave, form, bulb, transom, correlation allowance, air resistance, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
-- Legacy `OUT` oracle is not generated yet.
-- Legacy `OUT` parser and comparison diagnostics are ready, but no real legacy `OUT` fixture has been captured yet.
-- `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN`; the earlier candidate advanced from EOF to a Fortran `DOMAIN error`. Direct writer disassembly corrected the propeller/wetted-surface row, and the corrected candidate now fails at Wine/Fortran `CONOUT$` console handling instead of the prior numerical domain error. No real `OUT` has been captured yet.
+- The first captured legacy `OUT` oracle is available for the normalized sample only.
+- More oracle cases are needed before full formula equivalence can be trusted.
+- `PPPFTRN.EXE` requires PTY-backed Wine execution because plain piped execution fails at Fortran unit 6 `CONOUT$`.
 
 ## Next Best Work
 
-1. Resolve Wine/Fortran `CONOUT$` console handling for the corrected candidate `IN`.
-2. Generate a legacy `OUT` oracle from the supplied sample.
-3. Parse and compare `OUT` into golden regression fixtures.
-4. Implement Holtrop and Mennen component formulas against primary sources and oracle deltas.
-5. Run Docker smoke tests from a Docker-enabled account.
+1. Implement Holtrop and Mennen component formulas against primary sources and oracle deltas.
+2. Add more oracle cases once additional valid legacy inputs are available.
+3. Promote oracle comparison thresholds as modern formulas are implemented.
+4. Run Docker smoke tests from a Docker-enabled account.

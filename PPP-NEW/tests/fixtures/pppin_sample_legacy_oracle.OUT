@@ -1,0 +1,124 @@
+                 University of Michigan
+ Department of Naval Architecture and Marine Engineering
+ 
+  Power Prediction Program (PPP-1.8) by M. G. Parsons
+ 
+  Source:1. Holtrop,J., & Mennen, G.G.J., "An Approximate
+             Power Prediction Method," International Shipbuilding
+              Progress, Vol.29, No.335, July, 1982.
+         2. Holtrop,J., "A Statistical Reanalysis of
+             Resistance and Propulsion Data," International
+             Shipbuilding Progress, Vol.31, No.363, Nov., 1984.
+ 
+ Run Identification:  A
+ 
+ Input Verification:
+ 
+      Length of Waterline LWL (m)            =    212.00
+      Maximum Beam on LWL (m)                =     32.00
+      Depth at the Bow (m)                   =     21.00
+ 
+      Mean Draft (m)                         =     11.00
+      Draft Forward (m)                      =     11.00
+      Draft Aft (m)                          =     11.00
+ 
+      Block Coefficient on LWL CB            =    0.6000
+      Prismatic Coefficient on LWL CP        =    0.6122
+      Midship Coefficient to LWL CM=CX       =    0.9800
+      Waterplane Coefficient on LWL CWP      =    0.7500
+ 
+      Center of Buoyancy LCB (% LWL; + Fwd)  =   -0.7500
+      Center of Buoyancy LCB (m from FP)     =    107.59
+      Molded Volume (m^3)                    =   44774.4
+      Deck House/Cargo Frontal Area (m^2)    =    321.00
+ 
+      Water Type                             =  Input by User
+      Water Density (kg/m^3)                 =   1025.87
+      Kinematic Viscosity (m^2/s)            =   0.118831E-05
+ 
+      Appen. Drag (% Bare Hull Resistance)   =      5.00
+ 
+      Bulb Section Area at Station 0 (m^2)   =     21.00
+      Vertical Center of Bulb Area (m)       =      4.00
+ 
+      Transom Immersed Area (m^2)            =     16.00
+      Stern Type                             = Normally Shaped
+      Design Margin on RT,PE,REQ.THR (%)     =      5.00
+      Propulsion Type                        =  SS, Conv.
+ 
+      Propeller Diameter (m)                 =      8.00
+      Propeller Expanded Area Ratio Ae/Ao    =    0.8000
+ 
+      Wetted Surface (m^2)                   =   7890.00
+      Half Angle of Entrance (deg)           =     12.11
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                 University of Michigan
+ Department of Naval Architecture and Marine Engineering
+ 
+  Power Prediction Program (PPP-1.8) by M. G. Parsons
+ 
+  Source:1. Holtrop,J., & Mennen, G.G.J., "An Approximate
+             Power Prediction Method," International Shipbuilding
+              Progress, Vol.29, No.335, July, 1982.
+         2. Holtrop,J., "A Statistical Reanalysis of
+             Resistance and Propulsion Data," International
+             Shipbuilding Progress, Vol.31, No.363, Nov., 1984.
+ 
+ Run Identification:  A
+ 
+  Speed, Resistance Coefficients and Frictional Resistance RF(N):
+ 
+ V(kts)    V(m/s)      FN     SLRATIO     CF        CR        CA       RF
+ 
+ 15.00      7.72    0.1692    0.5688  0.001472  0.000441  0.000344  354648.6
+ 17.00      8.75    0.1918    0.6446  0.001450  0.000482  0.000344  448667.8
+ 19.00      9.77    0.2144    0.7204  0.001430  0.000575  0.000344  552994.6
+ 21.00     10.80    0.2369    0.7963  0.001413  0.000715  0.000344  667504.6
+ 23.00     11.83    0.2595    0.8721  0.001398  0.000941  0.000344  792088.1
+ 25.00     12.86    0.2821    0.9479  0.001384  0.001257  0.000344  926646.6
+ 27.00     13.89    0.3046    1.0238  0.001372  0.001454  0.000344 1071091.1
+ 29.00     14.92    0.3272    1.0996  0.001360  0.001604  0.000344 1225340.9
+ 
+  Remaining Resistance Components (N):
+ 
+          Form    Appendage   Wave       Bulb    Transom Correlation Air Drag
+ V(kts)   RF*K1      RAPP      RW         RB       RTR       RA       RAIR
+ 
+ 15.00   58103.7   23051.3   14254.6       0.5   34017.7   82849.1   14091.7
+ 17.00   73507.3   29900.8   43058.9       0.7   32781.2  106415.1   18100.0
+ 19.00   90599.7   38766.6  104421.2       0.8   27316.6  132926.8   22609.3
+ 21.00  109360.4   50270.3  211822.2       0.9   16717.9  162384.3   27619.7
+ 23.00  129771.5   66249.7  403053.8       1.0      78.7  194787.5   33131.1
+ 25.00  151816.9   88389.6  689328.3       1.1       0.0  230136.4   39143.5
+ 27.00  175481.9  110307.3  959572.3       1.2       0.0  268431.2   45657.0
+ 29.00  200753.3  133526.9 1244442.4       1.3       0.0  309671.6   52671.5
+ 
+  Resistance, Effective Power, Propulsion Factors and Required Thrust
+ 
+ V(kts)   RT(N)     PE(kW)      w        t     REQ.THR(N)    etaH      etaRR
+ 
+ 15.00  610068.1   4707.65  0.2440   0.1841     747752.3    1.0792    0.9916
+ 17.00  790053.2   6909.39  0.2436   0.1841     968357.6    1.0786    0.9916
+ 19.00 1018117.4   9951.45  0.2432   0.1841    1247892.8    1.0780    0.9916
+ 21.00 1307964.3  14130.25  0.2429   0.1841    1603154.3    1.0776    0.9916
+ 23.00 1700119.4  20116.02  0.2426   0.1841    2083813.5    1.0772    0.9916
+ 25.00 2231735.5  28702.35  0.2423   0.1841    2735408.3    1.0768    0.9916
+ 27.00 2762069.0  38364.81  0.2421   0.1841    3385431.0    1.0765    0.9916
+ 29.00 3324728.3  49600.82  0.2419   0.1841    4075074.8    1.0761    0.9916
+ 
+ 
+ Design Margin Has Been Included in RT, PE, and REQ.THR = RT/(1-t).
+ 

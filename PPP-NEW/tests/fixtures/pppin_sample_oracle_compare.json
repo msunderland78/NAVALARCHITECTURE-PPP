@@ -1,0 +1,1278 @@
+{
+  "legacy_program": "Power Prediction Program (PPP-1.8) by M. G. Parsons",
+  "legacy_calculation_completed": true,
+  "matched_speed_count": 8,
+  "unmatched_legacy_speeds": [],
+  "unmatched_modern_speeds": [],
+  "summary": {
+    "status_counts": {
+      "numeric_delta": 64,
+      "missing_modern": 104
+    },
+    "max_absolute_delta": {
+      "speed_knots": 29.0,
+      "field": "total_resistance_n",
+      "absolute_delta": 1973770.275890815
+    },
+    "max_relative_delta": {
+      "speed_knots": 29.0,
+      "field": "total_resistance_n",
+      "relative_delta": -0.5936636313682581,
+      "absolute_relative_delta": 0.5936636313682581
+    }
+  },
+  "comparisons": [
+    {
+      "speed_knots": 15.0,
+      "modern_speed_knots": 15.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 7.72,
+          "modern": 7.71666,
+          "delta": -0.0033399999999996766,
+          "absolute_delta": 0.0033399999999996766,
+          "relative_delta": -0.00043264248704659024,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.1692,
+          "modern": 0.16923925200101986,
+          "delta": 3.9252001019868255e-05,
+          "absolute_delta": 3.9252001019868255e-05,
+          "relative_delta": 0.00023198582163042706,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 0.5688,
+          "modern": 0.5687623106703097,
+          "delta": -3.768932969028249e-05,
+          "absolute_delta": 3.768932969028249e-05,
+          "relative_delta": -6.626112814747274e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.001472,
+          "modern": 0.001471656717746287,
+          "delta": -3.4328225371289475e-07,
+          "absolute_delta": 3.4328225371289475e-07,
+          "relative_delta": -0.0002332080527940861,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.000441,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 354648.6,
+          "modern": 354653.773723008,
+          "delta": 5.173723008017987,
+          "absolute_delta": 5.173723008017987,
+          "relative_delta": 1.4588307998446878e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 58103.7,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 23051.3,
+          "modern": 17732.688686150403,
+          "delta": -5318.611313849597,
+          "absolute_delta": 5318.611313849597,
+          "relative_delta": -0.2307293434144537,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 14254.6,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 0.5,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 34017.7,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 82849.1,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 14091.7,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 610068.1,
+          "modern": 391005.78552961635,
+          "delta": -219062.31447038363,
+          "absolute_delta": 219062.31447038363,
+          "relative_delta": -0.3590784610281764,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 4707.65,
+          "modern": 3017.258704964969,
+          "delta": -1690.3912950350305,
+          "absolute_delta": 1690.3912950350305,
+          "relative_delta": -0.35907327329666194,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.244,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 747752.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.0792,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    },
+    {
+      "speed_knots": 17.0,
+      "modern_speed_knots": 17.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 8.75,
+          "modern": 8.745548,
+          "delta": -0.004452000000000567,
+          "absolute_delta": 0.004452000000000567,
+          "relative_delta": -0.0005088000000000647,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.1918,
+          "modern": 0.19180448560115582,
+          "delta": 4.485601155818086e-06,
+          "absolute_delta": 4.485601155818086e-06,
+          "relative_delta": 2.3386867340031732e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 0.6446,
+          "modern": 0.644597285426351,
+          "delta": -2.714573648976426e-06,
+          "absolute_delta": 2.714573648976426e-06,
+          "relative_delta": -4.21125294597646e-06,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.00145,
+          "modern": 0.0014494986690413152,
+          "delta": -5.013309586846936e-07,
+          "absolute_delta": 5.013309586846936e-07,
+          "relative_delta": -0.0003457454887480646,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.000482,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 448667.8,
+          "modern": 448674.3204301622,
+          "delta": 6.520430162199773,
+          "absolute_delta": 6.520430162199773,
+          "relative_delta": 1.453286855486347e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 73507.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 29900.8,
+          "modern": 22433.71602150811,
+          "delta": -7467.08397849189,
+          "absolute_delta": 7467.08397849189,
+          "relative_delta": -0.24972856841595845,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 43058.9,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 0.7,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 32781.2,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 106415.1,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 18100.0,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 790053.2,
+          "modern": 494663.4382742538,
+          "delta": -295389.76172574615,
+          "absolute_delta": 295389.76172574615,
+          "relative_delta": -0.37388591265214316,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 6909.39,
+          "modern": 4326.102843272524,
+          "delta": -2583.287156727476,
+          "absolute_delta": 2583.287156727476,
+          "relative_delta": -0.37388064021968304,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.2436,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 968357.6,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.0786,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    },
+    {
+      "speed_knots": 19.0,
+      "modern_speed_knots": 19.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 9.77,
+          "modern": 9.774436,
+          "delta": 0.0044360000000001065,
+          "absolute_delta": 0.0044360000000001065,
+          "relative_delta": 0.00045404298874105495,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.2144,
+          "modern": 0.2143697192012918,
+          "delta": -3.0280798708204326e-05,
+          "absolute_delta": 3.0280798708204326e-05,
+          "relative_delta": -0.00014123506860169927,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 0.7204,
+          "modern": 0.7204322601823923,
+          "delta": 3.226018239221862e-05,
+          "absolute_delta": 3.226018239221862e-05,
+          "relative_delta": 4.4780930583312904e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.00143,
+          "modern": 0.0014302252968392075,
+          "delta": 2.252968392074759e-07,
+          "absolute_delta": 2.252968392074759e-07,
+          "relative_delta": 0.0001575502372080251,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.000575,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 552994.6,
+          "modern": 553002.6433113228,
+          "delta": 8.043311322806403,
+          "absolute_delta": 8.043311322806403,
+          "relative_delta": 1.454500879901251e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 90599.7,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 38766.6,
+          "modern": 27650.132165566138,
+          "delta": -11116.46783443386,
+          "absolute_delta": 11116.46783443386,
+          "relative_delta": -0.28675374767025896,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 104421.2,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 0.8,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 27316.6,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 132926.8,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 22609.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 1018117.4,
+          "modern": 609685.4142507333,
+          "delta": -408431.9857492667,
+          "absolute_delta": 408431.9857492667,
+          "relative_delta": -0.40116393821504936,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 9951.45,
+          "modern": 5959.331061727281,
+          "delta": -3992.11893827272,
+          "absolute_delta": 3992.11893827272,
+          "relative_delta": -0.40115952331295635,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.2432,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 1247892.8,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.078,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    },
+    {
+      "speed_knots": 21.0,
+      "modern_speed_knots": 21.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 10.8,
+          "modern": 10.803324,
+          "delta": 0.0033239999999992165,
+          "absolute_delta": 0.0033239999999992165,
+          "relative_delta": 0.0003077777777777052,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.2369,
+          "modern": 0.2369349528014278,
+          "delta": 3.4952801427790003e-05,
+          "absolute_delta": 3.4952801427790003e-05,
+          "relative_delta": 0.00014754242899024908,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 0.7963,
+          "modern": 0.7962672349384335,
+          "delta": -3.2765061566464304e-05,
+          "absolute_delta": 3.2765061566464304e-05,
+          "relative_delta": -4.114663012239646e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.001413,
+          "modern": 0.0014132093491407945,
+          "delta": 2.093491407945472e-07,
+          "absolute_delta": 2.093491407945472e-07,
+          "relative_delta": 0.00014815933531107375,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.000715,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 667504.6,
+          "modern": 667514.4036456319,
+          "delta": 9.8036456318805,
+          "absolute_delta": 9.8036456318805,
+          "relative_delta": 1.4687008347029368e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 109360.4,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 50270.3,
+          "modern": 33375.72018228159,
+          "delta": -16894.57981771841,
+          "absolute_delta": 16894.57981771841,
+          "relative_delta": -0.33607477611469216,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 211822.2,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 0.9,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 16717.9,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 162384.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 27619.7,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 1307964.3,
+          "modern": 735934.6300193091,
+          "delta": -572029.6699806909,
+          "absolute_delta": 572029.6699806909,
+          "relative_delta": -0.4373434886416173,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 14130.25,
+          "modern": 7950.540250918722,
+          "delta": -6179.709749081278,
+          "absolute_delta": 6179.709749081278,
+          "relative_delta": -0.4373390243683783,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.2429,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 1603154.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.0776,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    },
+    {
+      "speed_knots": 23.0,
+      "modern_speed_knots": 23.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 11.83,
+          "modern": 11.832212,
+          "delta": 0.0022120000000001028,
+          "absolute_delta": 0.0022120000000001028,
+          "relative_delta": 0.00018698224852071874,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.2595,
+          "modern": 0.2595001864015638,
+          "delta": 1.8640156379534645e-07,
+          "absolute_delta": 1.8640156379534645e-07,
+          "relative_delta": 7.183104577855354e-07,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 0.8721,
+          "modern": 0.8721022096944748,
+          "delta": 2.2096944748417613e-06,
+          "absolute_delta": 2.2096944748417613e-06,
+          "relative_delta": 2.533762727716731e-06,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.001398,
+          "modern": 0.0013980046342170975,
+          "delta": 4.634217097522139e-09,
+          "absolute_delta": 4.634217097522139e-09,
+          "relative_delta": 3.31489062769824e-06,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.000941,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 792088.1,
+          "modern": 792099.6713670464,
+          "delta": 11.57136704644654,
+          "absolute_delta": 11.57136704644654,
+          "relative_delta": 1.4608686895367498e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 129771.5,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 66249.7,
+          "modern": 39604.98356835232,
+          "delta": -26644.716431647677,
+          "absolute_delta": 26644.716431647677,
+          "relative_delta": -0.40218622018888656,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 403053.8,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 1.0,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 78.7,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 194787.5,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 33131.1,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 1700119.4,
+          "modern": 873289.8876821686,
+          "delta": -826829.5123178313,
+          "absolute_delta": 826829.5123178313,
+          "relative_delta": -0.48633614340135833,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 20116.02,
+          "modern": 10332.951088511609,
+          "delta": -9783.068911488392,
+          "absolute_delta": 9783.068911488392,
+          "relative_delta": -0.486332232294877,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.2426,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 2083813.5,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.0772,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    },
+    {
+      "speed_knots": 25.0,
+      "modern_speed_knots": 25.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 12.86,
+          "modern": 12.8611,
+          "delta": 0.001100000000000989,
+          "absolute_delta": 0.001100000000000989,
+          "relative_delta": 8.553654743398049e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.2821,
+          "modern": 0.28206542000169976,
+          "delta": -3.457999830025482e-05,
+          "absolute_delta": 3.457999830025482e-05,
+          "relative_delta": -0.00012258063913596177,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 0.9479,
+          "modern": 0.9479371844505161,
+          "delta": 3.718445051614783e-05,
+          "absolute_delta": 3.718445051614783e-05,
+          "relative_delta": 3.922824192018971e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.001384,
+          "modern": 0.0013842830140773073,
+          "delta": 2.830140773072559e-07,
+          "absolute_delta": 2.830140773072559e-07,
+          "relative_delta": 0.00020448994025090746,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.001257,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 926646.6,
+          "modern": 926660.0864089231,
+          "delta": 13.48640892317053,
+          "absolute_delta": 13.48640892317053,
+          "relative_delta": 1.4553993856094146e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 151816.9,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 88389.6,
+          "modern": 46333.00432044616,
+          "delta": -42056.595679553844,
+          "absolute_delta": 42056.595679553844,
+          "relative_delta": -0.47580932235866935,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 689328.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 1.1,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 0.0,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 230136.4,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 39143.5,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 2231735.5,
+          "modern": 1021642.7452658378,
+          "delta": -1210092.7547341622,
+          "absolute_delta": 1210092.7547341622,
+          "relative_delta": -0.5422205071945857,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 28702.35,
+          "modern": 13139.449511138468,
+          "delta": -15562.90048886153,
+          "absolute_delta": 15562.90048886153,
+          "relative_delta": -0.5422169435207058,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.2423,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 2735408.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.0768,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    },
+    {
+      "speed_knots": 27.0,
+      "modern_speed_knots": 27.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 13.89,
+          "modern": 13.889988,
+          "delta": -1.1999999999900979e-05,
+          "absolute_delta": 1.1999999999900979e-05,
+          "relative_delta": -8.639308855220286e-07,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.3046,
+          "modern": 0.3046306536018358,
+          "delta": 3.065360183579502e-05,
+          "absolute_delta": 3.065360183579502e-05,
+          "relative_delta": 0.00010063559368284643,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 1.0238,
+          "modern": 1.0237721592065574,
+          "delta": -2.7840793442646117e-05,
+          "absolute_delta": 2.7840793442646117e-05,
+          "relative_delta": -2.7193586093618007e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.001372,
+          "modern": 0.001371796487208214,
+          "delta": -2.0351279178586548e-07,
+          "absolute_delta": 2.0351279178586548e-07,
+          "relative_delta": -0.0001483329386194355,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.001454,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 1071091.1,
+          "modern": 1071106.7711167391,
+          "delta": 15.671116739045829,
+          "absolute_delta": 15.671116739045829,
+          "relative_delta": 1.4630983992907631e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 175481.9,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 110307.3,
+          "modern": 53555.338555836955,
+          "delta": -56751.96144416305,
+          "absolute_delta": 56751.96144416305,
+          "relative_delta": -0.5144896252937299,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 959572.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 1.2,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 0.0,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 268431.2,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 45657.0,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 2762069.0,
+          "modern": 1180895.215156205,
+          "delta": -1581173.784843795,
+          "absolute_delta": 1581173.784843795,
+          "relative_delta": -0.5724599149564312,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 38364.81,
+          "modern": 16402.620367777105,
+          "delta": -21962.189632222893,
+          "absolute_delta": 21962.189632222893,
+          "relative_delta": -0.5724566245010179,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.2421,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 3385431.0,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.0765,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    },
+    {
+      "speed_knots": 29.0,
+      "modern_speed_knots": 29.0,
+      "fields": [
+        {
+          "field": "speed_mps",
+          "legacy": 14.92,
+          "modern": 14.918876000000001,
+          "delta": -0.0011239999999990147,
+          "absolute_delta": 0.0011239999999990147,
+          "relative_delta": -7.53351206433656e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "froude_number",
+          "legacy": 0.3272,
+          "modern": 0.32719588720197174,
+          "delta": -4.112798028255149e-06,
+          "absolute_delta": 4.112798028255149e-06,
+          "relative_delta": -1.2569676125474172e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "speed_length_ratio",
+          "legacy": 1.0996,
+          "modern": 1.0996071339625988,
+          "delta": 7.133962598881993e-06,
+          "absolute_delta": 7.133962598881993e-06,
+          "relative_delta": 6.487779737069838e-06,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "friction_coefficient",
+          "legacy": 0.00136,
+          "modern": 0.0013603532897680367,
+          "delta": 3.53289768036634e-07,
+          "absolute_delta": 3.53289768036634e-07,
+          "relative_delta": 0.00025977188826223086,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "residual_resistance_coefficient",
+          "legacy": 0.001604,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_coefficient",
+          "legacy": 0.000344,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "frictional_resistance_n",
+          "legacy": 1225340.9,
+          "modern": 1225358.7520264715,
+          "delta": 17.852026471635327,
+          "absolute_delta": 17.852026471635327,
+          "relative_delta": 1.4569028481490602e-05,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "rf_form_resistance_n",
+          "legacy": 200753.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "appendage_resistance_n",
+          "legacy": 133526.9,
+          "modern": 61267.937601323574,
+          "delta": -72258.96239867642,
+          "absolute_delta": 72258.96239867642,
+          "relative_delta": -0.5411565939048718,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wave_resistance_n",
+          "legacy": 1244442.4,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "bulb_resistance_n",
+          "legacy": 1.3,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "transom_resistance_n",
+          "legacy": 0.0,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "correlation_allowance_resistance_n",
+          "legacy": 309671.6,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "air_resistance_n",
+          "legacy": 52671.5,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "total_resistance_n",
+          "legacy": 3324728.3,
+          "modern": 1350958.0241091847,
+          "delta": -1973770.275890815,
+          "absolute_delta": 1973770.275890815,
+          "relative_delta": -0.5936636313682581,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "effective_power_kw",
+          "legacy": 49600.82,
+          "modern": 20154.775242889937,
+          "delta": -29446.044757110063,
+          "absolute_delta": 29446.044757110063,
+          "relative_delta": -0.593660442652159,
+          "status": "numeric_delta"
+        },
+        {
+          "field": "wake_fraction",
+          "legacy": 0.2419,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "thrust_deduction",
+          "legacy": 0.1841,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "required_thrust_n",
+          "legacy": 4075074.8,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "hull_efficiency",
+          "legacy": 1.0761,
+          "modern": null,
+          "status": "missing_modern"
+        },
+        {
+          "field": "relative_rotative_efficiency",
+          "legacy": 0.9916,
+          "modern": null,
+          "status": "missing_modern"
+        }
+      ]
+    }
+  ],
+  "case_json": "PPP-NEW/tests/fixtures/pppin_sample_import.json",
+  "legacy_out": "PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT",
+  "passed": true,
+  "failures": []
+}

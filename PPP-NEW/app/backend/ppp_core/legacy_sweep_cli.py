@@ -16,6 +16,7 @@ def main(argv=None):
     parser.add_argument("--wine", default="wine")
     parser.add_argument("--wine-arg", action="append", default=[])
     parser.add_argument("--wineprefix")
+    parser.add_argument("--use-pty", action="store_true")
     parser.add_argument("--timeout-seconds", type=int, default=20)
     parser.add_argument("--keep-going", action="store_true")
     parser.add_argument("--stern-correction", action="append", type=int)
@@ -49,6 +50,7 @@ def main(argv=None):
         wine_args=args.wine_arg,
         timeout_seconds=args.timeout_seconds,
         wineprefix=args.wineprefix,
+        use_pty=args.use_pty,
         stop_on_out=not args.keep_going
     )
     result["case_json"] = str(Path(args.case_json))

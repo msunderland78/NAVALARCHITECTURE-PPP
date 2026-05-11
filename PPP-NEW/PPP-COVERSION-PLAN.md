@@ -68,6 +68,7 @@ Current status as of May 10, 2026:
 - The fixture manifest distinguishes source fixtures, representative text, modern baselines, and future captured oracle artifacts.
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - The legacy oracle runner records the exact Wine command and accepts explicit Wine arguments for console-mode experiments.
+- The legacy oracle runner supports PTY-backed execution, which resolves the Fortran unit 6 `CONOUT$` console-output blocker.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
 - Oracle sweep options now include alternate first-record ordering probes for the unresolved depth/draft layout.
 - Oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
@@ -75,6 +76,8 @@ Current status as of May 10, 2026:
 - Oracle sweep summaries now classify common Fortran runtime failures for faster triage.
 - A legacy oracle sweep CLI exists for repeatable JSON summaries and captured `OUT` artifacts from controlled probes.
 - The legacy oracle sweep CLI accepts explicit Wine arguments and carries the command into attempt summaries.
+- A real legacy `OUT` oracle has been captured for the normalized `PPPIN.PPP` sample.
+- Parsed oracle JSON and oracle-to-modern comparison fixtures now exist for the normalized sample.
 - A legacy `OUT` text parser exists for future oracle fixtures.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas, missing modern fields, status counts, max absolute delta, and max relative delta summaries.
@@ -84,7 +87,7 @@ Current status as of May 10, 2026:
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
-The next milestone is to resolve Wine/Fortran console handling for the corrected candidate `IN` and produce a real legacy `OUT` oracle, then implement source-derived Holtrop and Mennen components against the oracle comparison deltas.
+The next milestone is to implement source-derived Holtrop and Mennen components against the captured oracle comparison deltas, then broaden oracle coverage when more valid legacy inputs are available.
 
 ## Legacy File Inventory
 

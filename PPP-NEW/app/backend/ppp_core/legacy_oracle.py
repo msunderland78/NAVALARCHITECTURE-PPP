@@ -1,6 +1,12 @@
+import errno
 import os
+import pty
 import shutil
+import signal
+import select
 import subprocess
+import time
+import tty
 from pathlib import Path
 
 from .legacy_in import generate_candidate_legacy_in
@@ -26,25 +32,20 @@ def stage_oracle_run(case, legacy_exe_path, workdir, options=None):
     }
 
 
-def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None):
+def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None, use_pty=False):
     paths = stage_oracle_run(case, legacy_exe_path, workdir, options)
     command = [wine, *(wine_args or []), str(paths["exe"])]
     env = None
     if wineprefix:
         env = os.environ.copy()
         env["WINEPREFIX"] = str(wineprefix)
-    with paths["stdout"].open("wb") as stdout, paths["stderr"].open("wb") as stderr:
-        completed = subprocess.run(
-            command,
-            cwd=paths["workdir"],
-            stdout=stdout,
-            stderr=stderr,
-            timeout=timeout_seconds,
-            check=False,
-            env=env
-        )
+    if use_pty:
+        returncode, timed_out = run_command_pty(command, paths["workdir"], paths["stdout"], paths["stderr"], timeout_seconds, env)
+    else:
+        returncode, timed_out = run_command_piped(command, paths["workdir"], paths["stdout"], paths["stderr"], timeout_seconds, env)
     result = {
-        "returncode": completed.returncode,
+        "returncode": returncode,
+        "timed_out": timed_out,
         "command": [str(part) for part in command],
         "workdir": str(paths["workdir"]),
         "input": paths["input"].read_text(encoding="ascii"),
@@ -58,3 +59,87 @@ def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", wine_a
         result["out_text"] = paths["output"].read_text(encoding="utf-8", errors="replace")
         result["parsed_out"] = parse_legacy_out(result["out_text"], "OUT")
     return result
+
+
+def run_command_piped(command, workdir, stdout_path, stderr_path, timeout_seconds, env):
+    timed_out = False
+    with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
+        try:
+            completed = subprocess.run(
+                command,
+                cwd=workdir,
+                stdout=stdout,
+                stderr=stderr,
+                timeout=timeout_seconds,
+                check=False,
+                env=env
+            )
+            returncode = completed.returncode
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            returncode = None
+    return returncode, timed_out
+
+
+def run_command_pty(command, workdir, stdout_path, stderr_path, timeout_seconds, env):
+    output = bytearray()
+    deadline = time.monotonic() + timeout_seconds
+    sent_return = False
+    timed_out = False
+    status = None
+    pid, fd = pty.fork()
+    if pid == 0:
+        child_env = os.environ.copy() if env is None else env
+        os.chdir(workdir)
+        os.execvpe(command[0], command, child_env)
+    tty.setraw(fd)
+    try:
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                timed_out = True
+                os.kill(pid, signal.SIGKILL)
+                _, status = os.waitpid(pid, 0)
+                break
+            ready, _, _ = select.select([fd], [], [], min(0.1, remaining))
+            if ready:
+                chunk = read_pty_chunk(fd)
+                if chunk:
+                    output.extend(chunk)
+                    if not sent_return and b"Hit Return to Continue" in output:
+                        os.write(fd, b"\r")
+                        sent_return = True
+                else:
+                    break
+            waited_pid, waited_status = os.waitpid(pid, os.WNOHANG)
+            if waited_pid == pid:
+                status = waited_status
+                drain_pty(fd, output)
+                break
+        if status is None:
+            _, status = os.waitpid(pid, 0)
+    finally:
+        os.close(fd)
+    stdout_path.write_bytes(bytes(output))
+    stderr_path.write_bytes(b"")
+    return None if timed_out else os.waitstatus_to_exitcode(status), timed_out
+
+
+def read_pty_chunk(fd):
+    try:
+        return os.read(fd, 4096)
+    except OSError as error:
+        if error.errno == errno.EIO:
+            return b""
+        raise
+
+
+def drain_pty(fd, output):
+    while True:
+        ready, _, _ = select.select([fd], [], [], 0)
+        if not ready:
+            return
+        chunk = read_pty_chunk(fd)
+        if not chunk:
+            return
+        output.extend(chunk)

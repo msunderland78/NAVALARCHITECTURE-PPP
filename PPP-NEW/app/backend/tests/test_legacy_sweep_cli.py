@@ -60,6 +60,7 @@ class LegacySweepCliTest(unittest.TestCase):
             self.assertEqual(code, 0)
             self.assertEqual(result["attempt_count"], 2)
             self.assertEqual(result["out_count"], 1)
+            self.assertFalse(result["successful_attempts"][0]["timed_out"])
             self.assertEqual(result["successful_attempts"][0]["options"]["pitch_diameter_ratio"], 0.8)
             self.assertIn("--backend=curses", result["successful_attempts"][0]["command"])
             self.assertEqual(result["successful_attempts"][0]["options"]["first_record_order"], "drafts_before_depth")

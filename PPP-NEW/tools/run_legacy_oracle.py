@@ -19,6 +19,7 @@ def main():
     parser.add_argument("--wine", default="wine")
     parser.add_argument("--wine-arg", action="append", default=[])
     parser.add_argument("--wineprefix", default=None)
+    parser.add_argument("--use-pty", action="store_true")
     parser.add_argument("--timeout", type=int, default=20)
     parser.add_argument("--stern-correction", type=float, default=None)
     parser.add_argument("--pitch-diameter-ratio", type=float, default=None)
@@ -38,7 +39,8 @@ def main():
         wine=args.wine,
         wine_args=args.wine_arg,
         timeout_seconds=args.timeout,
-        wineprefix=args.wineprefix
+        wineprefix=args.wineprefix,
+        use_pty=args.use_pty
     )
     print(json.dumps(result, indent=2))
 

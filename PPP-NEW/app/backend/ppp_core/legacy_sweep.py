@@ -49,7 +49,7 @@ def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, wa
     ]
 
 
-def run_oracle_sweep(case, legacy_exe_path, workdir, option_sets=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None, stop_on_out=True):
+def run_oracle_sweep(case, legacy_exe_path, workdir, option_sets=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None, use_pty=False, stop_on_out=True):
     root = Path(workdir)
     root.mkdir(parents=True, exist_ok=True)
     attempts = []
@@ -62,7 +62,8 @@ def run_oracle_sweep(case, legacy_exe_path, workdir, option_sets=None, wine="win
             wine=wine,
             wine_args=wine_args,
             timeout_seconds=timeout_seconds,
-            wineprefix=wineprefix
+            wineprefix=wineprefix,
+            use_pty=use_pty
         )
         attempts.append(summarize_attempt(index, options, result))
         if stop_on_out and result["out_exists"]:
@@ -82,12 +83,13 @@ def summarize_attempt(index, options, result):
         "command": result["command"],
         "workdir": result["workdir"],
         "returncode": result["returncode"],
+        "timed_out": result["timed_out"],
         "out_exists": result["out_exists"],
         "calculation_completed": bool(result["parsed_out"] and result["parsed_out"].get("calculation_completed")),
         "input_sha256": sha256(result["input"].encode("ascii")).hexdigest(),
         "input_line_count": len(result["input"].splitlines()),
         "input_first_record": first_line(result["input"]),
-        "failure_kind": failure_kind(result["stderr"], result["stdout"]),
+        "failure_kind": "timeout" if result["timed_out"] else failure_kind(result["stderr"], result["stdout"]),
         "stderr_tail": tail_text(result["stderr"]),
         "stdout_tail": tail_text(result["stdout"])
     }

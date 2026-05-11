@@ -37,6 +37,17 @@ POWERING_COLUMNS = [
     "relative_rotative_efficiency"
 ]
 
+POWERING_COLUMNS_WITHOUT_MPS = [
+    "speed_knots",
+    "total_resistance_n",
+    "effective_power_kw",
+    "wake_fraction",
+    "thrust_deduction",
+    "required_thrust_n",
+    "hull_efficiency",
+    "relative_rotative_efficiency"
+]
+
 
 def parse_legacy_out(text, filename="OUT"):
     result = {
@@ -84,11 +95,15 @@ def parse_legacy_out(text, filename="OUT"):
             result["component_rows"].append(row_from_values(COMPONENT_COLUMNS, values))
         if section == "powering" and len(values) >= len(POWERING_COLUMNS):
             result["powering_rows"].append(row_from_values(POWERING_COLUMNS, values))
+        elif section == "powering" and len(values) >= len(POWERING_COLUMNS_WITHOUT_MPS):
+            result["powering_rows"].append(row_from_values(POWERING_COLUMNS_WITHOUT_MPS, values))
+    if result["powering_rows"]:
+        result["calculation_completed"] = True
     return result
 
 
 def parse_input_line(target, line):
-    label, raw_value = line.split("=", 1)
+    label, raw_value = line.rsplit("=", 1)
     key = normalize_label(label)
     numbers = numeric_values(raw_value)
     target[key] = {

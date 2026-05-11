@@ -70,7 +70,7 @@ No `OUT` was produced. The result indicates that the candidate text format and r
 
 A bounded 27-attempt sweep varied stern correction (`0`, `-10`, `10`), `P/Dp` (`0`, `0.8`, `1.0`), and water type code (`1`, `2`, `3`). Every attempt produced the same Fortran `DOMAIN error`; no `OUT` was captured. This reduces the likelihood that those simple values alone are the blocker.
 
-Direct writer disassembly later corrected the propeller/wetted-surface row from `Dp, wetted surface, half angle` to `wetted surface, half angle, Dp`. A single bounded Wine attempt with the corrected candidate did not reproduce the `DOMAIN error`; it failed earlier with a console output handle error:
+Direct writer disassembly later corrected the propeller/wetted-surface row from `Dp, wetted surface, half angle` to `wetted surface, half angle, Dp`. A single bounded piped Wine attempt with the corrected candidate did not reproduce the `DOMAIN error`; it failed with a console output handle error:
 
 ```text
 forrtl: severe (38): error during write, unit 6, file CONOUT$
@@ -78,13 +78,35 @@ forrtl: severe (38): error during write, unit 6, file CONOUT$
 
 No `OUT` was produced. This suggests the corrected numerical input may have moved past the prior domain failure, but Wine console handling now needs to be controlled before treating the result as a successful oracle run.
 
-Local `wineconsole --backend=curses` probes still fail before the Fortran engine completes in the current headless shell because Wine tries to create a display-backed window. Those probes are now reproducible through `--wine wineconsole --wine-arg=--backend=curses`, but they are not yet a working oracle path. The confirmed CLI probe returned code `2`, recorded command `wineconsole --backend=curses /tmp/ppp-oracle-console-repro/PPPFTRN.EXE`, and produced no `OUT`.
+Local `wineconsole --backend=curses` probes still fail before the Fortran engine completes in the current headless shell because Wine tries to create a display-backed window. Those probes are reproducible through `--wine wineconsole --wine-arg=--backend=curses`, but they are not the working oracle path. The confirmed CLI probe returned code `2`, recorded command `wineconsole --backend=curses /tmp/ppp-oracle-console-repro/PPPFTRN.EXE`, and produced no `OUT`.
+
+PTY-backed Wine execution resolves the `CONOUT$` blocker. The working command is:
+
+```sh
+python3 PPP-NEW/tools/run_legacy_oracle.py --exe PPP-OLD/PPPFTRN.EXE --workdir /tmp/ppp-oracle-pty-runner --wineprefix /home/sundema/.cache/ppp-wine/prefix --use-pty --timeout 10
+```
+
+Observed result:
+
+```text
+returncode: 0
+timed_out: false
+out_exists: true
+coefficient rows: 8
+component rows: 8
+powering rows: 8
+```
+
+Captured fixtures:
+
+- `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`
+- `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.out.json`
+- `PPP-NEW/tests/fixtures/pppin_sample_oracle_compare.json`
 
 ## Next Oracle Tasks
 
-1. Resolve Wine/Fortran console output handling for `CONOUT$`.
-2. Rerun the corrected candidate `IN` under a controlled console environment.
-3. If `OUT` is generated, capture only the plain text and parsed oracle fixture under `PPP-NEW/tests/fixtures/`.
-4. If `OUT` is still absent, continue static recovery of remaining unresolved `IN` fields.
+1. Implement source-derived Holtrop and Mennen formulas against the captured oracle deltas.
+2. Add more valid oracle cases when more legacy saved inputs are available.
+3. Keep using PTY-backed execution for future `PPPFTRN.EXE` captures.
 
 Do not add the legacy executables to `PPP-NEW` or git.

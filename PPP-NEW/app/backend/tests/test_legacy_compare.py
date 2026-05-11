@@ -39,6 +39,19 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(comparison["summary"]["max_absolute_delta"]["field"], "total_resistance_n")
         self.assertEqual(comparison["summary"]["max_relative_delta"]["field"], "effective_power_kw")
 
+    def test_compare_captured_oracle_fixture(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        oracle_out = (ROOT / "tests" / "fixtures" / "pppin_sample_legacy_oracle.OUT").read_text()
+        modern_result = evaluate_case(case, 8)
+        comparison = compare_legacy_out_to_result(parse_legacy_out(oracle_out), modern_result)
+
+        self.assertTrue(comparison["legacy_calculation_completed"])
+        self.assertEqual(comparison["matched_speed_count"], 8)
+        self.assertEqual(comparison["unmatched_legacy_speeds"], [])
+        self.assertEqual(comparison["unmatched_modern_speeds"], [])
+        self.assertEqual(comparison["summary"]["status_counts"]["numeric_delta"], 64)
+        self.assertEqual(comparison["summary"]["status_counts"]["missing_modern"], 104)
+
     def test_compare_reports_unmatched_speeds(self):
         modern_result = {"speeds": [{"speed_knots": 20.0, "speed_mps": 10.28888}]}
         comparison = compare_legacy_out_to_result(parse_legacy_out(sample_out()), modern_result)
