@@ -50,10 +50,11 @@ def candidate_option_sets(stern_corrections=None, pitch_diameter_ratios=None, wa
 
 
 def run_oracle_sweep(case, legacy_exe_path, workdir, option_sets=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None, use_pty=False, stop_on_out=True):
+    option_sets = validate_option_sets(option_sets)
     root = Path(workdir)
     root.mkdir(parents=True, exist_ok=True)
     attempts = []
-    for index, options in enumerate(option_sets or candidate_option_sets(), start=1):
+    for index, options in enumerate(option_sets, start=1):
         result = run_oracle(
             case,
             legacy_exe_path,
@@ -116,4 +117,19 @@ def clean_options(options):
 
 
 def defaulted(values, defaults):
-    return defaults if values is None else values
+    if values is None:
+        return defaults
+    if not isinstance(values, list):
+        raise ValueError("sweep option values must be lists")
+    return values
+
+
+def validate_option_sets(option_sets):
+    if option_sets is None:
+        return candidate_option_sets()
+    if not isinstance(option_sets, list):
+        raise ValueError("option_sets must be a list")
+    for options in option_sets:
+        if not isinstance(options, dict):
+            raise ValueError("option_sets entries must be objects")
+    return option_sets

@@ -76,6 +76,7 @@ Current status as of May 10, 2026:
 - The legacy oracle runner supports PTY-backed execution, which resolves the Fortran unit 6 `CONOUT$` console-output blocker.
 - Legacy oracle runner now validates positive finite timeout values before staging and launching Wine.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
+- Legacy oracle sweep helpers now validate option list shapes before creating attempt directories.
 - Oracle sweep options now include alternate first-record ordering probes for the unresolved depth/draft layout.
 - Oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
 - Oracle sweep summaries now record generated `IN` fingerprints and first records for repeatable failure analysis.

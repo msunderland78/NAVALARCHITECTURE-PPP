@@ -47,6 +47,10 @@ class LegacySweepTest(unittest.TestCase):
 
         self.assertEqual(options, [])
 
+    def test_candidate_option_sets_rejects_non_list_values(self):
+        with self.assertRaisesRegex(ValueError, "sweep option values must be lists"):
+            candidate_option_sets(stern_corrections=0)
+
     def test_run_oracle_sweep_with_fake_wine(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         option_sets = candidate_option_sets(stern_corrections=[0], pitch_diameter_ratios=[0, 0.8], water_type_codes=[1])
@@ -83,6 +87,18 @@ class LegacySweepTest(unittest.TestCase):
             result = run_oracle_sweep(case, fake_exe, temp / "sweep", option_sets, wine=str(fake_wine), timeout_seconds=5)
 
             self.assertEqual(result["attempts"][0]["failure_kind"], "domain_error")
+
+    def test_run_oracle_sweep_rejects_bad_option_sets_before_workdir(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            fake_exe = temp / "fake.exe"
+            fake_exe.write_bytes(b"legacy")
+            workdir = temp / "sweep"
+
+            with self.assertRaisesRegex(ValueError, "option_sets entries must be objects"):
+                run_oracle_sweep(case, fake_exe, workdir, ["bad"])
+            self.assertFalse(workdir.exists())
 
     def test_run_oracle_sweep_classifies_console_failure(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

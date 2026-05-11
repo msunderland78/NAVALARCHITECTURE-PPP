@@ -123,6 +123,7 @@ Version 1.0, May 10, 2026
 - Reproducible legacy oracle runner records the exact Wine command and supports explicit Wine arguments.
 - Reproducible legacy oracle runner supports PTY-backed execution for legacy console programs that write to `CONOUT$`.
 - Reusable legacy oracle option sweep helper for bounded `IN` format probes, including unresolved appendage fields.
+- Legacy oracle sweep helpers now validate option list shapes before creating attempt directories.
 - Legacy oracle sweep options now include alternate first-record ordering probes.
 - Legacy oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
 - Legacy oracle sweep attempt summaries now include generated `IN` SHA-256, line count, and first record.
@@ -153,7 +154,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-117 tests OK
+119 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
