@@ -1,6 +1,6 @@
 from .api import route
 from .core import evaluate_case
-from .export import speeds_to_csv
+from .export import result_to_markdown, speeds_to_csv
 from .legacy_compare import compare_legacy_out_to_result, merge_legacy_out_rows
 from .legacy_in import generate_candidate_legacy_in
 from .legacy_out import parse_legacy_out
@@ -21,5 +21,6 @@ __all__ = [
     "run_oracle_sweep",
     "stage_oracle_run",
     "candidate_option_sets",
+    "result_to_markdown",
     "speeds_to_csv"
 ]

@@ -27,6 +27,7 @@ def main(argv=None):
         check_text_contains("frontend engineering note", frontend, "engineering-note"),
         check_evaluate(base_url, case),
         check_estimated_evaluate(base_url, estimated_case),
+        check_report_export(base_url, case),
         check_legacy_in_export(base_url, estimated_case),
         check_out_compare(base_url, case, legacy_out)
     ]
@@ -65,6 +66,17 @@ def check_estimated_evaluate(base_url, case):
         "name": "evaluate estimated-mode sample",
         "passed": abs(modeling.get("wetted_surface_m2", 0) - 8074.589977924038) < 1e-9 and abs(modeling.get("half_angle_entrance_degrees", 0) - 12.503189765172571) < 1e-9,
         "details": modeling
+    }
+
+
+def check_report_export(base_url, case):
+    text = request_text(base_url, "POST", "/api/export/report.md", {"case": case, "point_count": 2})
+    return {
+        "name": "export markdown report",
+        "passed": "# Holtrop and Mennen Example" in text and "Calculation status: `partial_source_safe_components`" in text,
+        "details": {
+            "length": len(text)
+        }
     }
 
 

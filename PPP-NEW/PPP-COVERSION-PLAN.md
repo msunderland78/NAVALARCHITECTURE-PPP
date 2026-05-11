@@ -47,6 +47,7 @@ Current status as of May 10, 2026:
 - Modern case JSON save/load is available in the browser workspace as the replacement path for MFC `.PPP` saving.
 - Browser print/PDF output is available for the current report view.
 - Browser and printed reports include a preliminary engineering review status note tied to result status.
+- Markdown engineering report export is available for review packages and issue attachments.
 - Browser legacy `OUT` comparison upload is available for oracle delta review.
 - The browser summary now exposes derived hydrostatic terms needed for engineering review and printed reports.
 - API validation rejects invalid physical inputs before calculation and the browser displays returned errors in the status area.

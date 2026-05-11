@@ -150,6 +150,16 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(payload["engineering_review"]["status"], "partial_source_safe_components")
         self.assertAlmostEqual(payload["speeds"][0]["effective_power_kw"], 4707.562981184565)
 
+    def test_report_markdown_export_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/export/report.md", body)
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "text/markdown")
+        self.assertIn("# Holtrop and Mennen Example", payload)
+        self.assertIn("Calculation status: `partial_source_safe_components`", payload)
+
     def test_legacy_in_candidate_export_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         body = json.dumps({"case": case}).encode("utf-8")
@@ -224,6 +234,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn('min="0.01"', (FRONTEND / "index.html").read_text())
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())
         self.assertIn("case-json-button", (FRONTEND / "index.html").read_text())
+        self.assertIn("report-button", (FRONTEND / "index.html").read_text())
         self.assertIn("legacy-in-button", (FRONTEND / "index.html").read_text())
         self.assertIn("import-json-file", (FRONTEND / "index.html").read_text())
         self.assertIn("import-out-file", (FRONTEND / "index.html").read_text())
@@ -244,6 +255,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("required_thrust_n", (FRONTEND / "app.js").read_text())
         self.assertIn("RF*K1 N", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/export/legacy-in-candidate", (FRONTEND / "app.js").read_text())
+        self.assertIn("/api/export/report.md", (FRONTEND / "app.js").read_text())
         self.assertIn("buildLegacyOptions", (FRONTEND / "app.js").read_text())
         self.assertIn("propeller_record_order", (FRONTEND / "app.js").read_text())
         self.assertIn("legacySpeedTolerance", (FRONTEND / "app.js").read_text())

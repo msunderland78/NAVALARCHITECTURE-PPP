@@ -9,6 +9,7 @@ const oracle = document.getElementById("oracle");
 const caseJsonButton = document.getElementById("case-json-button");
 const csvButton = document.getElementById("csv-button");
 const jsonButton = document.getElementById("json-button");
+const reportButton = document.getElementById("report-button");
 const legacyInButton = document.getElementById("legacy-in-button");
 const printButton = document.getElementById("print-button");
 const importFile = document.getElementById("import-file");
@@ -70,6 +71,20 @@ jsonButton.addEventListener("click", async () => {
     return;
   }
   downloadText(JSON.stringify(payload, null, 2), "ppp-results.json", "application/json");
+});
+
+reportButton.addEventListener("click", async () => {
+  const response = await fetch("/api/export/report.md", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(buildPayload())
+  });
+  const text = await response.text();
+  if (!response.ok) {
+    statusBox.textContent = text || "Report export failed";
+    return;
+  }
+  downloadText(text, "ppp-engineering-report.md", "text/markdown");
 });
 
 legacyInButton.addEventListener("click", async () => {

@@ -32,6 +32,7 @@ Implemented:
 - Engineering review status note in browser and printed report output
 - Legacy applicability checks
 - CSV export for speed rows
+- Markdown engineering report export
 - Modern evaluation CLI for reproducible result fixture refreshes
 - Dependency-free HTTP routes
 - HTTP smoke CLI for deployed backend or NGINX route checks
@@ -104,9 +105,10 @@ Current routes:
 - `POST /api/evaluate`
 - `POST /api/export/csv`
 - `POST /api/export/json`
+- `POST /api/export/report.md`
 - `POST /api/export/legacy-in-candidate`
 - `POST /api/import/ppp`
 - `POST /api/import/out`
 - `POST /api/compare/out`
 
-The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, HTML min/max constraints aligned with backend validation, an engineering review status note, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, HTML min/max constraints aligned with backend validation, an engineering review status note, a speed table, a canvas plot, CSV/JSON/Markdown result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.

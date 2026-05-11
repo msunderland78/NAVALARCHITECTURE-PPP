@@ -2,7 +2,7 @@ import json
 import struct
 
 from .core import evaluate_case
-from .export import speeds_to_csv
+from .export import result_to_markdown, speeds_to_csv
 from .legacy_compare import compare_legacy_out_to_result
 from .legacy_in import generate_candidate_legacy_in
 from .legacy_out import parse_legacy_out
@@ -33,6 +33,13 @@ def json_export_response(body):
     point_count = payload.get("point_count", 1)
     case = payload["case"]
     return 200, "application/json", evaluate_case(case, point_count)
+
+
+def report_markdown_response(body):
+    payload = json.loads(body.decode("utf-8"))
+    point_count = payload.get("point_count", 1)
+    case = payload["case"]
+    return 200, "text/markdown", result_to_markdown(evaluate_case(case, point_count))
 
 
 def legacy_in_export_response(body):
@@ -76,6 +83,8 @@ def route(method, path, body=b""):
             return csv_response(body)
         if method == "POST" and path == "/api/export/json":
             return json_export_response(body)
+        if method == "POST" and path == "/api/export/report.md":
+            return report_markdown_response(body)
         if method == "POST" and path == "/api/export/legacy-in-candidate":
             return legacy_in_export_response(body)
         if method == "POST" and path == "/api/import/ppp":
