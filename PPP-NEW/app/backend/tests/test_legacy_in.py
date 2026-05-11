@@ -40,6 +40,16 @@ class LegacyInTest(unittest.TestCase):
         self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
         self.assertEqual(lines[5], "0.8 0.8 2")
 
+    def test_generate_candidate_legacy_in_rejects_bad_options_directly(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+
+        with self.assertRaisesRegex(ValueError, "options must be an object"):
+            generate_candidate_legacy_in(case, "bad")
+        with self.assertRaisesRegex(ValueError, "stern_correction must be a finite number"):
+            generate_candidate_legacy_in(case, {"stern_correction": True})
+        with self.assertRaisesRegex(ValueError, "pitch_diameter_ratio must be a finite number"):
+            generate_candidate_legacy_in(case, {"pitch_diameter_ratio": float("inf")})
+
     def test_generate_candidate_legacy_in_fresh_water_code(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["water"] = {

@@ -106,6 +106,7 @@ Current status as of May 10, 2026:
 - Legacy comparison option validation now lives in the comparison helper so API and CLI callers share the same checks.
 - Legacy `OUT` comparison now validates legacy and modern speed-row shapes before matching rows.
 - Legacy `IN` export now validates option object shape and finite numeric override values before generating candidate oracle input.
+- Legacy `IN` export option validation now lives in the candidate generator so API, CLI, and oracle paths share the same checks.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Browser CSV export now reports API validation failures instead of downloading an error response as a result file.
 - Browser JSON case import now reports malformed files instead of leaving an unhandled import failure.

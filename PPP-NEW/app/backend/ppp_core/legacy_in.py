@@ -1,3 +1,6 @@
+from math import isfinite
+
+
 PROPULSION_CODES = {
     "single_screw_conventional_stern": 1,
     "single_screw_open_flow_stern": 2,
@@ -29,7 +32,8 @@ PROPELLER_RECORD_ORDERS = {
 
 def generate_candidate_legacy_in(case, options=None):
     from .core import evaluate_case
-    options = options or {}
+    options = {} if options is None else options
+    validate_legacy_in_options(options)
     hull = case["hull"]
     features = case["features"]
     propulsion = case["propulsion"]
@@ -134,6 +138,23 @@ def water_code(value):
 
 def stern_correction(value):
     return STERN_CORRECTION_CANDIDATES.get(value, 0)
+
+
+def validate_legacy_in_options(options):
+    if not isinstance(options, dict):
+        raise ValueError("options must be an object")
+    numeric_options = [
+        "stern_correction",
+        "pitch_diameter_ratio",
+        "water_type_code",
+        "propulsion_type_code",
+        "appendage_primary_value",
+        "appendage_model_total"
+    ]
+    for name in numeric_options:
+        value = options.get(name)
+        if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value)):
+            raise ValueError(f"{name} must be a finite number")
 
 
 def format_legacy_number(value):
