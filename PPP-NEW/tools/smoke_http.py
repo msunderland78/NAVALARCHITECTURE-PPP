@@ -29,6 +29,8 @@ def main(argv=None):
         check_evaluate(base_url, case),
         check_air_drag_disabled(base_url, case),
         check_estimated_evaluate(base_url, estimated_case),
+        check_csv_export(base_url, case),
+        check_json_export(base_url, case),
         check_report_export(base_url, case),
         check_legacy_in_export(base_url, estimated_case),
         check_out_compare(base_url, case, legacy_out)
@@ -80,6 +82,29 @@ def check_air_drag_disabled(base_url, case):
         "passed": payload.get("speeds", [{}])[0].get("air_resistance_n") == 0.0,
         "details": {
             "air_resistance_n": payload.get("speeds", [{}])[0].get("air_resistance_n")
+        }
+    }
+
+
+def check_csv_export(base_url, case):
+    text = request_text(base_url, "POST", "/api/export/csv", {"case": case, "point_count": 2})
+    return {
+        "name": "export CSV results",
+        "passed": "speed_knots,speed_mps" in text and "610051.8852955248" in text,
+        "details": {
+            "length": len(text)
+        }
+    }
+
+
+def check_json_export(base_url, case):
+    payload = request_json(base_url, "POST", "/api/export/json", {"case": case, "point_count": 2})
+    return {
+        "name": "export JSON results",
+        "passed": payload.get("project", {}).get("run_id") == "Test 1.0" and len(payload.get("speeds", [])) == 2,
+        "details": {
+            "run_id": payload.get("project", {}).get("run_id"),
+            "speed_count": len(payload.get("speeds", []))
         }
     }
 
