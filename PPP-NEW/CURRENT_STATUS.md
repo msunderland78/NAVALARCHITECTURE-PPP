@@ -51,6 +51,7 @@ Version 1.0, May 10, 2026
 - API routes now return controlled 400 responses for malformed JSON shapes and invalid UTF-8 request bodies.
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.
 - Legacy `OUT` comparison now validates speed tolerance and field-list options before producing diagnostics.
+- Legacy comparison option validation now lives in the comparison helper so API and CLI callers share the same checks.
 - Legacy `IN` export now validates option object shape and finite numeric override values before generating candidate oracle input.
 - Browser CSV export now reports API validation failures instead of downloading an error response as a result file.
 - Browser JSON case import now reports malformed files instead of leaving an unhandled import failure.

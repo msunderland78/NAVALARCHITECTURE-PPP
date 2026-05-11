@@ -78,6 +78,25 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertIsNone(comparison["summary"]["max_absolute_delta"])
         self.assertIsNone(comparison["summary"]["max_relative_delta"])
 
+    def test_compare_rejects_bad_options_directly(self):
+        with self.assertRaisesRegex(ValueError, "speed_tolerance must be a non-negative finite number"):
+            compare_legacy_out_to_result(parse_legacy_out(sample_out()), {"speeds": []}, speed_tolerance=-1)
+        with self.assertRaisesRegex(ValueError, "fields must be a list of strings"):
+            compare_legacy_out_to_result(parse_legacy_out(sample_out()), {"speeds": []}, fields="frictional_resistance_n")
+
+    def test_compare_boolean_values_are_non_numeric(self):
+        modern_result = {
+            "speeds": [
+                {
+                    "speed_knots": 15.0,
+                    "frictional_resistance_n": True
+                }
+            ]
+        }
+        comparison = compare_legacy_out_to_result(parse_legacy_out(sample_out()), modern_result, ["frictional_resistance_n"])
+
+        self.assertEqual(comparison["comparisons"][0]["fields"][0]["status"], "non_numeric")
+
     def test_compare_out_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         body = json.dumps({

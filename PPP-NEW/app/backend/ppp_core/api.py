@@ -70,11 +70,7 @@ def compare_out_response(body):
     if modern_result is None:
         modern_result = evaluate_case(payload["case"], payload.get("point_count", DEFAULT_POINT_COUNT))
     speed_tolerance = payload.get("speed_tolerance", 1e-6)
-    if isinstance(speed_tolerance, bool) or not isinstance(speed_tolerance, (int, float)) or not isfinite(speed_tolerance) or speed_tolerance < 0:
-        raise ValueError("speed_tolerance must be a non-negative finite number")
     fields = payload.get("fields")
-    if fields is not None and (not isinstance(fields, list) or not all(isinstance(field, str) for field in fields)):
-        raise ValueError("fields must be a list of strings")
     return 200, "application/json", compare_legacy_out_to_result(
         parsed_out,
         modern_result,

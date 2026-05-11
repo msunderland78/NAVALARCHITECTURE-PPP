@@ -1,3 +1,6 @@
+from math import isfinite
+
+
 DEFAULT_COMPARE_FIELDS = [
     "speed_mps",
     "froude_number",
@@ -34,7 +37,7 @@ def merge_legacy_out_rows(parsed_out):
 
 
 def compare_legacy_out_to_result(parsed_out, modern_result, fields=None, speed_tolerance=1e-6):
-    compare_fields = fields or DEFAULT_COMPARE_FIELDS
+    compare_fields, speed_tolerance = validate_compare_options(fields, speed_tolerance)
     legacy_rows = merge_legacy_out_rows(parsed_out)
     modern_rows = modern_result.get("speeds", [])
     matches = []
@@ -86,6 +89,14 @@ def find_speed_match(speed, rows, tolerance, excluded_indexes):
     return best_index, best_row
 
 
+def validate_compare_options(fields, speed_tolerance):
+    if isinstance(speed_tolerance, bool) or not isinstance(speed_tolerance, (int, float)) or not isfinite(speed_tolerance) or speed_tolerance < 0:
+        raise ValueError("speed_tolerance must be a non-negative finite number")
+    if fields is not None and (not isinstance(fields, list) or not all(isinstance(field, str) for field in fields)):
+        raise ValueError("fields must be a list of strings")
+    return fields or DEFAULT_COMPARE_FIELDS, speed_tolerance
+
+
 def compare_fields_for_row(legacy_row, modern_row, fields):
     return [
         compare_field(field, legacy_row.get(field), modern_row.get(field))
@@ -108,7 +119,12 @@ def compare_field(field, legacy_value, modern_value):
     if modern_value is None:
         comparison["status"] = "missing_modern"
         return comparison
-    if not isinstance(legacy_value, (int, float)) or not isinstance(modern_value, (int, float)):
+    if (
+        isinstance(legacy_value, bool)
+        or isinstance(modern_value, bool)
+        or not isinstance(legacy_value, (int, float))
+        or not isinstance(modern_value, (int, float))
+    ):
         comparison["status"] = "non_numeric"
         return comparison
 
