@@ -113,6 +113,8 @@ def validate_speed_rows(result):
 
 def result_to_markdown(result, case=None):
     validate_report_result(result)
+    if case is not None:
+        validate_report_case(case)
     lines = [
         f"# {result['project']['name']}",
         "",
@@ -216,6 +218,36 @@ def validate_report_rows(result, name, columns, numeric_columns):
 def validate_report_number(value, field):
     if isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value):
         raise ValueError(f"{field} must be a finite number")
+
+
+def validate_report_case(case):
+    if not isinstance(case, dict):
+        raise ValueError("case must be an object")
+    for section in ["speed_sweep", "water", "propulsion", "appendages", "modeling", "margin"]:
+        if not isinstance(case.get(section), dict):
+            raise ValueError(f"case.{section} must be an object")
+    for field in ["initial_speed_knots", "speed_increment_knots"]:
+        if field not in case["speed_sweep"]:
+            raise ValueError(f"case.speed_sweep.{field} is required")
+        validate_report_number(case["speed_sweep"][field], f"case.speed_sweep.{field}")
+    for field in ["density_kg_m3", "kinematic_viscosity_m2_s"]:
+        if field not in case["water"]:
+            raise ValueError(f"case.water.{field} is required")
+        validate_report_number(case["water"][field], f"case.water.{field}")
+    for section, field in [
+        ("water", "type"),
+        ("propulsion", "type"),
+        ("appendages", "mode"),
+        ("modeling", "wetted_surface_mode"),
+        ("modeling", "half_angle_entrance_mode")
+    ]:
+        if not isinstance(case[section].get(field), str):
+            raise ValueError(f"case.{section}.{field} must be a string")
+    if not isinstance(case["modeling"].get("air_drag"), bool):
+        raise ValueError("case.modeling.air_drag must be boolean")
+    if "design_margin_percent" not in case["margin"]:
+        raise ValueError("case.margin.design_margin_percent is required")
+    validate_report_number(case["margin"]["design_margin_percent"], "case.margin.design_margin_percent")
 
 
 def input_summary_lines(case):

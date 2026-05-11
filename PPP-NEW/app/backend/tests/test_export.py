@@ -115,6 +115,26 @@ class ExportTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "result.speeds.effective_power_kw must be a finite number"):
             result_to_markdown(result)
 
+    def test_result_to_markdown_rejects_bad_case_summary_shape(self):
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        with self.assertRaisesRegex(ValueError, "case must be an object"):
+            result_to_markdown(result, [])
+        with self.assertRaisesRegex(ValueError, "case.speed_sweep must be an object"):
+            result_to_markdown(result, {})
+
+    def test_result_to_markdown_rejects_bad_case_summary_values(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        result = evaluate_case(case, point_count=1)
+        case["speed_sweep"]["initial_speed_knots"] = "fast"
+        with self.assertRaisesRegex(ValueError, "case.speed_sweep.initial_speed_knots must be a finite number"):
+            result_to_markdown(result, case)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        result = evaluate_case(case, point_count=1)
+        case["modeling"]["air_drag"] = "yes"
+        with self.assertRaisesRegex(ValueError, "case.modeling.air_drag must be boolean"):
+            result_to_markdown(result, case)
+
 
 if __name__ == "__main__":
     unittest.main()

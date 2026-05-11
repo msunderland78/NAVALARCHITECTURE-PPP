@@ -52,6 +52,7 @@ Current status as of May 10, 2026:
 - CSV result export now validates numeric speed-row values are finite before writing output.
 - Markdown report export now validates rendered result sections and row shapes before writing output.
 - Markdown report export now validates rendered numeric values are finite before formatting output.
+- Markdown report export now validates rendered case-summary values before formatting output.
 - Browser legacy `OUT` comparison upload is available for oracle delta review.
 - The Docker image now copies only runtime backend modules and frontend assets.
 - The browser summary now exposes derived hydrostatic terms needed for engineering review and printed reports.
