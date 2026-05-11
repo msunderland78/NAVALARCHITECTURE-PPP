@@ -156,6 +156,11 @@ class PppCoreTest(unittest.TestCase):
 
     def test_invalid_coefficients(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["waterplane_coefficient"] = 0
+        with self.assertRaisesRegex(ValueError, "hull.waterplane_coefficient must be positive"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["hull"]["block_coefficient"] = 1.1
         with self.assertRaisesRegex(ValueError, "hull.block_coefficient must be less than or equal to 1"):
             evaluate_case(case, point_count=1)

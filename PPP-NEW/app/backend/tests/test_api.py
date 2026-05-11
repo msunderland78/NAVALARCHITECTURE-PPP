@@ -77,6 +77,16 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["error"], "hull.block_coefficient must be less than or equal to 1")
 
+    def test_bad_waterplane_coefficient_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["waterplane_coefficient"] = 0
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "hull.waterplane_coefficient must be positive")
+
     def test_bad_propulsion_dimension_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["propulsion"]["expanded_area_ratio"] = -1

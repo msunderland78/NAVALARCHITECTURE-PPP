@@ -161,6 +161,7 @@ def validate_case(case):
         "hull.draft_aft_m": hull["draft_aft_m"],
         "hull.block_coefficient": hull["block_coefficient"],
         "hull.midship_coefficient": hull["midship_coefficient"],
+        "hull.waterplane_coefficient": hull["waterplane_coefficient"],
         "propulsion.propeller_diameter_m": propulsion["propeller_diameter_m"],
         "modeling.depth_at_bow_m": modeling["depth_at_bow_m"],
         "water.density_kg_m3": water["density_kg_m3"],
