@@ -49,6 +49,10 @@ class LegacyInTest(unittest.TestCase):
             generate_candidate_legacy_in(case, {"stern_correction": True})
         with self.assertRaisesRegex(ValueError, "pitch_diameter_ratio must be a finite number"):
             generate_candidate_legacy_in(case, {"pitch_diameter_ratio": float("inf")})
+        with self.assertRaisesRegex(ValueError, "first_record_order is not supported"):
+            generate_candidate_legacy_in(case, {"first_record_order": "bad"})
+        with self.assertRaisesRegex(ValueError, "propeller_record_order is not supported"):
+            generate_candidate_legacy_in(case, {"propeller_record_order": "bad"})
 
     def test_generate_candidate_legacy_in_fresh_water_code(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

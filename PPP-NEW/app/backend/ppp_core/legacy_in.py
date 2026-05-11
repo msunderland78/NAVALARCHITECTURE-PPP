@@ -143,6 +143,14 @@ def stern_correction(value):
 def validate_legacy_in_options(options):
     if not isinstance(options, dict):
         raise ValueError("options must be an object")
+    enum_options = {
+        "first_record_order": FIRST_RECORD_ORDERS,
+        "propeller_record_order": PROPELLER_RECORD_ORDERS
+    }
+    for name, supported_values in enum_options.items():
+        value = options.get(name)
+        if value is not None and value not in supported_values:
+            raise ValueError(f"{name} is not supported")
     numeric_options = [
         "stern_correction",
         "pitch_diameter_ratio",
