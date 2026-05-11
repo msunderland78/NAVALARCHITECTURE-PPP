@@ -239,6 +239,10 @@ class ApiTest(unittest.TestCase):
         self.assertIn("Calculation status: `partial_source_safe_components`", payload)
         self.assertIn("## Input Summary", payload)
         self.assertIn("| Water type | salt_water_15_c |", payload)
+        self.assertIn("| Propulsion type | single_screw_conventional_stern |", payload)
+        self.assertIn("| Appendage mode | percent_bare_hull_resistance |", payload)
+        self.assertIn("| Wetted surface mode | user |", payload)
+        self.assertIn("| Half angle mode | user |", payload)
 
     def test_legacy_in_candidate_export_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

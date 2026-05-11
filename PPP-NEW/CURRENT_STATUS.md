@@ -45,7 +45,7 @@ Version 1.0, May 10, 2026
   - LCB converted to meters and percent LWL from forward perpendicular
 - Captured oracle comparison now has numeric modern values for every compared legacy report field.
 - Evaluation and JSON export include machine-readable engineering review status metadata.
-- Markdown report export includes speed-sweep, water-property, air-drag, and margin input summary.
+- Markdown report export includes speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
 - Legacy applicability checks:
   - `Fn`
   - `B/T`

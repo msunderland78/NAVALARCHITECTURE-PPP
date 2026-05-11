@@ -113,7 +113,15 @@ def check_report_export(base_url, case):
     text = request_text(base_url, "POST", "/api/export/report.md", {"case": case, "point_count": 2})
     return {
         "name": "export markdown report",
-        "passed": "# Holtrop and Mennen Example" in text and "Calculation status: `partial_source_safe_components`" in text and "## Input Summary" in text,
+        "passed": (
+            "# Holtrop and Mennen Example" in text
+            and "Calculation status: `partial_source_safe_components`" in text
+            and "## Input Summary" in text
+            and "| Propulsion type | single_screw_conventional_stern |" in text
+            and "| Appendage mode | percent_bare_hull_resistance |" in text
+            and "| Wetted surface mode | user |" in text
+            and "| Half angle mode | user |" in text
+        ),
         "details": {
             "length": len(text)
         }
