@@ -166,6 +166,16 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(payload["error"], "derived prismatic_coefficient must be less than 1")
 
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["block_coefficient"] = 0.2
+        case["hull"]["midship_coefficient"] = 0.8
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "derived prismatic_coefficient must be greater than 0.25")
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["modeling"]["half_angle_entrance_degrees"] = 90
         body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
         status, content_type, payload = route("POST", "/api/evaluate", body)
@@ -173,6 +183,15 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 400)
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["error"], "modeling.half_angle_entrance_degrees must be less than 90")
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["lcb_percent_lwl_from_midships_forward_positive"] = -30
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "derived run length factor must be positive")
 
     def test_bad_appendage_area_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

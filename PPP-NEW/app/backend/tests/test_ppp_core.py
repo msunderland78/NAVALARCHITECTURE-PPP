@@ -212,6 +212,38 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "derived prismatic_coefficient must be less than 1"):
             evaluate_case(case, point_count=1)
 
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["block_coefficient"] = 0.2
+        case["hull"]["midship_coefficient"] = 0.8
+        with self.assertRaisesRegex(ValueError, "derived prismatic_coefficient must be greater than 0.25"):
+            evaluate_case(case, point_count=1)
+
+    def test_invalid_derived_formula_factors(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["lcb_percent_lwl_from_midships_forward_positive"] = -30
+        with self.assertRaisesRegex(ValueError, "derived run length factor must be positive"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["block_coefficient"] = 0.81
+        case["hull"]["midship_coefficient"] = 0.9
+        case["hull"]["lcb_percent_lwl_from_midships_forward_positive"] = -4.5
+        with self.assertRaisesRegex(ValueError, "derived thrust deduction factor must be positive"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["block_coefficient"] = 0.82
+        case["hull"]["midship_coefficient"] = 0.98
+        case["hull"]["lcb_percent_lwl_from_midships_forward_positive"] = -5
+        with self.assertRaisesRegex(ValueError, "derived wake fraction factor must be positive"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["lcb_percent_lwl_from_midships_forward_positive"] = 30
+        case["modeling"]["half_angle_entrance_mode"] = "estimated"
+        with self.assertRaisesRegex(ValueError, "derived estimated half angle factor must be positive"):
+            evaluate_case(case, point_count=1)
+
     def test_invalid_feature_and_modeling_dimensions(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["features"]["bulb_area_station_0_m2"] = -1

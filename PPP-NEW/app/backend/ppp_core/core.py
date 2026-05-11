@@ -206,8 +206,22 @@ def validate_case(case):
     for name, value in bounded.items():
         if value > 1:
             raise ValueError(f"{name} must be less than or equal to 1")
-    if hull["block_coefficient"] / hull["midship_coefficient"] >= 1:
+    cp = hull["block_coefficient"] / hull["midship_coefficient"]
+    lcb_percent = hull["lcb_percent_lwl_from_midships_forward_positive"]
+    if cp <= 0.25:
+        raise ValueError("derived prismatic_coefficient must be greater than 0.25")
+    if cp >= 1:
         raise ValueError("derived prismatic_coefficient must be less than 1")
+    lr_factor = 1 - cp + 0.06 * cp * lcb_percent / (4 * cp - 1)
+    if lr_factor <= 0:
+        raise ValueError("derived run length factor must be positive")
+    if 1 - cp + 0.0225 * lcb_percent <= 0:
+        raise ValueError("derived thrust deduction factor must be positive")
+    cp1 = 1.45 * cp - 0.315 - 0.0225 * lcb_percent
+    if 1 - cp1 <= 0:
+        raise ValueError("derived wake fraction factor must be positive")
+    if modeling.get("half_angle_entrance_mode", "user") == "estimated" and 1 - cp - 0.0225 * lcb_percent <= 0:
+        raise ValueError("derived estimated half angle factor must be positive")
     if modeling.get("half_angle_entrance_mode", "user") == "user" and modeling["half_angle_entrance_degrees"] >= 90:
         raise ValueError("modeling.half_angle_entrance_degrees must be less than 90")
     non_negative = {
