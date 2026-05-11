@@ -24,12 +24,18 @@ class ExportTest(unittest.TestCase):
     def test_result_to_markdown(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         result = evaluate_case(case, point_count=2)
-        text = result_to_markdown(result)
+        text = result_to_markdown(result, case)
 
         self.assertIn("# Holtrop and Mennen Example", text)
         self.assertIn("Run ID: Test 1.0", text)
         self.assertIn("## Engineering Review", text)
         self.assertIn("Calculation status: `partial_source_safe_components`", text)
+        self.assertIn("## Input Summary", text)
+        self.assertIn("| Initial speed, kn | 15.0000 |", text)
+        self.assertIn("| Speed increment, kn | 2.0000 |", text)
+        self.assertIn("| Water type | salt_water_15_c |", text)
+        self.assertIn("| Kinematic viscosity, m2/s | 1.18831e-06 |", text)
+        self.assertIn("| Air drag | yes |", text)
         self.assertIn("| V, kn | Fn | RT, kN | PE, kW | Required thrust, kN | Status |", text)
         self.assertIn("| 15.0000 | 0.1692 | 610.05 | 4707.56 | 747.73 | `partial_source_safe_components` |", text)
 

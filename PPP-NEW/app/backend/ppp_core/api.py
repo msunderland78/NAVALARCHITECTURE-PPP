@@ -39,7 +39,7 @@ def report_markdown_response(body):
     payload = json.loads(body.decode("utf-8"))
     point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
-    return 200, "text/markdown", result_to_markdown(evaluate_case(case, point_count))
+    return 200, "text/markdown", result_to_markdown(evaluate_case(case, point_count), case)
 
 
 def legacy_in_export_response(body):

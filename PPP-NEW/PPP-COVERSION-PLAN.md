@@ -95,6 +95,7 @@ Current status as of May 10, 2026:
 - Backend validation now rejects non-positive waterplane coefficient inputs, matching the browser constraints.
 - Backend point-count validation now matches the browser's 1 to 20 point limit.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
+- Markdown engineering report exports now include speed-sweep, water-property, air-drag, and margin input summary.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.

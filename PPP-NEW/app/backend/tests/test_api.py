@@ -198,6 +198,8 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "text/markdown")
         self.assertIn("# Holtrop and Mennen Example", payload)
         self.assertIn("Calculation status: `partial_source_safe_components`", payload)
+        self.assertIn("## Input Summary", payload)
+        self.assertIn("| Water type | salt_water_15_c |", payload)
 
     def test_legacy_in_candidate_export_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

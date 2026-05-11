@@ -44,7 +44,7 @@ def speeds_to_csv(result):
     return output.getvalue()
 
 
-def result_to_markdown(result):
+def result_to_markdown(result, case=None):
     lines = [
         f"# {result['project']['name']}",
         "",
@@ -56,6 +56,10 @@ def result_to_markdown(result):
         "",
         f"Calculation status: `{result['engineering_review']['status']}`",
         "",
+    ]
+    if case is not None:
+        lines.extend(input_summary_lines(case))
+    lines.extend([
         "## Derived Hull Summary",
         "",
         "| Item | Value |",
@@ -71,7 +75,7 @@ def result_to_markdown(result):
         "",
         "| Check | Value | Range | Status |",
         "|---|---:|---:|---|"
-    ]
+    ])
     for check in result["applicability"]:
         status = "OK" if check["ok"] else "Review"
         lines.append(f"| {check['label']} | {format_report_number(check['value'])} | {check['lower']} to {check['upper']} | {status} |")
@@ -94,7 +98,28 @@ def result_to_markdown(result):
     return "\n".join(lines) + "\n"
 
 
+def input_summary_lines(case):
+    return [
+        "## Input Summary",
+        "",
+        "| Item | Value |",
+        "|---|---:|",
+        f"| Initial speed, kn | {format_report_number(case['speed_sweep']['initial_speed_knots'])} |",
+        f"| Speed increment, kn | {format_report_number(case['speed_sweep']['speed_increment_knots'])} |",
+        f"| Water type | {case['water']['type']} |",
+        f"| Water density, kg/m3 | {format_report_number(case['water']['density_kg_m3'])} |",
+        f"| Kinematic viscosity, m2/s | {format_scientific(case['water']['kinematic_viscosity_m2_s'])} |",
+        f"| Air drag | {'yes' if case['modeling']['air_drag'] else 'no'} |",
+        f"| Design margin, percent | {format_report_number(case['margin']['design_margin_percent'])} |",
+        "",
+    ]
+
+
 def format_report_number(value):
     if abs(value) >= 100:
         return f"{value:.2f}"
     return f"{value:.4f}"
+
+
+def format_scientific(value):
+    return f"{value:.6g}"
