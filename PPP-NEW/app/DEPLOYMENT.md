@@ -57,7 +57,7 @@ Expected health response:
 {"status": "ok"}
 ```
 
-The smoke test checks the frontend, health route, sample evaluation, estimated modeling values, candidate legacy `IN` export, and captured legacy `OUT` comparison.
+The smoke test checks the frontend, health route, default eight-point evaluation, air-drag disabled evaluation, estimated modeling values, CSV export, JSON export, Markdown report export, candidate legacy `IN` export, and captured legacy `OUT` comparison.
 
 ## Stop
 

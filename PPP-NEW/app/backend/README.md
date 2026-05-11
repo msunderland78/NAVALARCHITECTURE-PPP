@@ -43,6 +43,10 @@ Implemented:
 - API validation for unsupported stern, propulsion, and water types
 - API validation for hull coefficients greater than 1
 - API validation for invalid feature, propulsion, and modeling dimensions
+- API validation for non-finite numeric inputs
+- API validation for non-boolean air-drag values
+- API validation for point count as an integer from 1 to 20
+- API validation for non-positive waterplane coefficient inputs
 
 Not yet implemented:
 
@@ -112,4 +116,4 @@ Current routes:
 - `POST /api/import/out`
 - `POST /api/compare/out`
 
-The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, HTML min/max constraints aligned with backend validation, an engineering review status note, a speed table, a canvas plot, CSV/JSON/Markdown result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, air-drag on/off modeling, HTML min/max constraints aligned with backend validation, an engineering review status note, a speed table, a canvas plot, CSV/JSON/Markdown result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.

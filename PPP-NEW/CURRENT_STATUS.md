@@ -59,6 +59,7 @@ Version 1.0, May 10, 2026
 - API validation rejects invalid feature, propulsion, and modeling dimensions.
 - API validation rejects non-boolean air-drag values.
 - API validation rejects non-finite numeric inputs.
+- Backend and deployment README files document current validation and HTTP smoke coverage.
 - API validation rejects duplicate multi-point speed sweeps caused by zero speed increment.
 - API point-count validation is capped at the same 20-point maximum exposed by the browser.
 - API point-count validation rejects fractional values instead of truncating them.
