@@ -175,6 +175,7 @@ def validate_case(case):
         "water.kinematic_viscosity_m2_s": water["kinematic_viscosity_m2_s"],
         "speed_sweep.initial_speed_knots": speed_sweep["initial_speed_knots"]
     }
+    validate_finite_values(positive)
     for name, value in positive.items():
         if value <= 0:
             raise ValueError(f"{name} must be positive")
@@ -189,6 +190,7 @@ def validate_case(case):
         "hull.midship_coefficient": hull["midship_coefficient"],
         "hull.waterplane_coefficient": hull["waterplane_coefficient"]
     }
+    validate_finite_values(bounded)
     for name, value in bounded.items():
         if value > 1:
             raise ValueError(f"{name} must be less than or equal to 1")
@@ -198,12 +200,24 @@ def validate_case(case):
         "features.transom_immersed_area_zero_speed_m2": features["transom_immersed_area_zero_speed_m2"],
         "modeling.deckhouse_cargo_frontal_area_m2": modeling["deckhouse_cargo_frontal_area_m2"]
     }
+    validate_finite_values(non_negative)
     for name, value in non_negative.items():
         if value < 0:
             raise ValueError(f"{name} must be non-negative")
+    optional_numeric = {
+        "hull.lcb_percent_lwl_from_midships_forward_positive": hull["lcb_percent_lwl_from_midships_forward_positive"],
+        "propulsion.expanded_area_ratio": propulsion["expanded_area_ratio"],
+        "speed_sweep.speed_increment_knots": speed_sweep["speed_increment_knots"],
+        "appendages.percent_bare_hull_resistance": appendages.get("percent_bare_hull_resistance", 0),
+        "appendages.equivalent_wetted_area_form_factor_m2": appendages.get("equivalent_wetted_area_form_factor_m2") or 0,
+        "margin.design_margin_percent": margin["design_margin_percent"]
+    }
+    pitch_diameter_ratio = propulsion.get("pitch_diameter_ratio")
+    if pitch_diameter_ratio is not None:
+        optional_numeric["propulsion.pitch_diameter_ratio"] = pitch_diameter_ratio
+    validate_finite_values(optional_numeric)
     if propulsion["expanded_area_ratio"] < 0 or propulsion["expanded_area_ratio"] > 1:
         raise ValueError("propulsion.expanded_area_ratio must be between 0 and 1")
-    pitch_diameter_ratio = propulsion.get("pitch_diameter_ratio")
     if pitch_diameter_ratio is not None and pitch_diameter_ratio < 0:
         raise ValueError("propulsion.pitch_diameter_ratio must be non-negative")
     if speed_sweep["speed_increment_knots"] < 0:
@@ -227,6 +241,12 @@ def validate_case(case):
         raise ValueError("appendages.equivalent_wetted_area_form_factor_m2 must be non-negative")
     if margin["design_margin_percent"] < 0:
         raise ValueError("margin.design_margin_percent must be non-negative")
+
+
+def validate_finite_values(values):
+    for name, value in values.items():
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value):
+            raise ValueError(f"{name} must be finite")
 
 
 def validate_speed_sweep(speed_sweep, point_count):

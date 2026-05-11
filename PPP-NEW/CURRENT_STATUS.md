@@ -58,6 +58,7 @@ Version 1.0, May 10, 2026
 - API validation rejects non-positive waterplane coefficient inputs.
 - API validation rejects invalid feature, propulsion, and modeling dimensions.
 - API validation rejects non-boolean air-drag values.
+- API validation rejects non-finite numeric inputs.
 - API validation rejects duplicate multi-point speed sweeps caused by zero speed increment.
 - API point-count validation is capped at the same 20-point maximum exposed by the browser.
 - API point-count validation rejects fractional values instead of truncating them.
@@ -134,7 +135,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-96 tests OK
+98 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

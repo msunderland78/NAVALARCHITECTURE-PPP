@@ -223,6 +223,13 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "modeling.half_angle_entrance_degrees must be positive"):
             evaluate_case(case, point_count=1)
 
+    def test_numeric_inputs_must_be_finite(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["water"]["density_kg_m3"] = float("nan")
+
+        with self.assertRaisesRegex(ValueError, "water.density_kg_m3 must be finite"):
+            evaluate_case(case, point_count=1)
+
     def test_invalid_propulsion_dimensions(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["propulsion"]["propeller_diameter_m"] = 0
