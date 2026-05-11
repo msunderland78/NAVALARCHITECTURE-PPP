@@ -31,6 +31,10 @@ MODELING_MODES = {
     "user",
     "estimated"
 }
+ENGINEERING_REVIEW_NOTE = (
+    "Preliminary resistance and powering estimate. Use with naval architect review and "
+    "project-specific validation before design, procurement, or operational decisions."
+)
 
 
 def evaluate_case(case, point_count=1):
@@ -95,8 +99,18 @@ def evaluate_case(case, point_count=1):
         "project": case["project"],
         "derived": derived,
         "modeling": modeling_result(modeling, active_modeling),
+        "engineering_review": engineering_review(speeds),
         "applicability": applicability(case, derived, speeds),
         "speeds": speeds
+    }
+
+
+def engineering_review(speeds):
+    statuses = sorted(set(speed["resistance_status"] for speed in speeds if speed.get("resistance_status")))
+    return {
+        "statuses": statuses,
+        "status": ", ".join(statuses) if statuses else "not reported",
+        "note": ENGINEERING_REVIEW_NOTE
     }
 
 

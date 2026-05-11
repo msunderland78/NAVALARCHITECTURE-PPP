@@ -147,6 +147,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["project"]["run_id"], "Test 1.0")
+        self.assertEqual(payload["engineering_review"]["status"], "partial_source_safe_components")
         self.assertAlmostEqual(payload["speeds"][0]["effective_power_kw"], 4707.562981184565)
 
     def test_legacy_in_candidate_export_route(self):

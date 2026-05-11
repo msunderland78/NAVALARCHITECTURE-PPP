@@ -361,11 +361,12 @@ function metric(label, value) {
 }
 
 function renderEngineeringNote(result) {
-  const statuses = [...new Set(result.speeds.map(row => row.resistance_status).filter(Boolean))];
-  const statusText = statuses.length > 0 ? statuses.join(", ") : "not reported";
+  const review = result.engineering_review || {};
+  const statusText = review.status || "not reported";
+  const note = review.note || "Preliminary resistance and powering estimate. Use with naval architect review and project-specific validation before design, procurement, or operational decisions.";
   engineeringNote.innerHTML = `
     <strong>Engineering review status</strong>
-    <span>Preliminary resistance and powering estimate. Current calculation status: ${statusText}. Use with naval architect review and project-specific validation before design, procurement, or operational decisions.</span>
+    <span>${note} Current calculation status: ${statusText}.</span>
   `;
 }
 

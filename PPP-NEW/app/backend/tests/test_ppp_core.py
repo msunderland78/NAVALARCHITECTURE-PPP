@@ -38,6 +38,8 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(result["modeling"]["wetted_surface_m2"], 7890.0)
         self.assertEqual(result["modeling"]["half_angle_entrance_mode"], "user")
         self.assertAlmostEqual(result["modeling"]["half_angle_entrance_degrees"], 12.11)
+        self.assertEqual(result["engineering_review"]["status"], "partial_source_safe_components")
+        self.assertIn("Preliminary resistance and powering estimate", result["engineering_review"]["note"])
 
     def test_sample_case_speed_terms(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

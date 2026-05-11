@@ -43,6 +43,7 @@ Version 1.0, May 10, 2026
   - Estimated half angle of entrance
   - LCB converted to meters and percent LWL from forward perpendicular
 - Captured oracle comparison now has numeric modern values for every compared legacy report field.
+- Evaluation and JSON export include machine-readable engineering review status metadata.
 - Legacy applicability checks:
   - `Fn`
   - `B/T`
