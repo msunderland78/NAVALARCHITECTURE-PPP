@@ -94,6 +94,7 @@ Current status as of May 10, 2026:
 - Fresh-water preset behavior now has pinned numeric regression terms for core resistance and powering outputs.
 - Backend validation now rejects non-positive waterplane coefficient inputs, matching the browser constraints.
 - Backend point-count validation now matches the browser's 1 to 20 point limit.
+- Point-count validation now rejects fractional values instead of truncating them.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Markdown engineering report exports now include speed-sweep, water-property, air-drag, and margin input summary.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.

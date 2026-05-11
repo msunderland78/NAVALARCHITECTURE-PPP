@@ -1,4 +1,4 @@
-from math import cos, exp, log10, sqrt
+from math import cos, exp, isfinite, log10, sqrt
 
 
 KNOT_TO_MPS = 0.514444
@@ -140,7 +140,13 @@ def modeling_result(modeling, active_modeling):
 
 
 def validate_point_count(point_count):
-    value = int(point_count)
+    try:
+        numeric = float(point_count)
+    except (TypeError, ValueError):
+        raise ValueError("point_count must be an integer")
+    if not isfinite(numeric) or numeric != int(numeric):
+        raise ValueError("point_count must be an integer")
+    value = int(numeric)
     if value < 1 or value > MAX_POINT_COUNT:
         raise ValueError("point_count must be between 1 and 20")
     return value
