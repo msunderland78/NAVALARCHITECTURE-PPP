@@ -67,4 +67,4 @@ python3 PPP-NEW/tools/smoke_http.py --base-url http://127.0.0.1:8080
 
 ## Current Scope
 
-The current app imports the observed legacy `.PPP` sample layout, evaluates the captured PPP resistance and propulsion workflow, reports applicability checks, displays tables and a plot, exports CSV/JSON/Markdown reports, exports candidate legacy `IN`, and compares legacy `OUT` reports. User and estimated wetted-surface and half-angle modes are supported.
+The current app imports the observed legacy `.PPP` sample layout, evaluates the captured PPP resistance and propulsion workflow, reports applicability checks, displays tables and a plot, exports CSV/JSON/Markdown reports, exports candidate legacy `IN`, and compares legacy `OUT` reports. User and estimated wetted-surface and half-angle modes are supported. The Docker image copies only the runtime backend modules and frontend assets.

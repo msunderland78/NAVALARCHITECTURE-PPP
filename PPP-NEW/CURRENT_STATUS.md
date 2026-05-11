@@ -76,6 +76,7 @@ Version 1.0, May 10, 2026
   - Letter-size print/PDF layout
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
+- Docker image copies only runtime backend modules and frontend assets.
 - Ubuntu/Docker Compose deployment guide for the NGINX container path.
 - HTTP smoke CLI for backend or NGINX route verification.
 - Automated HTTP smoke regression covering backend routes, frontend static serving, legacy export, and legacy `OUT` comparison.
@@ -122,7 +123,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-80 tests OK
+82 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

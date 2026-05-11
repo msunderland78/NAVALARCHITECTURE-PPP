@@ -49,6 +49,7 @@ Current status as of May 10, 2026:
 - Browser and printed reports include a preliminary engineering review status note tied to result status.
 - Markdown engineering report export is available for review packages and issue attachments.
 - Browser legacy `OUT` comparison upload is available for oracle delta review.
+- The Docker image now copies only runtime backend modules and frontend assets.
 - The browser summary now exposes derived hydrostatic terms needed for engineering review and printed reports.
 - API validation rejects invalid physical inputs before calculation and the browser displays returned errors in the status area.
 - Browser water-property presets update density and viscosity for salt water and fresh water at 15 C.
