@@ -31,13 +31,14 @@ MODELING_MODES = {
     "user",
     "estimated"
 }
+DEFAULT_POINT_COUNT = 8
 ENGINEERING_REVIEW_NOTE = (
     "Preliminary resistance and powering estimate. Use with naval architect review and "
     "project-specific validation before design, procurement, or operational decisions."
 )
 
 
-def evaluate_case(case, point_count=1):
+def evaluate_case(case, point_count=DEFAULT_POINT_COUNT):
     point_count = validate_point_count(point_count)
     validate_case(case)
     validate_speed_sweep(case["speed_sweep"], point_count)

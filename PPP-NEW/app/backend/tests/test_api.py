@@ -28,6 +28,16 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(len(payload["speeds"]), 2)
         self.assertAlmostEqual(payload["speeds"][0]["total_resistance_n"], 610051.8852955248)
 
+    def test_evaluate_route_defaults_to_legacy_eight_speed_run(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        body = json.dumps({"case": case}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(len(payload["speeds"]), 8)
+        self.assertAlmostEqual(payload["speeds"][-1]["speed_knots"], 29.0)
+
     def test_bad_evaluate_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["hull"]["lwl_m"] = 0
@@ -234,6 +244,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn('min="0.01"', (FRONTEND / "index.html").read_text())
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())
         self.assertIn("case-json-button", (FRONTEND / "index.html").read_text())
+        self.assertIn('name="point_count" type="number" min="1" max="20" step="1" value="8"', (FRONTEND / "index.html").read_text())
         self.assertIn("report-button", (FRONTEND / "index.html").read_text())
         self.assertIn("legacy-in-button", (FRONTEND / "index.html").read_text())
         self.assertIn("import-json-file", (FRONTEND / "index.html").read_text())

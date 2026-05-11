@@ -55,6 +55,7 @@ Version 1.0, May 10, 2026
 - API validation rejects hull coefficients greater than 1.
 - API validation rejects invalid feature, propulsion, and modeling dimensions.
 - API validation rejects duplicate multi-point speed sweeps caused by zero speed increment.
+- Default API, CLI, and browser speed-run point count is eight to match PPP 1.8 behavior.
 - Browser workspace with:
   - Editable sample case
   - Water-property presets
@@ -123,7 +124,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-82 tests OK
+84 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

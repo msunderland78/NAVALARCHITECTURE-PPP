@@ -1,7 +1,7 @@
 import json
 import struct
 
-from .core import evaluate_case
+from .core import DEFAULT_POINT_COUNT, evaluate_case
 from .export import result_to_markdown, speeds_to_csv
 from .legacy_compare import compare_legacy_out_to_result
 from .legacy_in import generate_candidate_legacy_in
@@ -15,14 +15,14 @@ def health_response():
 
 def evaluate_response(body):
     payload = json.loads(body.decode("utf-8"))
-    point_count = payload.get("point_count", 1)
+    point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     return 200, "application/json", evaluate_case(case, point_count)
 
 
 def csv_response(body):
     payload = json.loads(body.decode("utf-8"))
-    point_count = payload.get("point_count", 1)
+    point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     result = evaluate_case(case, point_count)
     return 200, "text/csv", speeds_to_csv(result)
@@ -30,14 +30,14 @@ def csv_response(body):
 
 def json_export_response(body):
     payload = json.loads(body.decode("utf-8"))
-    point_count = payload.get("point_count", 1)
+    point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     return 200, "application/json", evaluate_case(case, point_count)
 
 
 def report_markdown_response(body):
     payload = json.loads(body.decode("utf-8"))
-    point_count = payload.get("point_count", 1)
+    point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     return 200, "text/markdown", result_to_markdown(evaluate_case(case, point_count))
 
@@ -64,7 +64,7 @@ def compare_out_response(body):
         parsed_out = parse_legacy_out(payload["legacy_out_text"], payload.get("legacy_filename", "upload.OUT"))
     modern_result = payload.get("modern_result")
     if modern_result is None:
-        modern_result = evaluate_case(payload["case"], payload.get("point_count", 1))
+        modern_result = evaluate_case(payload["case"], payload.get("point_count", DEFAULT_POINT_COUNT))
     return 200, "application/json", compare_legacy_out_to_result(
         parsed_out,
         modern_result,

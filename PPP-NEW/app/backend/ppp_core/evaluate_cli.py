@@ -3,13 +3,13 @@ import json
 import sys
 from pathlib import Path
 
-from .core import evaluate_case
+from .core import DEFAULT_POINT_COUNT, evaluate_case
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("case_json")
-    parser.add_argument("--point-count", type=int, default=1)
+    parser.add_argument("--point-count", type=int, default=DEFAULT_POINT_COUNT)
     parser.add_argument("--output")
     args = parser.parse_args(argv)
 

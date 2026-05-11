@@ -704,6 +704,7 @@ These questions should be answered before declaring the app complete:
 ## Resolved Questions
 
 - PPP runs eight speed points from initial speed and speed increment. This is confirmed by `470Manuals.pdf` and by the captured user-mode and estimated-mode oracle fixtures.
+- The modern API, CLI, and browser default point count is eight to preserve that behavior unless the user explicitly overrides it.
 
 ## Maintenance Rules
 

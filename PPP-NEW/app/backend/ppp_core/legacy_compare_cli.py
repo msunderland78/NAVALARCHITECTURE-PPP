@@ -3,7 +3,7 @@ import json
 import sys
 from pathlib import Path
 
-from .core import evaluate_case
+from .core import DEFAULT_POINT_COUNT, evaluate_case
 from .legacy_compare import compare_legacy_out_to_result
 from .legacy_out import parse_legacy_out
 
@@ -12,7 +12,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("case_json")
     parser.add_argument("legacy_out")
-    parser.add_argument("--point-count", type=int, default=1)
+    parser.add_argument("--point-count", type=int, default=DEFAULT_POINT_COUNT)
     parser.add_argument("--field", action="append")
     parser.add_argument("--output")
     parser.add_argument("--speed-tolerance", type=float, default=1e-6)

@@ -20,6 +20,7 @@ Implemented:
 - Minimal OLE Compound Document stream extraction
 - Hull derivations
 - Speed sweep terms
+- Default eight-point speed runs matching PPP 1.8 behavior
 - Displacement volume and mass
 - LCB in meters and percent LWL from forward perpendicular
 - ITTC-1957 friction coefficient

@@ -25,6 +25,7 @@ def main(argv=None):
         check_json("health", request_json(base_url, "GET", "/health"), {"status": "ok"}),
         check_text_contains("frontend", frontend, "case-form"),
         check_text_contains("frontend engineering note", frontend, "engineering-note"),
+        check_text_contains("frontend eight-point default", frontend, 'name="point_count" type="number" min="1" max="20" step="1" value="8"'),
         check_evaluate(base_url, case),
         check_estimated_evaluate(base_url, estimated_case),
         check_report_export(base_url, case),

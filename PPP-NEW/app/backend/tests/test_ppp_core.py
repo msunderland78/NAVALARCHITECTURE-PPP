@@ -16,6 +16,13 @@ class PppCoreTest(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
+    def test_default_point_count_is_legacy_eight_speed_run(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        result = evaluate_case(case)
+
+        self.assertEqual(len(result["speeds"]), 8)
+        self.assertAlmostEqual(result["speeds"][-1]["speed_knots"], 29.0)
+
     def test_estimated_sample_modern_result_fixture(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_estimated_import.json").read_text())
         expected = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_estimated_modern_result.json").read_text())
