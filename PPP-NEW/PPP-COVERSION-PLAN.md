@@ -102,6 +102,7 @@ Current status as of May 10, 2026:
 - API routes now return controlled 400 responses for malformed JSON shapes and invalid UTF-8 request bodies.
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.
 - Legacy `OUT` comparison now validates speed tolerance and field-list options before producing diagnostics.
+- Legacy `IN` export now validates option object shape and finite numeric override values before generating candidate oracle input.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Browser CSV export now reports API validation failures instead of downloading an error response as a result file.
 - Browser JSON case import now reports malformed files instead of leaving an unhandled import failure.

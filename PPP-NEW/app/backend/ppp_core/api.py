@@ -47,6 +47,9 @@ def legacy_in_export_response(body):
     payload = json.loads(body.decode("utf-8"))
     case = payload["case"]
     options = payload.get("options", {})
+    if not isinstance(options, dict):
+        raise ValueError("options must be an object")
+    validate_legacy_in_options(options)
     return 200, "text/plain", generate_candidate_legacy_in(case, options)
 
 
@@ -78,6 +81,21 @@ def compare_out_response(body):
         fields,
         speed_tolerance
     )
+
+
+def validate_legacy_in_options(options):
+    numeric_options = [
+        "stern_correction",
+        "pitch_diameter_ratio",
+        "water_type_code",
+        "propulsion_type_code",
+        "appendage_primary_value",
+        "appendage_model_total"
+    ]
+    for name in numeric_options:
+        value = options.get(name)
+        if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value)):
+            raise ValueError(f"{name} must be a finite number")
 
 
 def route(method, path, body=b""):

@@ -327,6 +327,27 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
         self.assertEqual(lines[5], "0.8 0.8 2")
 
+    def test_legacy_in_candidate_export_route_rejects_bad_options(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        body = json.dumps({"case": case, "options": []}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/export/legacy-in-candidate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "options must be an object")
+
+        body = json.dumps({
+            "case": case,
+            "options": {
+                "water_type_code": "2"
+            }
+        }).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/export/legacy-in-candidate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "water_type_code must be a finite number")
+
     def test_import_route(self):
         status, content_type, payload = route("POST", "/api/import/ppp", sample_ole_document())
 
