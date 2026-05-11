@@ -34,6 +34,7 @@ Implemented:
 - Modern evaluation CLI for reproducible result fixture refreshes
 - Dependency-free HTTP routes
 - HTTP smoke CLI for deployed backend or NGINX route checks
+- Automated HTTP smoke regression for the backend route surface
 - API validation for invalid physical inputs
 - API validation for supported user and estimated wetted-surface and half-angle modes
 - API validation for unsupported stern, propulsion, and water types

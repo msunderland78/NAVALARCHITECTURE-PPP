@@ -74,6 +74,7 @@ Version 1.0, May 10, 2026
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
 - HTTP smoke CLI for backend or NGINX route verification.
+- Automated HTTP smoke regression covering backend routes, frontend static serving, legacy export, and legacy `OUT` comparison.
 - Static notes for the legacy temporary `IN` writer.
 - Candidate legacy `IN` generator for controlled oracle experiments, including active estimated modeling values.
 - Candidate legacy `IN` CLI for terminal-based oracle experiments.
@@ -116,10 +117,10 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-75 tests OK
+76 tests OK
 ```
 
-Local HTTP smoke testing passes with `PPP-NEW/tools/smoke_http.py` for `/health`, `/`, `/api/evaluate`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 

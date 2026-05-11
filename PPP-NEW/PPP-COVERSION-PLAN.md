@@ -653,7 +653,7 @@ Exit criteria:
 
 ### Phase 6: Container Deployment
 
-Status: started; config validated; runtime smoke pending Docker socket access.
+Status: started; config validated; backend HTTP smoke automated; runtime Docker smoke pending Docker socket access.
 
 Deliverables:
 
