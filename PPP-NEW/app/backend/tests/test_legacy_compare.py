@@ -84,6 +84,14 @@ class LegacyCompareTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "fields must be a list of strings"):
             compare_legacy_out_to_result(parse_legacy_out(sample_out()), {"speeds": []}, fields="frictional_resistance_n")
 
+    def test_compare_rejects_bad_row_shapes_directly(self):
+        with self.assertRaisesRegex(ValueError, "component_rows.speed_knots must be finite"):
+            compare_legacy_out_to_result({"component_rows": [{"speed_knots": "fast"}]}, {"speeds": []})
+        with self.assertRaisesRegex(ValueError, "modern_result.speeds must be a list"):
+            compare_legacy_out_to_result(parse_legacy_out(sample_out()), {"speeds": "bad"})
+        with self.assertRaisesRegex(ValueError, "modern_result.speeds.speed_knots must be finite"):
+            compare_legacy_out_to_result(parse_legacy_out(sample_out()), {"speeds": [{"speed_knots": True}]})
+
     def test_compare_boolean_values_are_non_numeric(self):
         modern_result = {
             "speeds": [

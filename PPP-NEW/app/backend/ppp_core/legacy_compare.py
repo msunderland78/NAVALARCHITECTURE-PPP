@@ -27,10 +27,15 @@ DEFAULT_COMPARE_FIELDS = [
 
 
 def merge_legacy_out_rows(parsed_out):
+    if not isinstance(parsed_out, dict):
+        raise ValueError("parsed_out must be an object")
     rows_by_speed = {}
     for table_name in ["coefficient_rows", "component_rows", "powering_rows"]:
-        for source_row in parsed_out.get(table_name, []):
-            speed = source_row["speed_knots"]
+        table_rows = parsed_out.get(table_name, [])
+        if not isinstance(table_rows, list):
+            raise ValueError(f"{table_name} must be a list")
+        for source_row in table_rows:
+            speed = speed_from_row(source_row, table_name)
             target_row = rows_by_speed.setdefault(speed, {"speed_knots": speed})
             target_row.update(source_row)
     return [rows_by_speed[speed] for speed in sorted(rows_by_speed)]
@@ -39,25 +44,26 @@ def merge_legacy_out_rows(parsed_out):
 def compare_legacy_out_to_result(parsed_out, modern_result, fields=None, speed_tolerance=1e-6):
     compare_fields, speed_tolerance = validate_compare_options(fields, speed_tolerance)
     legacy_rows = merge_legacy_out_rows(parsed_out)
-    modern_rows = modern_result.get("speeds", [])
+    modern_rows = validate_modern_rows(modern_result)
     matches = []
     unmatched_legacy = []
     matched_modern_indexes = set()
 
     for legacy_row in legacy_rows:
-        match_index, modern_row = find_speed_match(legacy_row["speed_knots"], modern_rows, speed_tolerance, matched_modern_indexes)
+        speed = speed_from_row(legacy_row, "legacy_rows")
+        match_index, modern_row = find_speed_match(speed, modern_rows, speed_tolerance, matched_modern_indexes)
         if modern_row is None:
-            unmatched_legacy.append(legacy_row["speed_knots"])
+            unmatched_legacy.append(speed)
             continue
         matched_modern_indexes.add(match_index)
         matches.append({
-            "speed_knots": legacy_row["speed_knots"],
-            "modern_speed_knots": modern_row["speed_knots"],
+            "speed_knots": speed,
+            "modern_speed_knots": speed_from_row(modern_row, "modern_result.speeds"),
             "fields": compare_fields_for_row(legacy_row, modern_row, compare_fields)
         })
 
     unmatched_modern = [
-        row["speed_knots"]
+        speed_from_row(row, "modern_result.speeds")
         for index, row in enumerate(modern_rows)
         if index not in matched_modern_indexes
     ]
@@ -75,18 +81,40 @@ def compare_legacy_out_to_result(parsed_out, modern_result, fields=None, speed_t
 
 
 def find_speed_match(speed, rows, tolerance, excluded_indexes):
+    speed = validate_speed(speed, "legacy_rows.speed_knots")
     best_index = None
     best_row = None
     best_delta = None
     for index, row in enumerate(rows):
         if index in excluded_indexes:
             continue
-        delta = abs(row["speed_knots"] - speed)
+        delta = abs(speed_from_row(row, "modern_result.speeds") - speed)
         if delta <= tolerance and (best_delta is None or delta < best_delta):
             best_index = index
             best_row = row
             best_delta = delta
     return best_index, best_row
+
+
+def validate_modern_rows(modern_result):
+    if not isinstance(modern_result, dict):
+        raise ValueError("modern_result must be an object")
+    modern_rows = modern_result.get("speeds", [])
+    if not isinstance(modern_rows, list):
+        raise ValueError("modern_result.speeds must be a list")
+    return modern_rows
+
+
+def speed_from_row(row, source):
+    if not isinstance(row, dict):
+        raise ValueError(f"{source} row must be an object")
+    return validate_speed(row.get("speed_knots"), f"{source}.speed_knots")
+
+
+def validate_speed(speed, source):
+    if isinstance(speed, bool) or not isinstance(speed, (int, float)) or not isfinite(speed):
+        raise ValueError(f"{source} must be finite")
+    return speed
 
 
 def validate_compare_options(fields, speed_tolerance):

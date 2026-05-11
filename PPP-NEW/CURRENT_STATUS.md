@@ -52,6 +52,7 @@ Version 1.0, May 10, 2026
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.
 - Legacy `OUT` comparison now validates speed tolerance and field-list options before producing diagnostics.
 - Legacy comparison option validation now lives in the comparison helper so API and CLI callers share the same checks.
+- Legacy `OUT` comparison now validates legacy and modern speed-row shapes before matching rows.
 - Legacy `IN` export now validates option object shape and finite numeric override values before generating candidate oracle input.
 - Browser CSV export now reports API validation failures instead of downloading an error response as a result file.
 - Browser JSON case import now reports malformed files instead of leaving an unhandled import failure.
@@ -148,7 +149,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-99 tests OK
+112 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
