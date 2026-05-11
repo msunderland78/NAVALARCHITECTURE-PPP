@@ -56,6 +56,18 @@ class LegacyOracleTest(unittest.TestCase):
             self.assertEqual(result["command"], [str(fake_wine), "--backend=curses", str(temp / "work" / "PPPFTRN.EXE")])
             self.assertIn("--backend=curses", result["stdout"])
 
+    def test_run_oracle_rejects_bad_timeout(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            fake_exe = temp / "fake.exe"
+            fake_exe.write_bytes(b"legacy")
+
+            with self.assertRaisesRegex(ValueError, "timeout_seconds must be a positive finite number"):
+                run_oracle(case, fake_exe, temp / "work", timeout_seconds=0)
+            with self.assertRaisesRegex(ValueError, "timeout_seconds must be a positive finite number"):
+                run_oracle(case, fake_exe, temp / "work", timeout_seconds=True)
+
     def test_run_oracle_captures_timeout(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         with tempfile.TemporaryDirectory() as temp:

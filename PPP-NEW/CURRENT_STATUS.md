@@ -112,6 +112,7 @@ Version 1.0, May 10, 2026
 - Candidate legacy `IN` generator regression covers open-flow and twin-screw propulsion type code mapping.
 - Candidate legacy `IN` CLI for terminal-based oracle experiments.
 - Candidate legacy `IN` matrix CLI for dry-run option audits without Wine.
+- Legacy oracle runner now validates positive finite timeout values before staging and launching Wine.
 - Candidate legacy `IN` propeller/wetted-surface record order corrected from direct writer disassembly.
 - Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Pinned current modern sample result fixture for regression baselining.
@@ -152,7 +153,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-116 tests OK
+117 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

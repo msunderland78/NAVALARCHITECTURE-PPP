@@ -7,6 +7,7 @@ import select
 import subprocess
 import time
 import tty
+from math import isfinite
 from pathlib import Path
 
 from .legacy_in import generate_candidate_legacy_in
@@ -33,6 +34,7 @@ def stage_oracle_run(case, legacy_exe_path, workdir, options=None):
 
 
 def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", wine_args=None, timeout_seconds=20, wineprefix=None, use_pty=False):
+    timeout_seconds = validate_timeout_seconds(timeout_seconds)
     paths = stage_oracle_run(case, legacy_exe_path, workdir, options)
     command = [wine, *(wine_args or []), str(paths["exe"])]
     env = None
@@ -59,6 +61,12 @@ def run_oracle(case, legacy_exe_path, workdir, options=None, wine="wine", wine_a
         result["out_text"] = paths["output"].read_text(encoding="utf-8", errors="replace")
         result["parsed_out"] = parse_legacy_out(result["out_text"], "OUT")
     return result
+
+
+def validate_timeout_seconds(timeout_seconds):
+    if isinstance(timeout_seconds, bool) or not isinstance(timeout_seconds, (int, float)) or not isfinite(timeout_seconds) or timeout_seconds <= 0:
+        raise ValueError("timeout_seconds must be a positive finite number")
+    return timeout_seconds
 
 
 def run_command_piped(command, workdir, stdout_path, stderr_path, timeout_seconds, env):

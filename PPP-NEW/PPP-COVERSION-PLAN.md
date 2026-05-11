@@ -74,6 +74,7 @@ Current status as of May 10, 2026:
 - A legacy oracle runner exists for isolated `/tmp` Wine runs with captured stdout, stderr, and optional parsed `OUT`.
 - The legacy oracle runner records the exact Wine command and accepts explicit Wine arguments for console-mode experiments.
 - The legacy oracle runner supports PTY-backed execution, which resolves the Fortran unit 6 `CONOUT$` console-output blocker.
+- Legacy oracle runner now validates positive finite timeout values before staging and launching Wine.
 - A reusable oracle option sweep helper exists for bounded `IN` format probes without hand-managed temp directories, including unresolved appendage fields around the current oracle blocker.
 - Oracle sweep options now include alternate first-record ordering probes for the unresolved depth/draft layout.
 - Oracle sweep options now include alternate propeller/wetted-surface record ordering probes.
