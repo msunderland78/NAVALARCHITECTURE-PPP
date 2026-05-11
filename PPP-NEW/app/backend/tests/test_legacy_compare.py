@@ -116,6 +116,29 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(payload["unmatched_legacy_speeds"], [17.0])
         self.assertEqual(payload["unmatched_modern_speeds"], [])
 
+    def test_compare_out_route_rejects_bad_options(self):
+        body = json.dumps({
+            "modern_result": {"speeds": []},
+            "legacy_out_text": sample_out(),
+            "speed_tolerance": -1
+        }).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/compare/out", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "speed_tolerance must be a non-negative finite number")
+
+        body = json.dumps({
+            "modern_result": {"speeds": []},
+            "legacy_out_text": sample_out(),
+            "fields": "frictional_resistance_n"
+        }).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/compare/out", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "fields must be a list of strings")
+
 
 if __name__ == "__main__":
     unittest.main()

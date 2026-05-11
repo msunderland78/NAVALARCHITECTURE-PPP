@@ -49,6 +49,7 @@ Version 1.0, May 10, 2026
 - Backend validation now rejects prismatic coefficient, LCB-derived factor, and half-angle values that would make the recovered Holtrop equations leave the real-number domain.
 - API routes now return controlled 400 responses for malformed JSON shapes and invalid UTF-8 request bodies.
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.
+- Legacy `OUT` comparison now validates speed tolerance and field-list options before producing diagnostics.
 - Browser CSV export now reports API validation failures instead of downloading an error response as a result file.
 - Browser JSON case import now reports malformed files instead of leaving an unhandled import failure.
 - Non-conventional propulsion selections now surface an engineering warning because recovered wake, thrust-deduction, and relative-rotative-efficiency equations are still pinned to the captured single-screw conventional-stern workflow.
