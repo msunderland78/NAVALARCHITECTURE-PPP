@@ -106,6 +106,7 @@ Current status as of May 10, 2026:
 - Markdown engineering report exports now include speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
 - Non-conventional propulsion selections now surface an engineering warning because recovered wake, thrust-deduction, and relative-rotative-efficiency equations are still pinned to the captured single-screw conventional-stern workflow.
 - The dependency-free HTTP server strips query strings before route and static asset matching for reverse-proxy and cache-busted requests.
+- Compose services now use `restart: unless-stopped` for basic host reboot and transient process recovery.
 - Fresh-water preset legacy `IN` export is pinned to water code `2`.
 - Open-flow and twin-screw legacy `IN` export paths are pinned to propulsion type codes `2` and `3`.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.

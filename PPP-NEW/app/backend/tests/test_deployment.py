@@ -20,6 +20,11 @@ class DeploymentTest(unittest.TestCase):
 
         self.assertIn("backend/tests/", text)
 
+    def test_compose_services_use_restart_policy(self):
+        text = (APP / "docker-compose.yml").read_text()
+
+        self.assertEqual(text.count("restart: unless-stopped"), 2)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -52,6 +52,7 @@ Version 1.0, May 10, 2026
 - Browser JSON case import now reports malformed files instead of leaving an unhandled import failure.
 - Non-conventional propulsion selections now surface an engineering warning because recovered wake, thrust-deduction, and relative-rotative-efficiency equations are still pinned to the captured single-screw conventional-stern workflow.
 - The dependency-free HTTP server strips query strings before route and static asset matching for reverse-proxy and cache-busted requests.
+- Compose services now use `restart: unless-stopped` for basic host reboot and transient process recovery.
 - Legacy applicability checks:
   - `Fn`
   - `B/T`

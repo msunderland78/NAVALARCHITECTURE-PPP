@@ -29,6 +29,8 @@ PPP_HOST_PORT=9090 docker-compose config
 
 The backend container listens on `PPP_PORT=8000` and NGINX proxies `/` and `/health` to that backend.
 
+Both Compose services use `restart: unless-stopped`.
+
 ## Start
 
 ```sh
