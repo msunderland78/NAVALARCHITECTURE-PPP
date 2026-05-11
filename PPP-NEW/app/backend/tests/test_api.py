@@ -280,6 +280,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("case-form", (FRONTEND / "index.html").read_text())
         self.assertIn("checks", (FRONTEND / "index.html").read_text())
         self.assertIn("engineering-note", (FRONTEND / "index.html").read_text())
+        self.assertIn('name="speed_sweep.initial_speed_knots" type="number" min="0.01"', (FRONTEND / "index.html").read_text())
         self.assertIn('max="1"', (FRONTEND / "index.html").read_text())
         self.assertIn('min="0.01"', (FRONTEND / "index.html").read_text())
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())

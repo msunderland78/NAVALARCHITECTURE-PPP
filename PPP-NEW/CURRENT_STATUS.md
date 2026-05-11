@@ -78,6 +78,7 @@ Version 1.0, May 10, 2026
   - Legacy `OUT` comparison speed tolerance control
   - Explicit user-mode controls for wetted surface and half angle
   - HTML min/max constraints aligned with backend numeric validation
+  - Positive initial-speed browser constraint aligned with backend validation
   - Canvas plot
   - Letter-size print/PDF layout
 - Dependency-free Python backend.
