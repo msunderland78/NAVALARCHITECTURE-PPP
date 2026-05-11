@@ -100,6 +100,7 @@ Current status as of May 10, 2026:
 - Backend validation now rejects non-finite numeric inputs, including modeling dimensions, before formula evaluation.
 - Backend validation now rejects prismatic coefficient and half-angle values that would make the recovered Holtrop equations leave the real-number domain.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
+- Browser CSV export now reports API validation failures instead of downloading an error response as a result file.
 - Markdown engineering report exports now include speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
 - Non-conventional propulsion selections now surface an engineering warning because recovered wake, thrust-deduction, and relative-rotative-efficiency equations are still pinned to the captured single-screw conventional-stern workflow.
 - The dependency-free HTTP server strips query strings before route and static asset matching for reverse-proxy and cache-busted requests.

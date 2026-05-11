@@ -56,6 +56,10 @@ csvButton.addEventListener("click", async () => {
     body: JSON.stringify(payload)
   });
   const text = await response.text();
+  if (!response.ok) {
+    statusBox.textContent = text || "CSV export failed";
+    return;
+  }
   downloadText(text, "ppp-results.csv", "text/csv");
 });
 
