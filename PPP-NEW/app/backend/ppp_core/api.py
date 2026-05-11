@@ -14,14 +14,14 @@ def health_response():
 
 
 def evaluate_response(body):
-    payload = json.loads(body.decode("utf-8"))
+    payload = json_object_payload(body)
     point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     return 200, "application/json", evaluate_case(case, point_count)
 
 
 def csv_response(body):
-    payload = json.loads(body.decode("utf-8"))
+    payload = json_object_payload(body)
     point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     result = evaluate_case(case, point_count)
@@ -29,21 +29,21 @@ def csv_response(body):
 
 
 def json_export_response(body):
-    payload = json.loads(body.decode("utf-8"))
+    payload = json_object_payload(body)
     point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     return 200, "application/json", evaluate_case(case, point_count)
 
 
 def report_markdown_response(body):
-    payload = json.loads(body.decode("utf-8"))
+    payload = json_object_payload(body)
     point_count = payload.get("point_count", DEFAULT_POINT_COUNT)
     case = payload["case"]
     return 200, "text/markdown", result_to_markdown(evaluate_case(case, point_count), case)
 
 
 def legacy_in_export_response(body):
-    payload = json.loads(body.decode("utf-8"))
+    payload = json_object_payload(body)
     case = payload["case"]
     options = payload.get("options", {})
     return 200, "text/plain", generate_candidate_legacy_in(case, options)
@@ -58,7 +58,7 @@ def import_out_response(body):
 
 
 def compare_out_response(body):
-    payload = json.loads(body.decode("utf-8"))
+    payload = json_object_payload(body)
     parsed_out = payload.get("legacy_out")
     if parsed_out is None:
         parsed_out = parse_legacy_out(payload["legacy_out_text"], payload.get("legacy_filename", "upload.OUT"))
@@ -73,6 +73,13 @@ def compare_out_response(body):
         fields,
         speed_tolerance
     )
+
+
+def json_object_payload(body):
+    payload = json.loads(body.decode("utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("request body must be a JSON object")
+    return payload
 
 
 def route(method, path, body=b""):

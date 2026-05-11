@@ -55,6 +55,12 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "application/json")
         self.assertIn("object is not subscriptable", payload["error"])
 
+        status, content_type, payload = route("POST", "/api/evaluate", b"[]")
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "request body must be a JSON object")
+
         status, content_type, payload = route("POST", "/api/evaluate", b"\xff")
 
         self.assertEqual(status, 400)

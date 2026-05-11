@@ -49,6 +49,7 @@ Version 1.0, May 10, 2026
 - Point-count and legacy comparison tolerance validation now rejects boolean values instead of accepting Python's integer coercion.
 - Backend validation now rejects prismatic coefficient, LCB-derived factor, and half-angle values that would make the recovered Holtrop equations leave the real-number domain.
 - API routes now return controlled 400 responses for malformed JSON shapes and invalid UTF-8 request bodies.
+- JSON API routes now reject non-object request bodies with a controlled 400 response.
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.
 - Legacy `OUT` comparison now validates speed tolerance and field-list options before producing diagnostics.
 - Legacy comparison option validation now lives in the comparison helper so API and CLI callers share the same checks.
