@@ -33,6 +33,7 @@ Implemented:
 - CSV export for speed rows
 - Modern evaluation CLI for reproducible result fixture refreshes
 - Dependency-free HTTP routes
+- HTTP smoke CLI for deployed backend or NGINX route checks
 - API validation for invalid physical inputs
 - API validation for supported user and estimated wetted-surface and half-angle modes
 - API validation for unsupported stern, propulsion, and water types
@@ -42,7 +43,7 @@ Implemented:
 Not yet implemented:
 
 - Additional oracle fixtures beyond the normalized sample
-- Docker runtime smoke test from a Docker-enabled account
+- More legacy hull-form oracle cases
 
 ## Run Tests
 
@@ -64,6 +65,14 @@ Default URL:
 
 ```text
 http://127.0.0.1:8000/health
+```
+
+## Run HTTP Smoke Test
+
+With the development server or NGINX proxy already running:
+
+```sh
+python3 PPP-NEW/tools/smoke_http.py --base-url http://127.0.0.1:8000
 ```
 
 ## Run Legacy Oracle Sweep

@@ -53,6 +53,7 @@ Current status as of May 10, 2026:
 - A dependency-free HTTP layer exists with `GET /health`, `POST /api/evaluate`, and `POST /api/export/csv`.
 - A first browser interface exists in `PPP-NEW/app/frontend` and is served by the backend at `/`.
 - Container deployment files exist in `PPP-NEW/app`, including a backend Dockerfile, `docker-compose.yml`, and an NGINX reverse-proxy config.
+- An HTTP smoke CLI exists for backend or NGINX route verification after deployment.
 - `docker-compose config` validates. Runtime compose smoke testing is pending because the current shell user cannot access the Docker socket.
 - Legacy oracle notes exist in `PPP-NEW/analysis/oracle-notes.md`. A copied `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN` on Fortran unit 4; exact `IN` layout recovery is now the oracle blocker.
 - Static `IN` writer notes exist in `PPP-NEW/analysis/in-format-notes.md`; the GUI opens uppercase `IN`, invokes `PPPFTRN.exe`, and reads `Out`, while the Fortran engine writes `OUT`.

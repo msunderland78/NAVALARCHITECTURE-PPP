@@ -49,6 +49,20 @@ Expected response:
 {"status": "ok"}
 ```
 
+## HTTP Smoke Test
+
+Against a local backend:
+
+```sh
+python3 PPP-NEW/tools/smoke_http.py --base-url http://127.0.0.1:8000
+```
+
+Against Docker Compose through NGINX:
+
+```sh
+python3 PPP-NEW/tools/smoke_http.py --base-url http://127.0.0.1:8080
+```
+
 ## Current Scope
 
-The current app is a working modernization scaffold. It imports the observed legacy `.PPP` sample layout, evaluates source-safe partial resistance terms, reports applicability checks, displays tables and a plot, and exports CSV. Full Holtrop and Mennen wave, form, bulb, transom, correlation, propulsion-factor, and required-thrust terms remain under formula recovery.
+The current app imports the observed legacy `.PPP` sample layout, evaluates the captured PPP resistance and propulsion workflow, reports applicability checks, displays tables and a plot, exports CSV/JSON, exports candidate legacy `IN`, and compares legacy `OUT` reports. User and estimated wetted-surface and half-angle modes are supported.

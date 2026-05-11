@@ -73,6 +73,7 @@ Version 1.0, May 10, 2026
   - Letter-size print/PDF layout
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
+- HTTP smoke CLI for backend or NGINX route verification.
 - Static notes for the legacy temporary `IN` writer.
 - Candidate legacy `IN` generator for controlled oracle experiments, including active estimated modeling values.
 - Candidate legacy `IN` CLI for terminal-based oracle experiments.
@@ -118,7 +119,7 @@ Current result:
 75 tests OK
 ```
 
-Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Local HTTP smoke testing passes with `PPP-NEW/tools/smoke_http.py` for `/health`, `/`, `/api/evaluate`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 
