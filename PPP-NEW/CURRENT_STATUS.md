@@ -95,6 +95,7 @@ Version 1.0, May 10, 2026
 - Parsed captured oracle JSON fixture for the normalized sample.
 - Oracle-to-modern comparison baseline for the current source-derived implementation.
 - Captured oracle regression threshold requiring eight matched speeds and max absolute delta under 100 N.
+- Captured estimated-mode oracle fixture and regression threshold for estimated wetted surface and half angle.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts, max absolute delta, and max relative delta summaries.
@@ -114,7 +115,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-74 tests OK
+75 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
@@ -123,12 +124,12 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 
 - Captured-sample resistance and propulsion fields now align with the legacy oracle to report-rounding scale.
 - Current resistance totals remain marked `partial_source_safe_components` until additional oracle cases are captured.
-- The first captured legacy `OUT` oracle is available for the normalized sample only.
+- Captured legacy `OUT` oracles are available for the normalized user-mode sample and an estimated-mode variant.
 - More oracle cases are needed before full formula equivalence can be trusted.
 - `PPPFTRN.EXE` requires PTY-backed Wine execution because plain piped execution fails at Fortran unit 6 `CONOUT$`.
 
 ## Next Best Work
 
 1. Add more oracle cases once additional valid legacy inputs are available.
-2. Add oracle cases for estimated-mode legacy inputs when source files are available.
+2. Add more oracle cases when additional legacy source files are available.
 3. Run Docker smoke tests from a Docker-enabled account.

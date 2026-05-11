@@ -1,0 +1,396 @@
+{
+  "source": {
+    "legacy_file": "OUT",
+    "format": "PPP legacy OUT text"
+  },
+  "program": "Power Prediction Program (PPP-1.8) by M. G. Parsons",
+  "input_verification": {
+    "length_of_waterline_lwl_m": {
+      "label": "Length of Waterline LWL (m)",
+      "raw_value": "212.00",
+      "numeric_value": 212.0
+    },
+    "maximum_beam_on_lwl_m": {
+      "label": "Maximum Beam on LWL (m)",
+      "raw_value": "32.00",
+      "numeric_value": 32.0
+    },
+    "depth_at_the_bow_m": {
+      "label": "Depth at the Bow (m)",
+      "raw_value": "21.00",
+      "numeric_value": 21.0
+    },
+    "mean_draft_m": {
+      "label": "Mean Draft (m)",
+      "raw_value": "11.00",
+      "numeric_value": 11.0
+    },
+    "draft_forward_m": {
+      "label": "Draft Forward (m)",
+      "raw_value": "11.00",
+      "numeric_value": 11.0
+    },
+    "draft_aft_m": {
+      "label": "Draft Aft (m)",
+      "raw_value": "11.00",
+      "numeric_value": 11.0
+    },
+    "block_coefficient_on_lwl_cb": {
+      "label": "Block Coefficient on LWL CB",
+      "raw_value": "0.6000",
+      "numeric_value": 0.6
+    },
+    "prismatic_coefficient_on_lwl_cp": {
+      "label": "Prismatic Coefficient on LWL CP",
+      "raw_value": "0.6122",
+      "numeric_value": 0.6122
+    },
+    "midship_coefficient_to_lwl_cm_cx": {
+      "label": "Midship Coefficient to LWL CM=CX",
+      "raw_value": "0.9800",
+      "numeric_value": 0.98
+    },
+    "waterplane_coefficient_on_lwl_cwp": {
+      "label": "Waterplane Coefficient on LWL CWP",
+      "raw_value": "0.7500",
+      "numeric_value": 0.75
+    },
+    "center_of_buoyancy_lcb_percent_lwl_fwd": {
+      "label": "Center of Buoyancy LCB (% LWL; + Fwd)",
+      "raw_value": "-0.7500",
+      "numeric_value": -0.75
+    },
+    "center_of_buoyancy_lcb_m_from_fp": {
+      "label": "Center of Buoyancy LCB (m from FP)",
+      "raw_value": "107.59",
+      "numeric_value": 107.59
+    },
+    "molded_volume_m_3": {
+      "label": "Molded Volume (m^3)",
+      "raw_value": "44774.4",
+      "numeric_value": 44774.4
+    },
+    "deck_house_cargo_frontal_area_m_2": {
+      "label": "Deck House/Cargo Frontal Area (m^2)",
+      "raw_value": "321.00",
+      "numeric_value": 321.0
+    },
+    "water_type": {
+      "label": "Water Type",
+      "raw_value": "Input by User",
+      "numeric_value": null
+    },
+    "water_density_kg_m_3": {
+      "label": "Water Density (kg/m^3)",
+      "raw_value": "1025.87",
+      "numeric_value": 1025.87
+    },
+    "kinematic_viscosity_m_2_s": {
+      "label": "Kinematic Viscosity (m^2/s)",
+      "raw_value": "0.118831E-05",
+      "numeric_value": 1.18831e-06
+    },
+    "appen_drag_percent_bare_hull_resistance": {
+      "label": "Appen. Drag (% Bare Hull Resistance)",
+      "raw_value": "5.00",
+      "numeric_value": 5.0
+    },
+    "bulb_section_area_at_station_0_m_2": {
+      "label": "Bulb Section Area at Station 0 (m^2)",
+      "raw_value": "21.00",
+      "numeric_value": 21.0
+    },
+    "vertical_center_of_bulb_area_m": {
+      "label": "Vertical Center of Bulb Area (m)",
+      "raw_value": "4.00",
+      "numeric_value": 4.0
+    },
+    "transom_immersed_area_m_2": {
+      "label": "Transom Immersed Area (m^2)",
+      "raw_value": "16.00",
+      "numeric_value": 16.0
+    },
+    "stern_type": {
+      "label": "Stern Type",
+      "raw_value": "Normally Shaped",
+      "numeric_value": null
+    },
+    "design_margin_on_rt_pe_req_thr_percent": {
+      "label": "Design Margin on RT,PE,REQ.THR (%)",
+      "raw_value": "5.00",
+      "numeric_value": 5.0
+    },
+    "propulsion_type": {
+      "label": "Propulsion Type",
+      "raw_value": "SS, Conv.",
+      "numeric_value": null
+    },
+    "propeller_diameter_m": {
+      "label": "Propeller Diameter (m)",
+      "raw_value": "8.00",
+      "numeric_value": 8.0
+    },
+    "propeller_expanded_area_ratio_ae_ao": {
+      "label": "Propeller Expanded Area Ratio Ae/Ao",
+      "raw_value": "0.8000",
+      "numeric_value": 0.8
+    },
+    "wetted_surface_m_2": {
+      "label": "Wetted Surface (m^2)",
+      "raw_value": "8074.59",
+      "numeric_value": 8074.59
+    },
+    "half_angle_of_entrance_deg": {
+      "label": "Half Angle of Entrance (deg)",
+      "raw_value": "12.50",
+      "numeric_value": 12.5
+    }
+  },
+  "coefficient_rows": [
+    {
+      "speed_knots": 15.0,
+      "speed_mps": 7.72,
+      "froude_number": 0.1692,
+      "speed_length_ratio": 0.5688,
+      "friction_coefficient": 0.001472,
+      "residual_resistance_coefficient": 0.000437,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 362945.8
+    },
+    {
+      "speed_knots": 17.0,
+      "speed_mps": 8.75,
+      "froude_number": 0.1918,
+      "speed_length_ratio": 0.6446,
+      "friction_coefficient": 0.00145,
+      "residual_resistance_coefficient": 0.000478,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 459164.5
+    },
+    {
+      "speed_knots": 19.0,
+      "speed_mps": 9.77,
+      "froude_number": 0.2144,
+      "speed_length_ratio": 0.7204,
+      "friction_coefficient": 0.00143,
+      "residual_resistance_coefficient": 0.000569,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 565932.1
+    },
+    {
+      "speed_knots": 21.0,
+      "speed_mps": 10.8,
+      "froude_number": 0.2369,
+      "speed_length_ratio": 0.7963,
+      "friction_coefficient": 0.001413,
+      "residual_resistance_coefficient": 0.000707,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 683121.2
+    },
+    {
+      "speed_knots": 23.0,
+      "speed_mps": 11.83,
+      "froude_number": 0.2595,
+      "speed_length_ratio": 0.8721,
+      "friction_coefficient": 0.001398,
+      "residual_resistance_coefficient": 0.000929,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 810619.3
+    },
+    {
+      "speed_knots": 25.0,
+      "speed_mps": 12.86,
+      "froude_number": 0.2821,
+      "speed_length_ratio": 0.9479,
+      "friction_coefficient": 0.001384,
+      "residual_resistance_coefficient": 0.00124,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 948325.9
+    },
+    {
+      "speed_knots": 27.0,
+      "speed_mps": 13.89,
+      "froude_number": 0.3046,
+      "speed_length_ratio": 1.0238,
+      "friction_coefficient": 0.001372,
+      "residual_resistance_coefficient": 0.001434,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 1096149.8
+    },
+    {
+      "speed_knots": 29.0,
+      "speed_mps": 14.92,
+      "froude_number": 0.3272,
+      "speed_length_ratio": 1.0996,
+      "friction_coefficient": 0.00136,
+      "residual_resistance_coefficient": 0.001582,
+      "correlation_allowance_coefficient": 0.000344,
+      "frictional_resistance_n": 1254008.3
+    }
+  ],
+  "component_rows": [
+    {
+      "speed_knots": 15.0,
+      "rf_form_resistance_n": 59463.1,
+      "appendage_resistance_n": 23539.1,
+      "wave_resistance_n": 14354.2,
+      "bulb_resistance_n": 0.5,
+      "transom_resistance_n": 34017.7,
+      "correlation_allowance_resistance_n": 84787.4,
+      "air_resistance_n": 14091.7
+    },
+    {
+      "speed_knots": 17.0,
+      "rf_form_resistance_n": 75227.1,
+      "appendage_resistance_n": 30526.7,
+      "wave_resistance_n": 43359.7,
+      "bulb_resistance_n": 0.7,
+      "transom_resistance_n": 32781.2,
+      "correlation_allowance_resistance_n": 108904.7,
+      "air_resistance_n": 18100.0
+    },
+    {
+      "speed_knots": 19.0,
+      "rf_form_resistance_n": 92719.3,
+      "appendage_resistance_n": 39556.0,
+      "wave_resistance_n": 105150.7,
+      "bulb_resistance_n": 0.8,
+      "transom_resistance_n": 27316.6,
+      "correlation_allowance_resistance_n": 136036.7,
+      "air_resistance_n": 22609.3
+    },
+    {
+      "speed_knots": 21.0,
+      "rf_form_resistance_n": 111918.9,
+      "appendage_resistance_n": 51253.1,
+      "wave_resistance_n": 213302.0,
+      "bulb_resistance_n": 0.9,
+      "transom_resistance_n": 16717.9,
+      "correlation_allowance_resistance_n": 166183.3,
+      "air_resistance_n": 27619.7
+    },
+    {
+      "speed_knots": 23.0,
+      "rf_form_resistance_n": 132807.6,
+      "appendage_resistance_n": 67468.8,
+      "wave_resistance_n": 405869.6,
+      "bulb_resistance_n": 1.0,
+      "transom_resistance_n": 78.7,
+      "correlation_allowance_resistance_n": 199344.6,
+      "air_resistance_n": 33131.1
+    },
+    {
+      "speed_knots": 25.0,
+      "rf_form_resistance_n": 155368.7,
+      "appendage_resistance_n": 89892.0,
+      "wave_resistance_n": 694144.1,
+      "bulb_resistance_n": 1.1,
+      "transom_resistance_n": 0.0,
+      "correlation_allowance_resistance_n": 235520.6,
+      "air_resistance_n": 39143.5
+    },
+    {
+      "speed_knots": 27.0,
+      "rf_form_resistance_n": 179587.4,
+      "appendage_resistance_n": 112100.7,
+      "wave_resistance_n": 966276.1,
+      "bulb_resistance_n": 1.2,
+      "transom_resistance_n": 0.0,
+      "correlation_allowance_resistance_n": 274711.2,
+      "air_resistance_n": 45657.0
+    },
+    {
+      "speed_knots": 29.0,
+      "rf_form_resistance_n": 205450.0,
+      "appendage_resistance_n": 135629.8,
+      "wave_resistance_n": 1253136.4,
+      "bulb_resistance_n": 1.3,
+      "transom_resistance_n": 0.0,
+      "correlation_allowance_resistance_n": 316916.5,
+      "air_resistance_n": 52671.5
+    }
+  ],
+  "powering_rows": [
+    {
+      "speed_knots": 15.0,
+      "total_resistance_n": 622859.4,
+      "effective_power_kw": 4806.36,
+      "wake_fraction": 0.2447,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 763430.4,
+      "hull_efficiency": 1.0802,
+      "relative_rotative_efficiency": 0.9916
+    },
+    {
+      "speed_knots": 17.0,
+      "total_resistance_n": 806467.6,
+      "effective_power_kw": 7052.95,
+      "wake_fraction": 0.2443,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 988476.6,
+      "hull_efficiency": 1.0796,
+      "relative_rotative_efficiency": 0.9916
+    },
+    {
+      "speed_knots": 19.0,
+      "total_resistance_n": 1038787.5,
+      "effective_power_kw": 10153.48,
+      "wake_fraction": 0.2439,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 1273227.9,
+      "hull_efficiency": 1.079,
+      "relative_rotative_efficiency": 0.9916
+    },
+    {
+      "speed_knots": 21.0,
+      "total_resistance_n": 1333622.9,
+      "effective_power_kw": 14407.45,
+      "wake_fraction": 0.2436,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 1634603.6,
+      "hull_efficiency": 1.0786,
+      "relative_rotative_efficiency": 0.9916
+    },
+    {
+      "speed_knots": 23.0,
+      "total_resistance_n": 1731786.6,
+      "effective_power_kw": 20490.71,
+      "wake_fraction": 0.2433,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 2122627.8,
+      "hull_efficiency": 1.0781,
+      "relative_rotative_efficiency": 0.9916
+    },
+    {
+      "speed_knots": 25.0,
+      "total_resistance_n": 2270515.8,
+      "effective_power_kw": 29201.1,
+      "wake_fraction": 0.243,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 2782940.8,
+      "hull_efficiency": 1.0778,
+      "relative_rotative_efficiency": 0.9916
+    },
+    {
+      "speed_knots": 27.0,
+      "total_resistance_n": 2808207.5,
+      "effective_power_kw": 39005.66,
+      "wake_fraction": 0.2427,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 3441982.3,
+      "hull_efficiency": 1.0774,
+      "relative_rotative_efficiency": 0.9916
+    },
+    {
+      "speed_knots": 29.0,
+      "total_resistance_n": 3378704.5,
+      "effective_power_kw": 50406.08,
+      "wake_fraction": 0.2425,
+      "thrust_deduction": 0.1841,
+      "required_thrust_n": 4141232.8,
+      "hull_efficiency": 1.0771,
+      "relative_rotative_efficiency": 0.9916
+    }
+  ],
+  "calculation_completed": true
+}
