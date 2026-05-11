@@ -4,7 +4,7 @@ Version 1.0, May 10, 2026
 
 ## Executive Summary
 
-The legacy Performance Prediction Program in `PPP-OLD` appears to be a small Win32 MFC graphical shell coupled to a separate Win32 DEC Visual Fortran calculation engine. The correct modernization path is a clean reimplementation of the Holtrop and Mennen resistance and powering workflow in `PPP-NEW`, using the old executables only as investigation inputs and temporary oracle references.
+The legacy Power Prediction Program (PPP) in `PPP-OLD` appears to be a small Win32 MFC graphical shell coupled to a separate Win32 DEC Visual Fortran calculation engine. The correct modernization path is a clean reimplementation of the Holtrop and Mennen resistance and powering workflow in `PPP-NEW`, using the old executables only as investigation inputs and temporary oracle references.
 
 The recommended first product is a browser-based preliminary resistance and powering application. It should accept hull geometry, hull-form coefficients, bulb/transom/stern inputs, propulsion-factor model choices, appendage drag, air drag, water properties, design margin, and a speed sweep. It should report resistance components, coefficients, effective power, wake fraction, thrust deduction, required thrust, hull efficiency, and relative rotative efficiency.
 

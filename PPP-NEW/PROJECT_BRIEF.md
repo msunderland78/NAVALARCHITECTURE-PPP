@@ -1,10 +1,10 @@
-# Performance Prediction Program Modernization Brief
+# Power Prediction Program (PPP) Modernization Brief
 
 Version 1.0, May 10, 2026
 
 ## Project Purpose
 
-This project reviews the legacy Performance Prediction Program, originally built for 32-bit Windows-era environments, and defines how to convert or reimplement it as a modern web application deployable on an Ubuntu Linux server behind an NGINX container.
+This project reviews the legacy Power Prediction Program (PPP), originally built for 32-bit Windows-era environments, and defines how to convert or reimplement it as a modern web application deployable on an Ubuntu Linux server behind an NGINX container.
 
 The target result is a self-contained web application using a modern frontend and backend stack appropriate to the recovered computation model. Preferred targets include React, Next.js, plain HTML and JavaScript, Python, Node.js, Rust, or WebAssembly.
 
