@@ -386,6 +386,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("/api/export/legacy-in-candidate", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/export/report.md", (FRONTEND / "app.js").read_text())
         self.assertIn("CSV export failed", (FRONTEND / "app.js").read_text())
+        self.assertIn("Import JSON failed", (FRONTEND / "app.js").read_text())
         self.assertIn("buildLegacyOptions", (FRONTEND / "app.js").read_text())
         self.assertIn("propeller_record_order", (FRONTEND / "app.js").read_text())
         self.assertIn("legacySpeedTolerance", (FRONTEND / "app.js").read_text())

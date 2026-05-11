@@ -129,10 +129,17 @@ importJsonFile.addEventListener("change", async () => {
   if (!file) {
     return;
   }
-  const payload = JSON.parse(await file.text());
-  applyCase(payload.case || payload);
-  if (payload.point_count) {
-    setValue("point_count", payload.point_count);
+  let payload = null;
+  try {
+    payload = JSON.parse(await file.text());
+    applyCase(payload.case || payload);
+    if (payload.point_count) {
+      setValue("point_count", payload.point_count);
+    }
+  } catch (error) {
+    statusBox.textContent = "Import JSON failed";
+    importJsonFile.value = "";
+    return;
   }
   statusBox.textContent = "Imported";
   await runCase();

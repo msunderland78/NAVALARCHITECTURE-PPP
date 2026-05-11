@@ -48,6 +48,7 @@ Version 1.0, May 10, 2026
 - Markdown report export includes speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
 - Backend validation now rejects prismatic coefficient, LCB-derived factor, and half-angle values that would make the recovered Holtrop equations leave the real-number domain.
 - Browser CSV export now reports API validation failures instead of downloading an error response as a result file.
+- Browser JSON case import now reports malformed files instead of leaving an unhandled import failure.
 - Non-conventional propulsion selections now surface an engineering warning because recovered wake, thrust-deduction, and relative-rotative-efficiency equations are still pinned to the captured single-screw conventional-stern workflow.
 - The dependency-free HTTP server strips query strings before route and static asset matching for reverse-proxy and cache-busted requests.
 - Legacy applicability checks:
