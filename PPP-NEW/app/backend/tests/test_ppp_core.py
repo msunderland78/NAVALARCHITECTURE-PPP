@@ -251,6 +251,14 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "propulsion.pitch_diameter_ratio must be non-negative"):
             evaluate_case(case, point_count=1)
 
+    def test_nonconventional_propulsion_gets_engineering_warning(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "twin_screw"
+        result = evaluate_case(case, point_count=1)
+
+        self.assertIn("warnings", result["engineering_review"])
+        self.assertIn("single-screw conventional-stern equations", result["engineering_review"]["warnings"][0])
+
     def test_multi_point_sweep_requires_positive_increment(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["speed_sweep"]["speed_increment_knots"] = 0

@@ -379,9 +379,12 @@ function renderEngineeringNote(result) {
   const review = result.engineering_review || {};
   const statusText = review.status || "not reported";
   const note = review.note || "Preliminary resistance and powering estimate. Use with naval architect review and project-specific validation before design, procurement, or operational decisions.";
+  const warningItems = (review.warnings || []).map(item => `<li>${item}</li>`).join("");
+  const warnings = warningItems ? `<ul>${warningItems}</ul>` : "";
   engineeringNote.innerHTML = `
     <strong>Engineering review status</strong>
     <span>${note} Current calculation status: ${statusText}.</span>
+    ${warnings}
   `;
 }
 

@@ -37,6 +37,10 @@ ENGINEERING_REVIEW_NOTE = (
     "Preliminary resistance and powering estimate. Use with naval architect review and "
     "project-specific validation before design, procurement, or operational decisions."
 )
+NONCONVENTIONAL_PROPULSION_WARNING = (
+    "Wake fraction, thrust deduction, and relative rotative efficiency use the recovered "
+    "single-screw conventional-stern equations until additional open-flow or twin-screw oracle cases are captured."
+)
 
 
 def evaluate_case(case, point_count=DEFAULT_POINT_COUNT):
@@ -101,19 +105,22 @@ def evaluate_case(case, point_count=DEFAULT_POINT_COUNT):
         "project": case["project"],
         "derived": derived,
         "modeling": modeling_result(modeling, active_modeling),
-        "engineering_review": engineering_review(speeds),
+        "engineering_review": engineering_review(propulsion, speeds),
         "applicability": applicability(case, derived, speeds),
         "speeds": speeds
     }
 
 
-def engineering_review(speeds):
+def engineering_review(propulsion, speeds):
     statuses = sorted(set(speed["resistance_status"] for speed in speeds if speed.get("resistance_status")))
-    return {
+    review = {
         "statuses": statuses,
         "status": ", ".join(statuses) if statuses else "not reported",
         "note": ENGINEERING_REVIEW_NOTE
     }
+    if propulsion["type"] != "single_screw_conventional_stern":
+        review["warnings"] = [NONCONVENTIONAL_PROPULSION_WARNING]
+    return review
 
 
 def modeling_values(hull, features, modeling, derived):

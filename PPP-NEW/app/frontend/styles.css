@@ -208,6 +208,11 @@ button:hover {
   margin-top: 4px;
 }
 
+.engineering-note ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
 .checks {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

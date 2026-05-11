@@ -57,6 +57,12 @@ def result_to_markdown(result, case=None):
         f"Calculation status: `{result['engineering_review']['status']}`",
         "",
     ]
+    warnings = result["engineering_review"].get("warnings", [])
+    if warnings:
+        lines.extend(["Warnings:", ""])
+        for warning in warnings:
+            lines.append(f"- {warning}")
+        lines.append("")
     if case is not None:
         lines.extend(input_summary_lines(case))
     lines.extend([

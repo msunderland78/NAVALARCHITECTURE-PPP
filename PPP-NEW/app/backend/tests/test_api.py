@@ -353,6 +353,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("/api/compare/out", (FRONTEND / "app.js").read_text())
         self.assertIn("numeric deltas", (FRONTEND / "app.js").read_text())
         self.assertIn("Engineering review status", (FRONTEND / "app.js").read_text())
+        self.assertIn("review.warnings", (FRONTEND / "app.js").read_text())
 
 
 if __name__ == "__main__":

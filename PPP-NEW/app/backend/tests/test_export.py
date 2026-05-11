@@ -43,6 +43,15 @@ class ExportTest(unittest.TestCase):
         self.assertIn("| V, kn | Fn | RT, kN | PE, kW | Required thrust, kN | Status |", text)
         self.assertIn("| 15.0000 | 0.1692 | 610.05 | 4707.56 | 747.73 | `partial_source_safe_components` |", text)
 
+    def test_result_to_markdown_includes_nonconventional_propulsion_warning(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "single_screw_open_flow_stern"
+        result = evaluate_case(case, point_count=1)
+        text = result_to_markdown(result, case)
+
+        self.assertIn("Warnings:", text)
+        self.assertIn("single-screw conventional-stern equations", text)
+
 
 if __name__ == "__main__":
     unittest.main()

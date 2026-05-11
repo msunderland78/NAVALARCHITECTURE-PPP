@@ -46,6 +46,7 @@ Version 1.0, May 10, 2026
 - Captured oracle comparison now has numeric modern values for every compared legacy report field.
 - Evaluation and JSON export include machine-readable engineering review status metadata.
 - Markdown report export includes speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
+- Non-conventional propulsion selections now surface an engineering warning because recovered wake, thrust-deduction, and relative-rotative-efficiency equations are still pinned to the captured single-screw conventional-stern workflow.
 - The dependency-free HTTP server strips query strings before route and static asset matching for reverse-proxy and cache-busted requests.
 - Legacy applicability checks:
   - `Fn`
