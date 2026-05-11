@@ -94,6 +94,7 @@ Version 1.0, May 10, 2026
 - Captured legacy `OUT` oracle for the normalized `PPPIN.PPP` sample.
 - Parsed captured oracle JSON fixture for the normalized sample.
 - Oracle-to-modern comparison baseline for the current source-derived implementation.
+- Captured oracle regression threshold requiring eight matched speeds and max absolute delta under 100 N.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts, max absolute delta, and max relative delta summaries.
@@ -113,7 +114,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-73 tests OK
+74 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
@@ -129,5 +130,5 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 ## Next Best Work
 
 1. Add more oracle cases once additional valid legacy inputs are available.
-2. Promote oracle comparison thresholds now that the normalized sample is aligned.
+2. Add oracle cases for estimated-mode legacy inputs when source files are available.
 3. Run Docker smoke tests from a Docker-enabled account.

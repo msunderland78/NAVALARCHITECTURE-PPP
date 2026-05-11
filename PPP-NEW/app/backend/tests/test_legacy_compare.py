@@ -51,6 +51,7 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(comparison["unmatched_modern_speeds"], [])
         self.assertEqual(comparison["summary"]["status_counts"]["numeric_delta"], 168)
         self.assertNotIn("missing_modern", comparison["summary"]["status_counts"])
+        self.assertLess(comparison["summary"]["max_absolute_delta"]["absolute_delta"], 100)
 
     def test_compare_reports_unmatched_speeds(self):
         modern_result = {"speeds": [{"speed_knots": 20.0, "speed_mps": 10.28888}]}

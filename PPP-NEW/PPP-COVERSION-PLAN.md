@@ -84,11 +84,12 @@ Current status as of May 10, 2026:
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas, missing modern fields, status counts, max absolute delta, and max relative delta summaries.
 - A legacy `OUT` comparison CLI exists for repeatable JSON delta reports and optional absolute/relative pass/fail gates.
 - The legacy `OUT` comparison API accepts configurable speed matching tolerance for imperfect report formatting.
+- The normalized captured oracle now has an enforced regression threshold requiring eight matched speeds and max absolute delta below 100 N.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
-The next milestone is to broaden oracle coverage when more valid legacy inputs are available, then promote comparison thresholds around the captured cases.
+The next milestone is to broaden oracle coverage when more valid legacy inputs are available, especially estimated-mode cases.
 
 ## Legacy File Inventory
 
