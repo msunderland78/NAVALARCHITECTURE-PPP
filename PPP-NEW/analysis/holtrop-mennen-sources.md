@@ -68,7 +68,7 @@ The current backend core implements only terms that are unambiguous:
 - Holtrop model-ship correlation allowance coefficient `CA`.
 - Correlation allowance resistance `RA = 0.5 * rho * V^2 * S * CA`.
 - PPP legacy air drag `RAIR`, using the pressure coefficient recovered from the captured oracle.
-- Holtrop wave resistance `RW`, currently source-derived but still showing a sample-oracle curve delta.
+- Holtrop wave resistance `RW`, including the low-Froude 1984 branch recovered from `PPPFTRN.EXE` constants and verified against the captured sample oracle.
 - Holtrop bulbous-bow resistance `RB`.
 - Holtrop transom-stern resistance `RTR`.
 - Percent appendage resistance when appendage drag is entered as percent of currently implemented bare-hull resistance.
@@ -86,11 +86,11 @@ The current backend core implements only terms that are unambiguous:
 
 Recover and implement in this order:
 
-1. Resolve the wave-resistance curve variant against the captured PPP oracle.
-2. Wetted-surface estimation.
-3. Half-angle of entrance estimation.
-4. Broaden oracle coverage with additional legacy saved cases.
+1. Wetted-surface estimation.
+2. Half-angle of entrance estimation.
+3. Broaden oracle coverage with additional legacy saved cases.
+4. Promote oracle comparison thresholds around captured cases.
 
 ## Oracle Requirement
 
-The web application should not be considered numerically equivalent to legacy PPP until the captured oracle comparison converges across the resistance and propulsion tables. Source-derived formulas should continue to be tested against the oracle and independent published examples.
+The normalized captured oracle now converges across the visible resistance and propulsion tables to report-rounding scale. The web application should still be treated as provisional until more oracle cases cover other hull forms, speed ranges, and input modes.

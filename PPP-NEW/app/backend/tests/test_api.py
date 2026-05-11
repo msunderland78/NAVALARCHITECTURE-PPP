@@ -26,7 +26,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(content_type, "application/json")
         self.assertEqual(len(payload["speeds"]), 2)
-        self.assertAlmostEqual(payload["speeds"][0]["total_resistance_n"], 609931.6827613817)
+        self.assertAlmostEqual(payload["speeds"][0]["total_resistance_n"], 610051.8852955248)
 
     def test_bad_evaluate_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
@@ -125,7 +125,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(content_type, "text/csv")
         self.assertIn("speed_knots,speed_mps", payload)
-        self.assertIn("609931.6827613817", payload)
+        self.assertIn("610051.8852955248", payload)
 
     def test_json_export_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
@@ -135,7 +135,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["project"]["run_id"], "Test 1.0")
-        self.assertAlmostEqual(payload["speeds"][0]["effective_power_kw"], 4706.635419097444)
+        self.assertAlmostEqual(payload["speeds"][0]["effective_power_kw"], 4707.562981184565)
 
     def test_legacy_in_candidate_export_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

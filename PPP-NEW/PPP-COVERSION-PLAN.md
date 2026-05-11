@@ -33,7 +33,7 @@ Current status as of May 10, 2026:
 - The core now reports displacement volume and displacement mass derived from the normalized hull and water inputs.
 - The core now reports LCB in both meters and percent LWL from the forward perpendicular.
 - The core now reports inverse hull ratios, midship area, waterplane area, and the length-displacement volume ratio for later Holtrop range checks and formula work.
-- The core now reports all visible captured-oracle resistance and propulsion columns with `resistance_status` still marking the result as provisional until the remaining wave-resistance delta is resolved.
+- The core now reports all visible captured-oracle resistance and propulsion columns with the normalized sample aligned to report-rounding scale. `resistance_status` still marks the result as provisional until more oracle cases are captured.
 - Evaluation results now expose the active modeling source values for wetted surface and half angle of entrance, preparing the output contract for future estimated-mode formulas.
 - Estimated wetted-surface and half-angle modes now fail explicitly until their source-derived formulas are implemented.
 - Unsupported stern, propulsion, and water type values now fail explicitly before calculation.
@@ -89,7 +89,7 @@ Current status as of May 10, 2026:
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
-The next milestone is to resolve the remaining wave-resistance curve delta against the captured oracle, then broaden oracle coverage when more valid legacy inputs are available.
+The next milestone is to broaden oracle coverage when more valid legacy inputs are available, then promote comparison thresholds around the captured cases.
 
 ## Legacy File Inventory
 

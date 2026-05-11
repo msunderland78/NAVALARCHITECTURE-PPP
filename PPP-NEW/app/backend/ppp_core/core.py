@@ -258,9 +258,19 @@ def holtrop_wave_resistance(speed_mps, rho, hull, features, modeling, derived):
     c15 = holtrop_c15(length_displacement_ratio)
     c16 = holtrop_c16(cp)
     m1 = 0.0140407 * lwl / mean_draft - 1.75254 * displacement_volume ** (1 / 3) / lwl - 4.79323 * beam / lwl - c16
-    m2 = c15 * cp ** 2 * exp(-0.1 * froude_number(speed_mps, lwl) ** -2)
     wave_lambda = 1.446 * cp - 0.03 * lwl / beam if lwl / beam < 12 else 1.446 * cp - 0.36
-    return c1 * c2 * c5 * rho * G * displacement_volume * exp(m1 * froude_number(speed_mps, lwl) ** -0.9 + m2 * cos(wave_lambda * froude_number(speed_mps, lwl) ** -2))
+    fn = froude_number(speed_mps, lwl)
+    if fn <= 0.4:
+        return c1 * c2 * c5 * rho * G * displacement_volume * exp(m1 * fn ** -0.9 + holtrop_m4(c15, fn) * cos(wave_lambda * fn ** -2))
+    if fn >= 0.55:
+        c17 = 6919.3 * hull["midship_coefficient"] ** -1.3346 * (displacement_volume / lwl ** 3) ** 2.00977 * (lwl / beam - 2) ** 1.40692
+        m3 = -7.2035 * (beam / lwl) ** 0.326869 * (mean_draft / beam) ** 0.605375
+        return c17 * c2 * c5 * rho * G * displacement_volume * exp(m3 * fn ** -0.9 + holtrop_m4(c15, fn) * cos(wave_lambda * fn ** -2))
+    low = c1 * c2 * c5 * rho * G * displacement_volume * exp(m1 * 0.4 ** -0.9 + holtrop_m4(c15, 0.4) * cos(wave_lambda * 0.4 ** -2))
+    high_c17 = 6919.3 * hull["midship_coefficient"] ** -1.3346 * (displacement_volume / lwl ** 3) ** 2.00977 * (lwl / beam - 2) ** 1.40692
+    high_m3 = -7.2035 * (beam / lwl) ** 0.326869 * (mean_draft / beam) ** 0.605375
+    high = high_c17 * c2 * c5 * rho * G * displacement_volume * exp(high_m3 * 0.55 ** -0.9 + holtrop_m4(c15, 0.55) * cos(wave_lambda * 0.55 ** -2))
+    return low + (10 * fn - 4) * (high - low) / 1.5
 
 
 def holtrop_bulb_resistance(speed_mps, rho, hull, features):
@@ -272,6 +282,10 @@ def holtrop_bulb_resistance(speed_mps, rho, hull, features):
     pb = 0.56 * sqrt(bulb_area) / (draft_forward - 1.5 * bulb_center)
     fni = speed_mps / sqrt(G * (draft_forward - bulb_center - 0.25 * sqrt(bulb_area)) + 0.15 * speed_mps ** 2)
     return 0.11 * exp(-3 * pb ** -2) * fni ** 3 * bulb_area ** 1.5 * rho * G / (1 + fni ** 2)
+
+
+def holtrop_m4(c15, fn):
+    return c15 * 0.4 * exp(-0.034 * fn ** -3.29)
 
 
 def holtrop_transom_resistance(speed_mps, rho, hull, features):

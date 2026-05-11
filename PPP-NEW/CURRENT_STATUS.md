@@ -91,7 +91,7 @@ Version 1.0, May 10, 2026
 - Legacy oracle sweep CLI supports explicit Wine arguments for console-mode experiments.
 - Captured legacy `OUT` oracle for the normalized `PPPIN.PPP` sample.
 - Parsed captured oracle JSON fixture for the normalized sample.
-- Oracle-to-modern comparison baseline for the current partial implementation.
+- Oracle-to-modern comparison baseline for the current source-derived implementation.
 - Legacy `OUT` text parser for future oracle fixtures.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts, max absolute delta, and max relative delta summaries.
@@ -118,9 +118,8 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 
 ## Known Limits
 
-- Full Holtrop and Mennen resistance components are not complete.
-- Current resistance totals are explicitly marked `partial_source_safe_components`.
-- The wave-resistance curve still differs from the captured PPP oracle by up to about 8.4% on the sample, so numerical equivalence is not complete.
+- Captured-sample resistance and propulsion fields now align with the legacy oracle to report-rounding scale.
+- Current resistance totals remain marked `partial_source_safe_components` until additional oracle cases are captured.
 - Wetted-surface and half-angle estimated modes remain unsupported.
 - The first captured legacy `OUT` oracle is available for the normalized sample only.
 - More oracle cases are needed before full formula equivalence can be trusted.
@@ -128,7 +127,7 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 
 ## Next Best Work
 
-1. Resolve the remaining wave-resistance formula variant against the captured PPP oracle.
-2. Add more oracle cases once additional valid legacy inputs are available.
-3. Promote oracle comparison thresholds as modern formulas are implemented.
+1. Add more oracle cases once additional valid legacy inputs are available.
+2. Promote oracle comparison thresholds now that the normalized sample is aligned.
+3. Implement wetted-surface and half-angle estimated modes from recovered formulas.
 4. Run Docker smoke tests from a Docker-enabled account.
