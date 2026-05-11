@@ -100,6 +100,7 @@ Current status as of May 10, 2026:
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Markdown engineering report exports now include speed-sweep, water-property, air-drag, and margin input summary.
 - Fresh-water preset legacy `IN` export is pinned to water code `2`.
+- Open-flow and twin-screw legacy `IN` export paths are pinned to propulsion type codes `2` and `3`.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.

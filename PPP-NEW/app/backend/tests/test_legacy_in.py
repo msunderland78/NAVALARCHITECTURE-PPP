@@ -53,6 +53,17 @@ class LegacyInTest(unittest.TestCase):
         self.assertEqual(lines[5], "0.8 0 2")
         self.assertEqual(lines[7], "999.1026 1.1386e-06")
 
+    def test_generate_candidate_legacy_in_propulsion_type_codes(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "single_screw_open_flow_stern"
+        open_flow = generate_candidate_legacy_in(case).splitlines()
+
+        case["propulsion"]["type"] = "twin_screw"
+        twin_screw = generate_candidate_legacy_in(case).splitlines()
+
+        self.assertEqual(open_flow[2], "0.05 0 21 4 16 0 2")
+        self.assertEqual(twin_screw[2], "0.05 0 21 4 16 0 3")
+
     def test_generate_candidate_legacy_in_old_propeller_record_order(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         text = generate_candidate_legacy_in(case, {"propeller_record_order": "dp_wetted_half"})
