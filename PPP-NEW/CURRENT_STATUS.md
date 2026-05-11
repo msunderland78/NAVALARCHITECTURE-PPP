@@ -57,6 +57,7 @@ Version 1.0, May 10, 2026
 - JSON API routes now reject non-object request bodies with a controlled 400 response.
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.
 - The dependency-free HTTP server now emits basic response hardening headers.
+- The dependency-free HTTP server now returns JSON 405 and OPTIONS responses with stable `Allow` headers.
 - CLI and oracle case-file entry points now share a JSON case loader with object-shape validation.
 - Legacy `OUT` comparison now validates speed tolerance and field-list options before producing diagnostics.
 - Legacy comparison option validation now lives in the comparison helper so API and CLI callers share the same checks.

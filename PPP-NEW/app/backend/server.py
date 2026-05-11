@@ -20,6 +20,18 @@ SECURITY_HEADERS = {
 
 
 class Handler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        self.respond(204, "application/json", {}, headers={"Allow": "GET, HEAD, POST, OPTIONS"})
+
+    def do_PUT(self):
+        self.respond_method_not_allowed()
+
+    def do_DELETE(self):
+        self.respond_method_not_allowed()
+
+    def do_PATCH(self):
+        self.respond_method_not_allowed()
+
     def do_HEAD(self):
         path = request_path(self.path)
         if path == "/" or path in ("/app.js", "/styles.css"):
@@ -44,7 +56,10 @@ class Handler(BaseHTTPRequestHandler):
         body = self.rfile.read(length)
         self.respond(*route("POST", path, body))
 
-    def respond(self, status, content_type, payload, head_only=False):
+    def respond_method_not_allowed(self):
+        self.respond(405, "application/json", {"error": "method not allowed"}, headers={"Allow": "GET, HEAD, POST, OPTIONS"})
+
+    def respond(self, status, content_type, payload, head_only=False, headers=None):
         if content_type == "application/json":
             body = json.dumps(payload).encode("utf-8")
         else:
@@ -53,6 +68,8 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
         self.send_security_headers()
+        for name, value in (headers or {}).items():
+            self.send_header(name, value)
         self.end_headers()
         if not head_only:
             self.wfile.write(body)

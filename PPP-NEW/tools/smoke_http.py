@@ -24,6 +24,8 @@ def main(argv=None):
     checks = [
         check_json("health", request_json(base_url, "GET", "/health"), {"status": "ok"}),
         check_security_headers(base_url),
+        check_options(base_url),
+        check_method_not_allowed(base_url),
         check_text_contains("frontend", frontend, "case-form"),
         check_text_contains("frontend engineering note", frontend, "engineering-note"),
         check_text_contains("frontend eight-point default", frontend, 'name="point_count" type="number" min="1" max="20" step="1" value="8"'),
@@ -188,6 +190,38 @@ def check_security_headers(base_url):
     return {
         "name": "security headers",
         "passed": details["X-Content-Type-Options"] == "nosniff" and details["Referrer-Policy"] == "no-referrer",
+        "details": details
+    }
+
+
+def check_options(base_url):
+    request = urllib.request.Request(f"{base_url}/health", method="OPTIONS")
+    with urllib.request.urlopen(request, timeout=10) as response:
+        details = {
+            "status": response.status,
+            "Allow": response.headers.get("Allow")
+        }
+    return {
+        "name": "options",
+        "passed": details["status"] == 204 and details["Allow"] == "GET, HEAD, POST, OPTIONS",
+        "details": details
+    }
+
+
+def check_method_not_allowed(base_url):
+    request = urllib.request.Request(f"{base_url}/health", method="PUT")
+    try:
+        with urllib.request.urlopen(request, timeout=10):
+            details = {"status": 200}
+    except urllib.error.HTTPError as error:
+        details = {
+            "status": error.code,
+            "Allow": error.headers.get("Allow"),
+            "body": error.read().decode("utf-8", errors="replace")
+        }
+    return {
+        "name": "method not allowed",
+        "passed": details.get("status") == 405 and details.get("Allow") == "GET, HEAD, POST, OPTIONS" and "method not allowed" in details.get("body", ""),
         "details": details
     }
 
