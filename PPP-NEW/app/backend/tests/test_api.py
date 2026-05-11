@@ -4,7 +4,7 @@ from pathlib import Path
 
 from ppp_core import route
 from test_legacy_ppp import sample_ole_document
-from server import FRONTEND
+from server import FRONTEND, request_path
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -305,6 +305,10 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 404)
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload, {"error": "not found"})
+
+    def test_server_request_path_ignores_query_string(self):
+        self.assertEqual(request_path("/health?ready=1"), "/health")
+        self.assertEqual(request_path("/app.js?v=20260511"), "/app.js")
 
     def test_frontend_files_exist(self):
         self.assertTrue((FRONTEND / "index.html").exists())

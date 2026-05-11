@@ -100,6 +100,7 @@ Current status as of May 10, 2026:
 - Backend validation now rejects non-finite numeric inputs, including modeling dimensions, before formula evaluation.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Markdown engineering report exports now include speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
+- The dependency-free HTTP server strips query strings before route and static asset matching for reverse-proxy and cache-busted requests.
 - Fresh-water preset legacy `IN` export is pinned to water code `2`.
 - Open-flow and twin-screw legacy `IN` export paths are pinned to propulsion type codes `2` and `3`.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.

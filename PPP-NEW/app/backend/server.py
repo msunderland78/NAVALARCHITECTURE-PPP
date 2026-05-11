@@ -2,6 +2,7 @@ import json
 import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from ppp_core.api import route
 
@@ -16,21 +17,24 @@ STATIC_TYPES = {
 
 class Handler(BaseHTTPRequestHandler):
     def do_HEAD(self):
-        if self.path == "/" or self.path in ("/app.js", "/styles.css"):
-            self.serve_static(head_only=True)
+        path = request_path(self.path)
+        if path == "/" or path in ("/app.js", "/styles.css"):
+            self.serve_static(path, head_only=True)
         else:
-            self.respond(*route("GET", self.path), head_only=True)
+            self.respond(*route("GET", path), head_only=True)
 
     def do_GET(self):
-        if self.path == "/" or self.path in ("/app.js", "/styles.css"):
-            self.serve_static()
+        path = request_path(self.path)
+        if path == "/" or path in ("/app.js", "/styles.css"):
+            self.serve_static(path)
         else:
-            self.respond(*route("GET", self.path))
+            self.respond(*route("GET", path))
 
     def do_POST(self):
+        path = request_path(self.path)
         length = int(self.headers.get("Content-Length", "0"))
         body = self.rfile.read(length)
-        self.respond(*route("POST", self.path, body))
+        self.respond(*route("POST", path, body))
 
     def respond(self, status, content_type, payload, head_only=False):
         if content_type == "application/json":
@@ -44,11 +48,11 @@ class Handler(BaseHTTPRequestHandler):
         if not head_only:
             self.wfile.write(body)
 
-    def serve_static(self, head_only=False):
-        if self.path == "/":
+    def serve_static(self, request_path_value, head_only=False):
+        if request_path_value == "/":
             path = FRONTEND / "index.html"
         else:
-            path = FRONTEND / self.path.lstrip("/")
+            path = FRONTEND / request_path_value.lstrip("/")
         if not path.exists() or path.parent != FRONTEND:
             self.respond(404, "application/json", {"error": "not found"}, head_only)
             return
@@ -59,6 +63,10 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         if not head_only:
             self.wfile.write(body)
+
+
+def request_path(target):
+    return urlsplit(target).path
 
 
 def run(host="127.0.0.1", port=8000):
