@@ -22,7 +22,8 @@ services:
     image: nginx:1.27-alpine
     restart: unless-stopped
     depends_on:
-      - ppp-backend
+      ppp-backend:
+        condition: service_healthy
     ports:
       - "${PPP_HOST_PORT:-8080}:80"
     volumes:

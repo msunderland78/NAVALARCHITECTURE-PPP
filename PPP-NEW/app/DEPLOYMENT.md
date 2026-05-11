@@ -29,7 +29,7 @@ PPP_HOST_PORT=9090 docker-compose config
 
 The backend container listens on `PPP_PORT=8000` and NGINX proxies `/` and `/health` to that backend.
 
-Both Compose services use `restart: unless-stopped`.
+Both Compose services use `restart: unless-stopped`. NGINX starts after the backend healthcheck reports healthy.
 
 The backend image creates and runs as the unprivileged `ppp` user and disables Python bytecode writes in the runtime filesystem.
 

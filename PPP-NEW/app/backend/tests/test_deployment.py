@@ -36,6 +36,11 @@ class DeploymentTest(unittest.TestCase):
 
         self.assertEqual(text.count("restart: unless-stopped"), 2)
 
+    def test_compose_nginx_waits_for_backend_health(self):
+        text = (APP / "docker-compose.yml").read_text()
+
+        self.assertIn("condition: service_healthy", text)
+
     def test_nginx_proxy_has_basic_hardening(self):
         text = (APP / "nginx" / "default.conf").read_text()
 
