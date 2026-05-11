@@ -36,12 +36,28 @@ SPEED_COLUMNS = [
 
 
 def speeds_to_csv(result):
+    speed_rows = validate_speed_rows(result)
     output = StringIO()
     writer = csv.DictWriter(output, fieldnames=SPEED_COLUMNS)
     writer.writeheader()
-    for row in result["speeds"]:
+    for row in speed_rows:
         writer.writerow({column: row[column] for column in SPEED_COLUMNS})
     return output.getvalue()
+
+
+def validate_speed_rows(result):
+    if not isinstance(result, dict):
+        raise ValueError("result must be an object")
+    speed_rows = result.get("speeds")
+    if not isinstance(speed_rows, list):
+        raise ValueError("result.speeds must be a list")
+    for row in speed_rows:
+        if not isinstance(row, dict):
+            raise ValueError("result.speeds rows must be objects")
+        for column in SPEED_COLUMNS:
+            if column not in row:
+                raise ValueError(f"result.speeds.{column} is required")
+    return speed_rows
 
 
 def result_to_markdown(result, case=None):

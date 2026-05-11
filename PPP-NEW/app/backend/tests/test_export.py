@@ -21,6 +21,16 @@ class ExportTest(unittest.TestCase):
         self.assertIn("17.0,8.745548,0.19180448560115582", lines[2])
         self.assertIn("partial_source_safe_components", lines[1])
 
+    def test_speeds_to_csv_rejects_bad_result_shape(self):
+        with self.assertRaisesRegex(ValueError, "result must be an object"):
+            speeds_to_csv([])
+        with self.assertRaisesRegex(ValueError, "result.speeds must be a list"):
+            speeds_to_csv({"speeds": {}})
+        with self.assertRaisesRegex(ValueError, "result.speeds rows must be objects"):
+            speeds_to_csv({"speeds": ["bad"]})
+        with self.assertRaisesRegex(ValueError, "result.speeds.speed_knots is required"):
+            speeds_to_csv({"speeds": [{}]})
+
     def test_result_to_markdown(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         result = evaluate_case(case, point_count=2)

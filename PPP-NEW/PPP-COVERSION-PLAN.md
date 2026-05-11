@@ -48,6 +48,7 @@ Current status as of May 10, 2026:
 - Browser print/PDF output is available for the current report view.
 - Browser and printed reports include a preliminary engineering review status note tied to result status.
 - Markdown engineering report export is available for review packages and issue attachments.
+- CSV result export now validates result and speed-row shapes before writing output.
 - Browser legacy `OUT` comparison upload is available for oracle delta review.
 - The Docker image now copies only runtime backend modules and frontend assets.
 - The browser summary now exposes derived hydrostatic terms needed for engineering review and printed reports.
