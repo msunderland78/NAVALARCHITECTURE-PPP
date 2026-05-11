@@ -32,12 +32,12 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(comparison["unmatched_modern_speeds"], [])
         self.assertEqual(first_fields["frictional_resistance_n"]["status"], "numeric_delta")
         self.assertLess(first_fields["frictional_resistance_n"]["absolute_delta"], 0.3)
-        self.assertEqual(first_fields["wave_resistance_n"]["status"], "missing_modern")
-        self.assertEqual(first_fields["required_thrust_n"]["status"], "missing_modern")
-        self.assertEqual(comparison["summary"]["status_counts"]["numeric_delta"], 24)
-        self.assertEqual(comparison["summary"]["status_counts"]["missing_modern"], 18)
+        self.assertEqual(first_fields["wave_resistance_n"]["status"], "numeric_delta")
+        self.assertEqual(first_fields["required_thrust_n"]["status"], "numeric_delta")
+        self.assertEqual(comparison["summary"]["status_counts"]["numeric_delta"], 42)
+        self.assertNotIn("missing_modern", comparison["summary"]["status_counts"])
         self.assertEqual(comparison["summary"]["max_absolute_delta"]["field"], "rf_form_resistance_n")
-        self.assertEqual(comparison["summary"]["max_relative_delta"]["field"], "correlation_allowance_resistance_n")
+        self.assertEqual(comparison["summary"]["max_relative_delta"]["field"], "transom_resistance_n")
 
     def test_compare_captured_oracle_fixture(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
@@ -49,8 +49,8 @@ class LegacyCompareTest(unittest.TestCase):
         self.assertEqual(comparison["matched_speed_count"], 8)
         self.assertEqual(comparison["unmatched_legacy_speeds"], [])
         self.assertEqual(comparison["unmatched_modern_speeds"], [])
-        self.assertEqual(comparison["summary"]["status_counts"]["numeric_delta"], 96)
-        self.assertEqual(comparison["summary"]["status_counts"]["missing_modern"], 72)
+        self.assertEqual(comparison["summary"]["status_counts"]["numeric_delta"], 168)
+        self.assertNotIn("missing_modern", comparison["summary"]["status_counts"])
 
     def test_compare_reports_unmatched_speeds(self):
         modern_result = {"speeds": [{"speed_knots": 20.0, "speed_mps": 10.28888}]}

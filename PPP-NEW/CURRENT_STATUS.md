@@ -25,14 +25,22 @@ Version 1.0, May 10, 2026
   - Holtrop correlation allowance coefficient `CA`
   - Holtrop correlation allowance resistance `RA`
   - PPP legacy air-drag resistance `RAIR`
+  - Holtrop wave resistance `RW`
+  - Holtrop bulb resistance `RB`
+  - Holtrop transom resistance `RTR`
   - Percent appendage resistance
   - Equivalent-area appendage resistance from `SAPP(1+K2)`
   - Design margin resistance
   - Partial total resistance
   - Effective power
+  - Holtrop wake fraction
+  - Holtrop thrust deduction
+  - Hull efficiency
+  - Relative rotative efficiency
+  - Required thrust
   - Explicit modeling source values for wetted surface and half angle of entrance
   - LCB converted to meters and percent LWL from forward perpendicular
-  - Explicit placeholders for remaining unimplemented legacy report columns
+- Captured oracle comparison now has numeric modern values for every compared legacy report field.
 - Legacy applicability checks:
   - `Fn`
   - `B/T`
@@ -112,14 +120,15 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 
 - Full Holtrop and Mennen resistance components are not complete.
 - Current resistance totals are explicitly marked `partial_source_safe_components`.
-- Wave, bulb, transom, propulsion factors, relative rotative efficiency, and required thrust remain to be implemented.
+- The wave-resistance curve still differs from the captured PPP oracle by up to about 8.4% on the sample, so numerical equivalence is not complete.
+- Wetted-surface and half-angle estimated modes remain unsupported.
 - The first captured legacy `OUT` oracle is available for the normalized sample only.
 - More oracle cases are needed before full formula equivalence can be trusted.
 - `PPPFTRN.EXE` requires PTY-backed Wine execution because plain piped execution fails at Fortran unit 6 `CONOUT$`.
 
 ## Next Best Work
 
-1. Implement Holtrop and Mennen component formulas against primary sources and oracle deltas.
+1. Resolve the remaining wave-resistance formula variant against the captured PPP oracle.
 2. Add more oracle cases once additional valid legacy inputs are available.
 3. Promote oracle comparison thresholds as modern formulas are implemented.
 4. Run Docker smoke tests from a Docker-enabled account.

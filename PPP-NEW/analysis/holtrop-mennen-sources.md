@@ -68,28 +68,28 @@ The current backend core implements only terms that are unambiguous:
 - Holtrop model-ship correlation allowance coefficient `CA`.
 - Correlation allowance resistance `RA = 0.5 * rho * V^2 * S * CA`.
 - PPP legacy air drag `RAIR`, using the pressure coefficient recovered from the captured oracle.
+- Holtrop wave resistance `RW`, currently source-derived but still showing a sample-oracle curve delta.
+- Holtrop bulbous-bow resistance `RB`.
+- Holtrop transom-stern resistance `RTR`.
 - Percent appendage resistance when appendage drag is entered as percent of currently implemented bare-hull resistance.
 - Equivalent-area appendage resistance using the visible legacy input `Appendage Total SAPP(1+K2)` and the same ITTC friction coefficient already computed for the hull.
 - Design-margin resistance as a percentage applied to currently implemented resistance subtotal.
 - Effective power from `PE = RT * V / 1000`.
+- Wake fraction `w`.
+- Thrust deduction `t`.
+- Hull efficiency `etaH`.
+- Relative rotative efficiency `etaRR`.
+- Required thrust `REQ.THR = RT / (1 - t)`.
 - Legacy GUI applicability checks for `Fn`, `B/T`, `LWL/B`, and `CP`.
 
 ## Formula Recovery Work Queue
 
 Recover and implement in this order:
 
-1. Wetted-surface estimation.
-2. Wave resistance `RW`.
-3. Bulbous-bow resistance `RB`.
-4. Transom-stern resistance `RTR`.
-5. Complete percent appendage resistance after the remaining bare-hull terms are implemented.
-6. Total resistance `RT`.
-7. Effective power `PE`.
-8. Wake fraction `w`.
-9. Thrust deduction `t`.
-10. Hull efficiency `etaH`.
-11. Relative rotative efficiency `etaRR`.
-12. Required thrust `REQ.THR`.
+1. Resolve the wave-resistance curve variant against the captured PPP oracle.
+2. Wetted-surface estimation.
+3. Half-angle of entrance estimation.
+4. Broaden oracle coverage with additional legacy saved cases.
 
 ## Oracle Requirement
 

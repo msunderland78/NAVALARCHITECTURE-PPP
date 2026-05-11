@@ -35,9 +35,9 @@ class LegacyCompareCliTest(unittest.TestCase):
             self.assertEqual(result["legacy_out"], str(out_path))
             self.assertEqual(result["comparisons"][0]["fields"][0]["field"], "frictional_resistance_n")
             self.assertLess(result["comparisons"][0]["fields"][0]["absolute_delta"], 0.3)
-            self.assertEqual(result["comparisons"][0]["fields"][1]["status"], "missing_modern")
-            self.assertEqual(result["summary"]["status_counts"], {"numeric_delta": 2, "missing_modern": 2})
-            self.assertEqual(result["summary"]["max_relative_delta"]["field"], "frictional_resistance_n")
+            self.assertEqual(result["comparisons"][0]["fields"][1]["status"], "numeric_delta")
+            self.assertEqual(result["summary"]["status_counts"], {"numeric_delta": 4})
+            self.assertEqual(result["summary"]["max_relative_delta"]["field"], "wave_resistance_n")
             self.assertTrue(result["passed"])
             self.assertEqual(result["failures"], [])
 
@@ -72,8 +72,7 @@ class LegacyCompareCliTest(unittest.TestCase):
             self.assertEqual([failure["rule"] for failure in result["failures"]], [
                 "require_matched_speed_count",
                 "max_absolute_delta",
-                "max_relative_delta",
-                "fail_on_missing_modern"
+                "max_relative_delta"
             ])
 
 

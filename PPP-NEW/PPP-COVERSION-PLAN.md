@@ -29,10 +29,11 @@ Current status as of May 10, 2026:
 - The first backend calculation core scaffold exists in `PPP-NEW/app/backend/ppp_core` with hull derivations, speed sweep terms, ITTC friction coefficient, and legacy applicability checks.
 - The core now computes the source-safe `RF` frictional resistance column from water density, speed, wetted surface, and ITTC-1957 `CF`.
 - The core now computes Holtrop form-factor resistance, correlation allowance coefficient/resistance, and PPP air drag against the captured oracle.
+- The core now computes Holtrop wave, bulb, transom, wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust fields.
 - The core now reports displacement volume and displacement mass derived from the normalized hull and water inputs.
 - The core now reports LCB in both meters and percent LWL from the forward perpendicular.
 - The core now reports inverse hull ratios, midship area, waterplane area, and the length-displacement volume ratio for later Holtrop range checks and formula work.
-- The core now reports partial resistance components, percent appendage resistance, equivalent-area appendage resistance from `SAPP(1+K2)`, form-factor resistance, correlation allowance, air drag, design margin resistance, partial total resistance, and effective power with `resistance_status` marking the result as incomplete until the remaining Holtrop-specific components are implemented.
+- The core now reports all visible captured-oracle resistance and propulsion columns with `resistance_status` still marking the result as provisional until the remaining wave-resistance delta is resolved.
 - Evaluation results now expose the active modeling source values for wetted surface and half angle of entrance, preparing the output contract for future estimated-mode formulas.
 - Estimated wetted-surface and half-angle modes now fail explicitly until their source-derived formulas are implemented.
 - Unsupported stern, propulsion, and water type values now fail explicitly before calculation.
@@ -88,7 +89,7 @@ Current status as of May 10, 2026:
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 
-The next milestone is to implement source-derived Holtrop and Mennen components against the captured oracle comparison deltas, then broaden oracle coverage when more valid legacy inputs are available.
+The next milestone is to resolve the remaining wave-resistance curve delta against the captured oracle, then broaden oracle coverage when more valid legacy inputs are available.
 
 ## Legacy File Inventory
 
