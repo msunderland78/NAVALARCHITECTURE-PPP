@@ -1,4 +1,5 @@
 import re
+from math import isfinite
 
 
 NUMBER_RE = re.compile(r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[deDE][-+]?\d+)?")
@@ -114,7 +115,10 @@ def parse_input_line(target, line):
 
 
 def numeric_values(text):
-    return [float(match.group(0).replace("D", "E").replace("d", "e")) for match in NUMBER_RE.finditer(text)]
+    values = [float(match.group(0).replace("D", "E").replace("d", "e")) for match in NUMBER_RE.finditer(text)]
+    if any(not isfinite(value) for value in values):
+        raise ValueError("legacy OUT numeric value must be finite")
+    return values
 
 
 def starts_with_number(text):

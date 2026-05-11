@@ -137,6 +137,7 @@ Version 1.0, May 10, 2026
 - Captured oracle regression threshold requiring eight matched speeds and max absolute delta under 100 N.
 - Captured estimated-mode oracle fixture and regression threshold for estimated wetted surface and half angle.
 - Legacy `OUT` text parser for future oracle fixtures.
+- Legacy `OUT` parser now rejects non-finite numeric report values before comparison.
 - Representative legacy `OUT` text fixture for parser and comparison regression tests.
 - Legacy `OUT` to modern-result comparison diagnostics with status counts, max absolute delta, and max relative delta summaries.
 - Legacy `OUT` comparison CLI for JSON delta reports and optional absolute/relative pass/fail gates.
@@ -155,7 +156,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-119 tests OK
+120 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

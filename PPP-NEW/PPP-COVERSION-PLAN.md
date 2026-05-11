@@ -86,6 +86,7 @@ Current status as of May 10, 2026:
 - A real legacy `OUT` oracle has been captured for the normalized `PPPIN.PPP` sample.
 - Parsed oracle JSON and oracle-to-modern comparison fixtures now exist for the normalized sample.
 - A legacy `OUT` text parser exists for future oracle fixtures.
+- Legacy `OUT` parser now rejects non-finite numeric report values before comparison.
 - A representative, non-oracle `OUT` fixture is pinned for parser and comparison regression tests until a real legacy `OUT` is captured.
 - Legacy `OUT` to modern-result comparison diagnostics now merge the coefficient, component, and powering tables by speed and report numeric deltas, missing modern fields, status counts, max absolute delta, and max relative delta summaries.
 - A legacy `OUT` comparison CLI exists for repeatable JSON delta reports and optional absolute/relative pass/fail gates.

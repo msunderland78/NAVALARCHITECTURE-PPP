@@ -27,6 +27,10 @@ class LegacyOutTest(unittest.TestCase):
 
         self.assertAlmostEqual(parsed["input_verification"]["kinematic_viscosity_m_2_s"]["numeric_value"], 1.18831e-6)
 
+    def test_rejects_non_finite_numbers(self):
+        with self.assertRaisesRegex(ValueError, "legacy OUT numeric value must be finite"):
+            parse_legacy_out("Input Verification:\nKinematic Viscosity (m^2/s) = 1.0D+999\n")
+
     def test_powering_rows_without_speed_mps(self):
         text = "\n".join([
             "Resistance, Effective Power, Propulsion Factors and Required Thrust",
