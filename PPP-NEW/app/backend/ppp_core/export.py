@@ -34,6 +34,35 @@ SPEED_COLUMNS = [
     "resistance_status"
 ]
 
+REPORT_SPEED_COLUMNS = [
+    "speed_knots",
+    "froude_number",
+    "total_resistance_n",
+    "effective_power_kw",
+    "required_thrust_n",
+    "resistance_status"
+]
+
+REPORT_DERIVED_COLUMNS = [
+    "mean_draft_m",
+    "prismatic_coefficient",
+    "displacement_mass_tonnes",
+    "length_displacement_ratio"
+]
+
+REPORT_MODELING_COLUMNS = [
+    "wetted_surface_m2",
+    "half_angle_entrance_degrees"
+]
+
+REPORT_APPLICABILITY_COLUMNS = [
+    "label",
+    "value",
+    "lower",
+    "upper",
+    "ok"
+]
+
 
 def speeds_to_csv(result):
     speed_rows = validate_speed_rows(result)
@@ -61,6 +90,7 @@ def validate_speed_rows(result):
 
 
 def result_to_markdown(result, case=None):
+    validate_report_result(result)
     lines = [
         f"# {result['project']['name']}",
         "",
@@ -118,6 +148,43 @@ def result_to_markdown(result, case=None):
             f"`{row['resistance_status']}` |"
         )
     return "\n".join(lines) + "\n"
+
+
+def validate_report_result(result):
+    if not isinstance(result, dict):
+        raise ValueError("result must be an object")
+    for section in ["project", "engineering_review", "derived", "modeling"]:
+        if not isinstance(result.get(section), dict):
+            raise ValueError(f"result.{section} must be an object")
+    for key in ["name", "run_id"]:
+        if key not in result["project"]:
+            raise ValueError(f"result.project.{key} is required")
+    for key in ["note", "status"]:
+        if key not in result["engineering_review"]:
+            raise ValueError(f"result.engineering_review.{key} is required")
+    warnings = result["engineering_review"].get("warnings", [])
+    if not isinstance(warnings, list):
+        raise ValueError("result.engineering_review.warnings must be a list")
+    for key in REPORT_DERIVED_COLUMNS:
+        if key not in result["derived"]:
+            raise ValueError(f"result.derived.{key} is required")
+    for key in REPORT_MODELING_COLUMNS:
+        if key not in result["modeling"]:
+            raise ValueError(f"result.modeling.{key} is required")
+    validate_report_rows(result, "applicability", REPORT_APPLICABILITY_COLUMNS)
+    validate_report_rows(result, "speeds", REPORT_SPEED_COLUMNS)
+
+
+def validate_report_rows(result, name, columns):
+    rows = result.get(name)
+    if not isinstance(rows, list):
+        raise ValueError(f"result.{name} must be a list")
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError(f"result.{name} rows must be objects")
+        for column in columns:
+            if column not in row:
+                raise ValueError(f"result.{name}.{column} is required")
 
 
 def input_summary_lines(case):

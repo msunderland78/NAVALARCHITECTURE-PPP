@@ -62,6 +62,32 @@ class ExportTest(unittest.TestCase):
         self.assertIn("Warnings:", text)
         self.assertIn("single-screw conventional-stern equations", text)
 
+    def test_result_to_markdown_rejects_bad_result_shape(self):
+        with self.assertRaisesRegex(ValueError, "result must be an object"):
+            result_to_markdown([])
+        with self.assertRaisesRegex(ValueError, "result.project must be an object"):
+            result_to_markdown({})
+        with self.assertRaisesRegex(ValueError, "result.engineering_review.warnings must be a list"):
+            result_to_markdown({
+                "project": {"name": "Example", "run_id": "1"},
+                "engineering_review": {"note": "note", "status": "status", "warnings": "bad"},
+                "derived": {},
+                "modeling": {},
+                "applicability": [],
+                "speeds": []
+            })
+
+    def test_result_to_markdown_rejects_bad_rows(self):
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        result["applicability"] = ["bad"]
+        with self.assertRaisesRegex(ValueError, "result.applicability rows must be objects"):
+            result_to_markdown(result)
+
+        result = evaluate_case(json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text()), point_count=1)
+        del result["speeds"][0]["total_resistance_n"]
+        with self.assertRaisesRegex(ValueError, "result.speeds.total_resistance_n is required"):
+            result_to_markdown(result)
+
 
 if __name__ == "__main__":
     unittest.main()
