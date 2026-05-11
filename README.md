@@ -1,6 +1,6 @@
 # Power Prediction Program (PPP) for the Web
 
-Power Prediction Program (PPP) for the Web is a browser-based modernization of the legacy PPP resistance and powering workflow. It is intended for preliminary naval architecture evaluation of displacement hull forms using the recovered Holtrop and Mennen based calculation path from the original Performance Prediction Program artifacts.
+Power Prediction Program (PPP) for the Web is a browser-based modernization of the legacy PPP resistance and powering workflow. It is intended for preliminary naval architecture evaluation of displacement hull forms using the recovered Holtrop and Mennen based calculation path from the original Power Prediction Program artifacts.
 
 The application runs from `PPP-NEW`. The legacy material in `PPP-OLD` is archival evidence only and is not required by the web application.
 

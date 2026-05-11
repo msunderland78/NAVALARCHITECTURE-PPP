@@ -27,6 +27,7 @@ def main(argv=None):
         check_options(base_url),
         check_method_not_allowed(base_url),
         check_text_contains("frontend", frontend, "case-form"),
+        check_text_contains("frontend app name", frontend, "Power Prediction Program (PPP)"),
         check_text_contains("frontend engineering note", frontend, "engineering-note"),
         check_text_contains("frontend eight-point default", frontend, 'name="point_count" type="number" min="1" max="20" step="1" value="8"'),
         check_evaluate(base_url, case),
