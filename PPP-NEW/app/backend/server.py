@@ -13,6 +13,10 @@ STATIC_TYPES = {
     ".css": "text/css",
     ".js": "application/javascript"
 }
+SECURITY_HEADERS = {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer"
+}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -48,6 +52,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
+        self.send_security_headers()
         self.end_headers()
         if not head_only:
             self.wfile.write(body)
@@ -64,9 +69,14 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", STATIC_TYPES.get(path.suffix, "application/octet-stream"))
         self.send_header("Content-Length", str(len(body)))
+        self.send_security_headers()
         self.end_headers()
         if not head_only:
             self.wfile.write(body)
+
+    def send_security_headers(self):
+        for name, value in SECURITY_HEADERS.items():
+            self.send_header(name, value)
 
 
 def request_path(target):

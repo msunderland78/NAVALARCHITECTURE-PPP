@@ -23,6 +23,7 @@ def main(argv=None):
 
     checks = [
         check_json("health", request_json(base_url, "GET", "/health"), {"status": "ok"}),
+        check_security_headers(base_url),
         check_text_contains("frontend", frontend, "case-form"),
         check_text_contains("frontend engineering note", frontend, "engineering-note"),
         check_text_contains("frontend eight-point default", frontend, 'name="point_count" type="number" min="1" max="20" step="1" value="8"'),
@@ -173,6 +174,21 @@ def check_text_contains(name, text, needle):
             "needle": needle,
             "length": len(text)
         }
+    }
+
+
+def check_security_headers(base_url):
+    request = urllib.request.Request(f"{base_url}/health", method="GET")
+    with urllib.request.urlopen(request, timeout=10) as response:
+        headers = response.headers
+        details = {
+            "X-Content-Type-Options": headers.get("X-Content-Type-Options"),
+            "Referrer-Policy": headers.get("Referrer-Policy")
+        }
+    return {
+        "name": "security headers",
+        "passed": details["X-Content-Type-Options"] == "nosniff" and details["Referrer-Policy"] == "no-referrer",
+        "details": details
     }
 
 
