@@ -4,7 +4,7 @@ from pathlib import Path
 
 from ppp_core import route
 from test_legacy_ppp import sample_ole_document
-from server import FRONTEND, request_path
+from server import FRONTEND, request_content_length, request_path
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -360,6 +360,14 @@ class ApiTest(unittest.TestCase):
     def test_server_request_path_ignores_query_string(self):
         self.assertEqual(request_path("/health?ready=1"), "/health")
         self.assertEqual(request_path("/app.js?v=20260511"), "/app.js")
+
+    def test_server_request_content_length_validation(self):
+        self.assertEqual(request_content_length("0"), 0)
+        self.assertEqual(request_content_length("27"), 27)
+        with self.assertRaisesRegex(ValueError, "Content-Length must be a non-negative integer"):
+            request_content_length("abc")
+        with self.assertRaisesRegex(ValueError, "Content-Length must be a non-negative integer"):
+            request_content_length("-1")
 
     def test_frontend_files_exist(self):
         self.assertTrue((FRONTEND / "index.html").exists())

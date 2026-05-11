@@ -32,7 +32,11 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = request_path(self.path)
-        length = int(self.headers.get("Content-Length", "0"))
+        try:
+            length = request_content_length(self.headers.get("Content-Length", "0"))
+        except ValueError as error:
+            self.respond(400, "application/json", {"error": str(error)})
+            return
         body = self.rfile.read(length)
         self.respond(*route("POST", path, body))
 
@@ -67,6 +71,16 @@ class Handler(BaseHTTPRequestHandler):
 
 def request_path(target):
     return urlsplit(target).path
+
+
+def request_content_length(value):
+    try:
+        length = int(value)
+    except (TypeError, ValueError):
+        raise ValueError("Content-Length must be a non-negative integer")
+    if length < 0:
+        raise ValueError("Content-Length must be a non-negative integer")
+    return length
 
 
 def run(host="127.0.0.1", port=8000):
