@@ -91,6 +91,7 @@ Current status as of May 10, 2026:
 - The normalized captured oracle now has an enforced regression threshold requiring eight matched speeds and max absolute delta below 100 N.
 - An estimated-mode variant of the normalized sample now has a captured oracle and the same enforced regression threshold.
 - The estimated-mode sample now has a pinned modern result baseline for repeatable non-oracle regression checks.
+- Fresh-water preset behavior now has pinned numeric regression terms for core resistance and powering outputs.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.

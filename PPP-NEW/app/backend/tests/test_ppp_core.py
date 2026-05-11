@@ -108,6 +108,25 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(result["modeling"]["half_angle_entrance_degrees"], 12.503189765172571)
         self.assertAlmostEqual(result["speeds"][0]["frictional_resistance_n"], 362951.0528436933)
 
+    def test_fresh_water_preset_regression_terms(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["water"] = {
+            "type": "fresh_water_15_c",
+            "density_kg_m3": 999.1026,
+            "kinematic_viscosity_m2_s": 0.0000011386
+        }
+        result = evaluate_case(case, point_count=1)
+        first = result["speeds"][0]
+
+        self.assertAlmostEqual(result["derived"]["displacement_mass_tonnes"], 44734.219453440004)
+        self.assertAlmostEqual(first["reynolds_number"], 1436792481.995433)
+        self.assertAlmostEqual(first["friction_coefficient"], 0.0014640348266538586)
+        self.assertAlmostEqual(first["frictional_resistance_n"], 343611.1400716482)
+        self.assertAlmostEqual(first["correlation_allowance_resistance_n"], 80688.62575740968)
+        self.assertAlmostEqual(first["total_resistance_n"], 592225.0200056112)
+        self.assertAlmostEqual(first["effective_power_kw"], 4569.9991228765)
+        self.assertAlmostEqual(first["required_thrust_n"], 725882.2393657196)
+
     def test_unsupported_modeling_modes(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["modeling"]["wetted_surface_mode"] = "unknown"
