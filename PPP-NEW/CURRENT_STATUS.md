@@ -86,6 +86,7 @@ Version 1.0, May 10, 2026
 - Candidate legacy `IN` propeller/wetted-surface record order corrected from direct writer disassembly.
 - Pinned candidate legacy `IN` fixture for the normalized sample case.
 - Pinned current modern sample result fixture for regression baselining.
+- Pinned estimated-mode modern sample result fixture for regression baselining.
 - Fixture manifest distinguishing source, representative, modern baseline, and future oracle artifacts.
 - Reproducible legacy oracle runner that stages copied executables outside `PPP-NEW`.
 - Reproducible legacy oracle runner records the exact Wine command and supports explicit Wine arguments.
@@ -121,7 +122,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-78 tests OK
+79 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

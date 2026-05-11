@@ -15,5 +15,6 @@ These fixtures are regression inputs for the modern implementation. None of them
 | `pppin_sample_estimated_legacy_oracle.out.json` | Parsed JSON form of `pppin_sample_estimated_legacy_oracle.OUT` | Captured oracle derivative |
 | `pppin_sample_estimated_oracle_compare.json` | Delta report comparing the estimated-mode oracle against the modern implementation | Oracle comparison baseline |
 | `pppin_sample_modern_result.json` | Current modern partial-result baseline for the normalized sample, including derived hydrostatic terms and two speeds | Modern regression baseline |
+| `pppin_sample_estimated_modern_result.json` | Current modern partial-result baseline for the estimated-mode sample, including active modeling terms and two speeds | Modern regression baseline |
 
 Captured oracle fixtures are plain text or JSON only. Legacy executables remain in ignored archival folders and are not part of the modern product.
