@@ -4,6 +4,7 @@ import sys
 from hashlib import sha256
 from pathlib import Path
 
+from .case_io import load_case_json
 from .legacy_in import generate_candidate_legacy_in
 from .legacy_sweep import candidate_option_sets
 
@@ -22,8 +23,7 @@ def main(argv=None):
     parser.add_argument("--propeller-record-order", action="append", choices=["wetted_half_dp", "dp_wetted_half"])
     args = parser.parse_args(argv)
 
-    payload = json.loads(Path(args.case_json).read_text())
-    case = payload.get("case", payload)
+    case = load_case_json(args.case_json)
     option_sets = candidate_option_sets(
         args.stern_correction,
         args.pitch_diameter_ratio,

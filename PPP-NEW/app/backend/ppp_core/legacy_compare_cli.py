@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+from .case_io import load_case_json
 from .core import DEFAULT_POINT_COUNT, evaluate_case
 from .legacy_compare import compare_legacy_out_to_result
 from .legacy_out import parse_legacy_out
@@ -22,8 +23,7 @@ def main(argv=None):
     parser.add_argument("--require-matched-speed-count", type=int)
     args = parser.parse_args(argv)
 
-    payload = json.loads(Path(args.case_json).read_text())
-    case = payload.get("case", payload)
+    case = load_case_json(args.case_json)
     modern_result = evaluate_case(case, args.point_count)
     legacy_out_path = Path(args.legacy_out)
     parsed_out = parse_legacy_out(legacy_out_path.read_text(errors="replace"), legacy_out_path.name)

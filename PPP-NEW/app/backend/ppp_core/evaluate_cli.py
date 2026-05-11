@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+from .case_io import load_case_json
 from .core import DEFAULT_POINT_COUNT, evaluate_case
 
 
@@ -13,8 +14,7 @@ def main(argv=None):
     parser.add_argument("--output")
     args = parser.parse_args(argv)
 
-    payload = json.loads(Path(args.case_json).read_text())
-    case = payload.get("case", payload)
+    case = load_case_json(args.case_json)
     result = evaluate_case(case, args.point_count)
     text = json.dumps(result, indent=2)
     if args.output:

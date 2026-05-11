@@ -3,6 +3,7 @@ import json
 import sys
 from pathlib import Path
 
+from .case_io import load_case_json
 from .legacy_out import parse_legacy_out
 from .legacy_sweep import candidate_option_sets, run_oracle_sweep
 
@@ -30,8 +31,7 @@ def main(argv=None):
     parser.add_argument("--capture-parsed-out")
     args = parser.parse_args(argv)
 
-    payload = json.loads(Path(args.case_json).read_text())
-    case = payload.get("case", payload)
+    case = load_case_json(args.case_json)
     option_sets = candidate_option_sets(
         args.stern_correction,
         args.pitch_diameter_ratio,

@@ -1,8 +1,8 @@
 import argparse
-import json
 import sys
 from pathlib import Path
 
+from .case_io import load_case_json
 from .legacy_in import generate_candidate_legacy_in
 
 
@@ -19,8 +19,7 @@ def main(argv=None):
     parser.add_argument("--propeller-record-order", choices=["wetted_half_dp", "dp_wetted_half"])
     args = parser.parse_args(argv)
 
-    payload = json.loads(Path(args.case_json).read_text())
-    case = payload.get("case", payload)
+    case = load_case_json(args.case_json)
     text = generate_candidate_legacy_in(case, clean_options({
         "stern_correction": args.stern_correction,
         "pitch_diameter_ratio": args.pitch_diameter_ratio,

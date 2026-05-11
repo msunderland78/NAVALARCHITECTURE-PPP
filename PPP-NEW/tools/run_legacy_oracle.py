@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BACKEND = ROOT / "app" / "backend"
 sys.path.insert(0, str(BACKEND))
 
+from ppp_core.case_io import load_case_json
 from ppp_core.legacy_oracle import run_oracle
 
 
@@ -25,7 +26,7 @@ def main():
     parser.add_argument("--pitch-diameter-ratio", type=float, default=None)
     parser.add_argument("--water-type-code", type=float, default=None)
     args = parser.parse_args()
-    case = json.loads(Path(args.case).read_text(encoding="utf-8"))
+    case = load_case_json(args.case)
     options = clean_options({
         "stern_correction": args.stern_correction,
         "pitch_diameter_ratio": args.pitch_diameter_ratio,

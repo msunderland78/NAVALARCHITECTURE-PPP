@@ -51,6 +51,7 @@ Version 1.0, May 10, 2026
 - API routes now return controlled 400 responses for malformed JSON shapes and invalid UTF-8 request bodies.
 - JSON API routes now reject non-object request bodies with a controlled 400 response.
 - The dependency-free HTTP server now rejects invalid `Content-Length` values with controlled 400 responses.
+- CLI and oracle case-file entry points now share a JSON case loader with object-shape validation.
 - Legacy `OUT` comparison now validates speed tolerance and field-list options before producing diagnostics.
 - Legacy comparison option validation now lives in the comparison helper so API and CLI callers share the same checks.
 - Legacy `OUT` comparison now validates legacy and modern speed-row shapes before matching rows.
@@ -151,7 +152,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-113 tests OK
+116 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
