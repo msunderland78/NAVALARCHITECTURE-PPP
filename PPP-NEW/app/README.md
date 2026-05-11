@@ -31,6 +31,8 @@ Open:
 http://127.0.0.1:8080/
 ```
 
+Detailed deployment notes are in `DEPLOYMENT.md`.
+
 Use another host port:
 
 ```sh

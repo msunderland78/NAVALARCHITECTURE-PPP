@@ -74,6 +74,7 @@ Version 1.0, May 10, 2026
   - Letter-size print/PDF layout
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
+- Ubuntu/Docker Compose deployment guide for the NGINX container path.
 - HTTP smoke CLI for backend or NGINX route verification.
 - Automated HTTP smoke regression covering backend routes, frontend static serving, legacy export, and legacy `OUT` comparison.
 - Static notes for the legacy temporary `IN` writer.
