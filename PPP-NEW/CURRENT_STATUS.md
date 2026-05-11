@@ -4,9 +4,11 @@ Version 1.0, May 10, 2026
 
 ## Implemented
 
+- Public project, documentation, browser, and test references use the corrected name `Power Prediction Program (PPP)`.
 - Legacy evidence notes for supplied files.
 - Legacy inventory updated for the added manuals, spreadsheets, and Finder metadata.
 - `470Manuals.pdf` reviewed for PPP 1.8 behavior, source, speed sweep, applicability, and resistance-component evidence.
+- `470Manuals.pdf` is tracked under `PPP-NEW/` for GitHub reference access.
 - Legacy `.PPP` import for the observed OLE `Contents` stream layout.
 - Modern case JSON save/load.
 - Source-safe partial calculation core:
@@ -101,7 +103,7 @@ Version 1.0, May 10, 2026
   - Applicability panel
   - Derived hydrostatic summary
   - Engineering review status note in browser and printed report output
-  - Result table
+  - Result table without the internal `resistance_status` column
   - Legacy `IN` oracle variant controls
   - Legacy `OUT` comparison speed tolerance control
   - Explicit user-mode controls for wetted surface and half angle

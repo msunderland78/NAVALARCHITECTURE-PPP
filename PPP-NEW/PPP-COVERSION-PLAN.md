@@ -15,9 +15,11 @@ No obvious hardware-lock or dongle dependency was found in the current artifacts
 Current status as of May 10, 2026:
 
 - Repository setup is complete with `PPP-OLD/` ignored by git and `PPP-NEW/` available for documentation and implementation.
+- Public project, documentation, browser, and test references use the corrected name `Power Prediction Program (PPP)`.
 - Initial static inventory is complete for `PPP.EXE`, `PPPFTRN.EXE`, and `PPPIN.PPP`.
 - The added `470Manuals.pdf`, `Hollenbach (R3).xls`, `PowerEstimation(R5).xls`, and `FINDER.DAT` have been inventoried as archival inputs.
 - `470Manuals.pdf` confirms PPP 1.8 behavior, source references, eight-speed sweep behavior, applicability limits, and resistance-component structure.
+- `470Manuals.pdf` is tracked under `PPP-NEW/` for GitHub reference access.
 - `PPP.EXE` has been identified as a PE32 Win32 GUI executable using MFC 4.0 and Visual C++ runtime imports.
 - `PPPFTRN.EXE` has been identified as a PE32 Win32 console executable with DEC Visual Fortran runtime strings.
 - `PPPIN.PPP` has been identified as an OLE Compound Document containing one `Contents` stream with an MFC-style serialized document.
@@ -47,6 +49,7 @@ Current status as of May 10, 2026:
 - Modern case JSON save/load is available in the browser workspace as the replacement path for MFC `.PPP` saving.
 - Browser print/PDF output is available for the current report view.
 - Browser and printed reports include a preliminary engineering review status note tied to result status.
+- The main browser results table omits the internal `resistance_status` column; status remains available in engineering review metadata, exports, and oracle comparison diagnostics.
 - Markdown engineering report export is available for review packages and issue attachments.
 - CSV result export now validates result and speed-row shapes before writing output.
 - CSV result export now validates numeric speed-row values are finite before writing output.
