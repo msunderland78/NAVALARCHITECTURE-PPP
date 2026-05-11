@@ -230,6 +230,11 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "water.density_kg_m3 must be finite"):
             evaluate_case(case, point_count=1)
 
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["wetted_surface_m2"] = float("nan")
+        with self.assertRaisesRegex(ValueError, "modeling.wetted_surface_m2 must be finite"):
+            evaluate_case(case, point_count=1)
+
     def test_invalid_propulsion_dimensions(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["propulsion"]["propeller_diameter_m"] = 0

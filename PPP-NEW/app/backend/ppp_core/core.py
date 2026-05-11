@@ -179,6 +179,11 @@ def validate_case(case):
     for name, value in positive.items():
         if value <= 0:
             raise ValueError(f"{name} must be positive")
+    modeling_numeric = {
+        "modeling.wetted_surface_m2": modeling["wetted_surface_m2"],
+        "modeling.half_angle_entrance_degrees": modeling["half_angle_entrance_degrees"]
+    }
+    validate_finite_values(modeling_numeric)
     if modeling.get("wetted_surface_mode", "user") == "user" and modeling["wetted_surface_m2"] <= 0:
         raise ValueError("modeling.wetted_surface_m2 must be positive")
     if modeling.get("half_angle_entrance_mode", "user") == "user" and modeling["half_angle_entrance_degrees"] <= 0:

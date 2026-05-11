@@ -97,7 +97,7 @@ Current status as of May 10, 2026:
 - Point-count validation now rejects fractional values instead of truncating them.
 - Browser initial-speed constraints now match backend positive-speed validation.
 - Backend validation now requires the air-drag toggle to be a boolean.
-- Backend validation now rejects non-finite numeric inputs before formula evaluation.
+- Backend validation now rejects non-finite numeric inputs, including modeling dimensions, before formula evaluation.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Markdown engineering report exports now include speed-sweep, water-property, air-drag, and margin input summary.
 - Fresh-water preset legacy `IN` export is pinned to water code `2`.
