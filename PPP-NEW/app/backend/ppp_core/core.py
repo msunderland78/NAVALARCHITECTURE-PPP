@@ -32,6 +32,7 @@ MODELING_MODES = {
     "estimated"
 }
 DEFAULT_POINT_COUNT = 8
+MAX_POINT_COUNT = 20
 ENGINEERING_REVIEW_NOTE = (
     "Preliminary resistance and powering estimate. Use with naval architect review and "
     "project-specific validation before design, procurement, or operational decisions."
@@ -140,8 +141,8 @@ def modeling_result(modeling, active_modeling):
 
 def validate_point_count(point_count):
     value = int(point_count)
-    if value < 1 or value > 100:
-        raise ValueError("point_count must be between 1 and 100")
+    if value < 1 or value > MAX_POINT_COUNT:
+        raise ValueError("point_count must be between 1 and 20")
     return value
 
 

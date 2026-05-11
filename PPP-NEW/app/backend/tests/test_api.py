@@ -55,7 +55,16 @@ class ApiTest(unittest.TestCase):
 
         self.assertEqual(status, 400)
         self.assertEqual(content_type, "application/json")
-        self.assertEqual(payload["error"], "point_count must be between 1 and 100")
+        self.assertEqual(payload["error"], "point_count must be between 1 and 20")
+
+    def test_point_count_route_rejects_browser_max_overflow(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        body = json.dumps({"case": case, "point_count": 21}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "point_count must be between 1 and 20")
 
     def test_bad_speed_increment_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

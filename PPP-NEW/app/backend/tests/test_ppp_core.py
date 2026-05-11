@@ -23,6 +23,14 @@ class PppCoreTest(unittest.TestCase):
         self.assertEqual(len(result["speeds"]), 8)
         self.assertAlmostEqual(result["speeds"][-1]["speed_knots"], 29.0)
 
+    def test_point_count_limit_matches_browser_limit(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        result = evaluate_case(case, point_count=20)
+
+        self.assertEqual(len(result["speeds"]), 20)
+        with self.assertRaisesRegex(ValueError, "point_count must be between 1 and 20"):
+            evaluate_case(case, point_count=21)
+
     def test_estimated_sample_modern_result_fixture(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_estimated_import.json").read_text())
         expected = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_estimated_modern_result.json").read_text())
