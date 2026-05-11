@@ -135,6 +135,17 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(first["effective_power_kw"], 4569.9991228765)
         self.assertAlmostEqual(first["required_thrust_n"], 725882.2393657196)
 
+    def test_air_drag_can_be_disabled(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        enabled = evaluate_case(case, point_count=1)["speeds"][0]
+        case["modeling"]["air_drag"] = False
+        disabled = evaluate_case(case, point_count=1)["speeds"][0]
+        expected_delta = enabled["air_resistance_n"] * 1.05
+
+        self.assertAlmostEqual(disabled["air_resistance_n"], 0.0)
+        self.assertAlmostEqual(enabled["total_resistance_n"] - disabled["total_resistance_n"], expected_delta)
+        self.assertAlmostEqual(enabled["effective_power_kw"] - disabled["effective_power_kw"], expected_delta * enabled["speed_mps"] / 1000)
+
     def test_unsupported_modeling_modes(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["modeling"]["wetted_surface_mode"] = "unknown"

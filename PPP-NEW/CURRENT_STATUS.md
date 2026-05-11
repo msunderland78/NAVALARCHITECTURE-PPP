@@ -25,6 +25,7 @@ Version 1.0, May 10, 2026
   - Holtrop correlation allowance coefficient `CA`
   - Holtrop correlation allowance resistance `RA`
   - PPP legacy air-drag resistance `RAIR`
+  - Air-drag on/off modeling
   - Holtrop wave resistance `RW`
   - Holtrop bulb resistance `RB`
   - Holtrop transom resistance `RTR`
@@ -127,7 +128,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-88 tests OK
+90 tests OK
 ```
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.

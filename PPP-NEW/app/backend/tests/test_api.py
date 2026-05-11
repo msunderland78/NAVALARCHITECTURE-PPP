@@ -158,6 +158,16 @@ class ApiTest(unittest.TestCase):
         self.assertAlmostEqual(payload["modeling"]["wetted_surface_m2"], 8074.589977924038)
         self.assertAlmostEqual(payload["modeling"]["half_angle_entrance_degrees"], 12.503189765172571)
 
+    def test_air_drag_disabled_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["air_drag"] = False
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 200)
+        self.assertEqual(content_type, "application/json")
+        self.assertAlmostEqual(payload["speeds"][0]["air_resistance_n"], 0.0)
+
     def test_csv_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")

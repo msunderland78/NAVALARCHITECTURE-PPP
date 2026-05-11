@@ -27,6 +27,7 @@ def main(argv=None):
         check_text_contains("frontend engineering note", frontend, "engineering-note"),
         check_text_contains("frontend eight-point default", frontend, 'name="point_count" type="number" min="1" max="20" step="1" value="8"'),
         check_evaluate(base_url, case),
+        check_air_drag_disabled(base_url, case),
         check_estimated_evaluate(base_url, estimated_case),
         check_report_export(base_url, case),
         check_legacy_in_export(base_url, estimated_case),
@@ -67,6 +68,19 @@ def check_estimated_evaluate(base_url, case):
         "name": "evaluate estimated-mode sample",
         "passed": abs(modeling.get("wetted_surface_m2", 0) - 8074.589977924038) < 1e-9 and abs(modeling.get("half_angle_entrance_degrees", 0) - 12.503189765172571) < 1e-9,
         "details": modeling
+    }
+
+
+def check_air_drag_disabled(base_url, case):
+    payload_case = json.loads(json.dumps(case))
+    payload_case["modeling"]["air_drag"] = False
+    payload = request_json(base_url, "POST", "/api/evaluate", {"case": payload_case, "point_count": 1})
+    return {
+        "name": "evaluate air-drag disabled sample",
+        "passed": payload.get("speeds", [{}])[0].get("air_resistance_n") == 0.0,
+        "details": {
+            "air_resistance_n": payload.get("speeds", [{}])[0].get("air_resistance_n")
+        }
     }
 
 

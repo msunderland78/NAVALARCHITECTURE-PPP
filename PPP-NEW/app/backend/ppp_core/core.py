@@ -430,7 +430,9 @@ def holtrop_c8(beam, mean_draft, wetted_surface, lwl, propeller_diameter):
 def resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resistance, transom_resistance, correlation_allowance_coefficient, rho, wetted_surface, modeling, appendages, margin):
     rf_form_resistance = rf * form_factor
     correlation_allowance_resistance = 0.5 * rho * speed_mps ** 2 * wetted_surface * correlation_allowance_coefficient
-    air_resistance = LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT * speed_mps ** 2 * modeling["deckhouse_cargo_frontal_area_m2"]
+    air_resistance = 0.0
+    if modeling["air_drag"]:
+        air_resistance = LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT * speed_mps ** 2 * modeling["deckhouse_cargo_frontal_area_m2"]
     implemented_bare_hull_resistance = rf + rf_form_resistance + wave_resistance + bulb_resistance + transom_resistance
     appendage_mode = appendages.get("mode", "percent_bare_hull_resistance")
     appendage_resistance = 0.0
