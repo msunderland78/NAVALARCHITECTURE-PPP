@@ -4,7 +4,7 @@ from pathlib import Path
 
 from ppp_core import route
 from test_legacy_ppp import sample_ole_document
-from server import FRONTEND, request_content_length, request_path
+from server import FRONTEND, Handler, request_content_length, request_path
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -402,6 +402,10 @@ class ApiTest(unittest.TestCase):
             request_content_length("abc")
         with self.assertRaisesRegex(ValueError, "Content-Length must be a non-negative integer"):
             request_content_length("-1")
+
+    def test_server_banner_hides_python_runtime(self):
+        self.assertEqual(Handler.server_version, "PPPBackend")
+        self.assertEqual(Handler.sys_version, "")
 
     def test_frontend_files_exist(self):
         self.assertTrue((FRONTEND / "index.html").exists())

@@ -20,6 +20,9 @@ SECURITY_HEADERS = {
 
 
 class Handler(BaseHTTPRequestHandler):
+    server_version = "PPPBackend"
+    sys_version = ""
+
     def do_OPTIONS(self):
         self.respond(204, "application/json", {}, headers={"Allow": "GET, HEAD, POST, OPTIONS"})
 
