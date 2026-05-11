@@ -42,7 +42,7 @@ def main(argv=None):
 
 
 def check_evaluate(base_url, case):
-    payload = request_json(base_url, "POST", "/api/evaluate", {"case": case, "point_count": 8})
+    payload = request_json(base_url, "POST", "/api/evaluate", {"case": case})
     review = payload.get("engineering_review", {})
     passed = (
         len(payload.get("speeds", [])) == 8
