@@ -182,6 +182,8 @@ def validate_case(case):
         raise ValueError("modeling.wetted_surface_m2 must be positive")
     if modeling.get("half_angle_entrance_mode", "user") == "user" and modeling["half_angle_entrance_degrees"] <= 0:
         raise ValueError("modeling.half_angle_entrance_degrees must be positive")
+    if not isinstance(modeling["air_drag"], bool):
+        raise ValueError("modeling.air_drag must be boolean")
     bounded = {
         "hull.block_coefficient": hull["block_coefficient"],
         "hull.midship_coefficient": hull["midship_coefficient"],

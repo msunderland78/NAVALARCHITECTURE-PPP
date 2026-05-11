@@ -152,6 +152,13 @@ class PppCoreTest(unittest.TestCase):
         self.assertAlmostEqual(enabled["total_resistance_n"] - disabled["total_resistance_n"], expected_delta)
         self.assertAlmostEqual(enabled["effective_power_kw"] - disabled["effective_power_kw"], expected_delta * enabled["speed_mps"] / 1000)
 
+    def test_air_drag_must_be_boolean(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["air_drag"] = "false"
+
+        with self.assertRaisesRegex(ValueError, "modeling.air_drag must be boolean"):
+            evaluate_case(case, point_count=1)
+
     def test_unsupported_modeling_modes(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["modeling"]["wetted_surface_mode"] = "unknown"

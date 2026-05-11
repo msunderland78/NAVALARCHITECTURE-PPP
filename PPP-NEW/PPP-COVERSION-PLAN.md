@@ -96,6 +96,7 @@ Current status as of May 10, 2026:
 - Backend point-count validation now matches the browser's 1 to 20 point limit.
 - Point-count validation now rejects fractional values instead of truncating them.
 - Browser initial-speed constraints now match backend positive-speed validation.
+- Backend validation now requires the air-drag toggle to be a boolean.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Markdown engineering report exports now include speed-sweep, water-property, air-drag, and margin input summary.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
