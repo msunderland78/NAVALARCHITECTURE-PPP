@@ -40,6 +40,19 @@ class LegacyInTest(unittest.TestCase):
         self.assertEqual(lines[2], "5 0.05 21 4 16 -10 1")
         self.assertEqual(lines[5], "0.8 0.8 2")
 
+    def test_generate_candidate_legacy_in_fresh_water_code(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["water"] = {
+            "type": "fresh_water_15_c",
+            "density_kg_m3": 999.1026,
+            "kinematic_viscosity_m2_s": 0.0000011386
+        }
+        text = generate_candidate_legacy_in(case)
+        lines = text.splitlines()
+
+        self.assertEqual(lines[5], "0.8 0 2")
+        self.assertEqual(lines[7], "999.1026 1.1386e-06")
+
     def test_generate_candidate_legacy_in_old_propeller_record_order(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         text = generate_candidate_legacy_in(case, {"propeller_record_order": "dp_wetted_half"})

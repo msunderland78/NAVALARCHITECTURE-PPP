@@ -99,6 +99,7 @@ Current status as of May 10, 2026:
 - Backend validation now requires the air-drag toggle to be a boolean.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Markdown engineering report exports now include speed-sweep, water-property, air-drag, and margin input summary.
+- Fresh-water preset legacy `IN` export is pinned to water code `2`.
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
