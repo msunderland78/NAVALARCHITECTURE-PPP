@@ -46,6 +46,16 @@ class LegacyInTest(unittest.TestCase):
 
         self.assertEqual(text.splitlines()[4], "8 7890 12.11")
 
+    def test_generate_candidate_legacy_in_estimated_modeling_values(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["wetted_surface_mode"] = "estimated"
+        case["modeling"]["half_angle_entrance_mode"] = "estimated"
+        case["modeling"]["wetted_surface_m2"] = 1
+        case["modeling"]["half_angle_entrance_degrees"] = 1
+        text = generate_candidate_legacy_in(case)
+
+        self.assertEqual(text.splitlines()[4], "8074.58997792 12.5031897652 8")
+
     def test_generate_candidate_legacy_in_first_record_order(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         text = generate_candidate_legacy_in(case, {"first_record_order": "drafts_before_depth"})

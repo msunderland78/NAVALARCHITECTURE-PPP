@@ -28,12 +28,13 @@ PROPELLER_RECORD_ORDERS = {
 
 
 def generate_candidate_legacy_in(case, options=None):
+    from .core import evaluate_case
     options = options or {}
     hull = case["hull"]
     features = case["features"]
     propulsion = case["propulsion"]
     appendages = case["appendages"]
-    modeling = case["modeling"]
+    modeling = {**case["modeling"], **evaluate_case(case, 1)["modeling"]}
     water = case["water"]
     margin = case["margin"]
     speed_sweep = case["speed_sweep"]

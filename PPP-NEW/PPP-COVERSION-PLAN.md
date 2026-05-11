@@ -34,8 +34,7 @@ Current status as of May 10, 2026:
 - The core now reports LCB in both meters and percent LWL from the forward perpendicular.
 - The core now reports inverse hull ratios, midship area, waterplane area, and the length-displacement volume ratio for later Holtrop range checks and formula work.
 - The core now reports all visible captured-oracle resistance and propulsion columns with the normalized sample aligned to report-rounding scale. `resistance_status` still marks the result as provisional until more oracle cases are captured.
-- Evaluation results now expose the active modeling source values for wetted surface and half angle of entrance, preparing the output contract for future estimated-mode formulas.
-- Estimated wetted-surface and half-angle modes now fail explicitly until their source-derived formulas are implemented.
+- Evaluation results now expose active modeling source values for user-entered or estimated wetted surface and half angle of entrance.
 - Unsupported stern, propulsion, and water type values now fail explicitly before calculation.
 - Hull coefficients greater than 1 now fail explicitly before calculation.
 - Invalid feature, propulsion, and modeling dimensions now fail explicitly before calculation.
@@ -58,7 +57,7 @@ Current status as of May 10, 2026:
 - Legacy oracle notes exist in `PPP-NEW/analysis/oracle-notes.md`. A copied `PPPFTRN.EXE` starts under Wine and attempts to read working-directory file `IN` on Fortran unit 4; exact `IN` layout recovery is now the oracle blocker.
 - Static `IN` writer notes exist in `PPP-NEW/analysis/in-format-notes.md`; the GUI opens uppercase `IN`, invokes `PPPFTRN.exe`, and reads `Out`, while the Fortran engine writes `OUT`.
 - The earlier candidate `IN` field map reached the Fortran calculation path under Wine but failed with a `DOMAIN error`; direct writer disassembly corrected the propeller/wetted-surface row, and the corrected candidate now fails at Wine/Fortran `CONOUT$` console handling instead of the prior numerical domain error.
-- A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON.
+- A candidate legacy `IN` generator exists so oracle attempts can be reproduced from modern case JSON, including active estimated wetted-surface and half-angle values.
 - A candidate legacy `IN` CLI exists so oracle attempts can be reproduced from terminal workflows without the browser API.
 - A candidate legacy `IN` matrix CLI exists for dry-run option audits without launching Wine.
 - Direct writer disassembly corrected the default candidate propeller/wetted-surface record order.
@@ -690,8 +689,7 @@ These questions should be answered before declaring the app complete:
 - Does the legacy run dialog store final speed, count, or only initial speed plus increment?
 - Are English units actually implemented or only exposed in command strings?
 - What exact formulas or coefficients did Parsons use for each Holtrop and Mennen term?
-- How does PPP estimate wetted surface when the user selects estimated mode?
-- How does PPP estimate half angle of entrance when the user selects estimated mode?
+- Estimated wetted surface and half angle are implemented from recovered Holtrop formulas, but need more oracle cases with estimated-mode legacy inputs.
 - Does PPP use the 1978 Holtrop and Mennen paper, the 1984 statistical reanalysis, or a hybrid coefficient set?
 - How exactly are wake fraction, thrust deduction, and relative rotative efficiency selected for SSC, SSOF, and TS propulsion types?
 - What does the Fortran `TLOSS error` path represent?

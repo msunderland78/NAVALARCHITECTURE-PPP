@@ -39,6 +39,8 @@ Version 1.0, May 10, 2026
   - Relative rotative efficiency
   - Required thrust
   - Explicit modeling source values for wetted surface and half angle of entrance
+  - Estimated wetted surface
+  - Estimated half angle of entrance
   - LCB converted to meters and percent LWL from forward perpendicular
 - Captured oracle comparison now has numeric modern values for every compared legacy report field.
 - Legacy applicability checks:
@@ -47,7 +49,7 @@ Version 1.0, May 10, 2026
   - `LWL/B`
   - `CP`
 - API validation for invalid physical inputs.
-- API validation rejects unsupported estimated wetted-surface and half-angle modes until formulas are implemented.
+- API validation accepts user and estimated wetted-surface and half-angle modes.
 - API validation rejects unsupported stern, propulsion, and water types.
 - API validation rejects hull coefficients greater than 1.
 - API validation rejects invalid feature, propulsion, and modeling dimensions.
@@ -72,7 +74,7 @@ Version 1.0, May 10, 2026
 - Dependency-free Python backend.
 - Dockerfile, Docker Compose, and NGINX reverse-proxy scaffold.
 - Static notes for the legacy temporary `IN` writer.
-- Candidate legacy `IN` generator for controlled oracle experiments.
+- Candidate legacy `IN` generator for controlled oracle experiments, including active estimated modeling values.
 - Candidate legacy `IN` CLI for terminal-based oracle experiments.
 - Candidate legacy `IN` matrix CLI for dry-run option audits without Wine.
 - Candidate legacy `IN` propeller/wetted-surface record order corrected from direct writer disassembly.
@@ -111,7 +113,7 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-70 tests OK
+73 tests OK
 ```
 
 Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/import/out`, and `/api/export/legacy-in-candidate` with a temporary backend server. API route tests cover `/api/compare/out`. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
@@ -120,7 +122,6 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 
 - Captured-sample resistance and propulsion fields now align with the legacy oracle to report-rounding scale.
 - Current resistance totals remain marked `partial_source_safe_components` until additional oracle cases are captured.
-- Wetted-surface and half-angle estimated modes remain unsupported.
 - The first captured legacy `OUT` oracle is available for the normalized sample only.
 - More oracle cases are needed before full formula equivalence can be trusted.
 - `PPPFTRN.EXE` requires PTY-backed Wine execution because plain piped execution fails at Fortran unit 6 `CONOUT$`.
@@ -129,5 +130,4 @@ Local HTTP smoke testing passes for `/health`, `/`, `/api/evaluate`, `/api/impor
 
 1. Add more oracle cases once additional valid legacy inputs are available.
 2. Promote oracle comparison thresholds now that the normalized sample is aligned.
-3. Implement wetted-surface and half-angle estimated modes from recovered formulas.
-4. Run Docker smoke tests from a Docker-enabled account.
+3. Run Docker smoke tests from a Docker-enabled account.

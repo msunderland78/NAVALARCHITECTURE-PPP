@@ -64,6 +64,8 @@ The current backend core implements only terms that are unambiguous:
 - Reynolds number using `V * LWL / nu`.
 - ITTC-1957 friction coefficient.
 - Frictional resistance `RF = 0.5 * rho * V^2 * S * CF` when wetted surface is user supplied.
+- Estimated wetted surface.
+- Estimated half angle of entrance.
 - Holtrop form-factor resistance `RF*K1`.
 - Holtrop model-ship correlation allowance coefficient `CA`.
 - Correlation allowance resistance `RA = 0.5 * rho * V^2 * S * CA`.
@@ -86,10 +88,9 @@ The current backend core implements only terms that are unambiguous:
 
 Recover and implement in this order:
 
-1. Wetted-surface estimation.
-2. Half-angle of entrance estimation.
-3. Broaden oracle coverage with additional legacy saved cases.
-4. Promote oracle comparison thresholds around captured cases.
+1. Broaden oracle coverage with additional legacy saved cases.
+2. Capture cases using estimated wetted-surface and half-angle modes.
+3. Promote oracle comparison thresholds around captured cases.
 
 ## Oracle Requirement
 

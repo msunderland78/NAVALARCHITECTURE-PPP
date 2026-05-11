@@ -27,6 +27,10 @@ WATER_TYPES = {
     "fresh_water_15_c",
     "salt_water_15_c"
 }
+MODELING_MODES = {
+    "user",
+    "estimated"
+}
 
 
 def evaluate_case(case, point_count=1):
@@ -69,6 +73,7 @@ def evaluate_case(case, point_count=1):
         "length_displacement_ratio": lwl / displacement_volume ** (1 / 3),
         "displacement_mass_tonnes": displacement_volume * water["density_kg_m3"] / 1000
     }
+    active_modeling = modeling_values(hull, features, modeling, derived)
     speeds = []
     for index in range(point_count):
         speed_knots = speed_sweep["initial_speed_knots"] + speed_sweep["speed_increment_knots"] * index
@@ -77,10 +82,10 @@ def evaluate_case(case, point_count=1):
             speed_knots,
             water["kinematic_viscosity_m2_s"],
             water["density_kg_m3"],
-            modeling["wetted_surface_m2"],
+            active_modeling["wetted_surface_m2"],
             hull,
             features,
-            modeling,
+            active_modeling,
             derived,
             appendages,
             propulsion,
@@ -89,18 +94,32 @@ def evaluate_case(case, point_count=1):
     return {
         "project": case["project"],
         "derived": derived,
-        "modeling": modeling_result(modeling),
+        "modeling": modeling_result(modeling, active_modeling),
         "applicability": applicability(case, derived, speeds),
         "speeds": speeds
     }
 
 
-def modeling_result(modeling):
+def modeling_values(hull, features, modeling, derived):
+    wetted_surface = modeling["wetted_surface_m2"]
+    if modeling.get("wetted_surface_mode", "user") == "estimated":
+        wetted_surface = estimated_wetted_surface(hull, features, derived)
+    half_angle = modeling["half_angle_entrance_degrees"]
+    if modeling.get("half_angle_entrance_mode", "user") == "estimated":
+        half_angle = estimated_half_angle_entrance(hull, derived)
+    return {
+        **modeling,
+        "wetted_surface_m2": wetted_surface,
+        "half_angle_entrance_degrees": half_angle
+    }
+
+
+def modeling_result(modeling, active_modeling):
     return {
         "wetted_surface_mode": modeling.get("wetted_surface_mode", "user"),
-        "wetted_surface_m2": modeling["wetted_surface_m2"],
+        "wetted_surface_m2": active_modeling["wetted_surface_m2"],
         "half_angle_entrance_mode": modeling.get("half_angle_entrance_mode", "user"),
-        "half_angle_entrance_degrees": modeling["half_angle_entrance_degrees"]
+        "half_angle_entrance_degrees": active_modeling["half_angle_entrance_degrees"]
     }
 
 
@@ -129,8 +148,6 @@ def validate_case(case):
         "hull.midship_coefficient": hull["midship_coefficient"],
         "propulsion.propeller_diameter_m": propulsion["propeller_diameter_m"],
         "modeling.depth_at_bow_m": modeling["depth_at_bow_m"],
-        "modeling.wetted_surface_m2": modeling["wetted_surface_m2"],
-        "modeling.half_angle_entrance_degrees": modeling["half_angle_entrance_degrees"],
         "water.density_kg_m3": water["density_kg_m3"],
         "water.kinematic_viscosity_m2_s": water["kinematic_viscosity_m2_s"],
         "speed_sweep.initial_speed_knots": speed_sweep["initial_speed_knots"]
@@ -138,6 +155,10 @@ def validate_case(case):
     for name, value in positive.items():
         if value <= 0:
             raise ValueError(f"{name} must be positive")
+    if modeling.get("wetted_surface_mode", "user") == "user" and modeling["wetted_surface_m2"] <= 0:
+        raise ValueError("modeling.wetted_surface_m2 must be positive")
+    if modeling.get("half_angle_entrance_mode", "user") == "user" and modeling["half_angle_entrance_degrees"] <= 0:
+        raise ValueError("modeling.half_angle_entrance_degrees must be positive")
     bounded = {
         "hull.block_coefficient": hull["block_coefficient"],
         "hull.midship_coefficient": hull["midship_coefficient"],
@@ -168,9 +189,9 @@ def validate_case(case):
         raise ValueError("propulsion.type is not supported")
     if water["type"] not in WATER_TYPES:
         raise ValueError("water.type is not supported")
-    if modeling.get("wetted_surface_mode", "user") != "user":
+    if modeling.get("wetted_surface_mode", "user") not in MODELING_MODES:
         raise ValueError("modeling.wetted_surface_mode is not supported")
-    if modeling.get("half_angle_entrance_mode", "user") != "user":
+    if modeling.get("half_angle_entrance_mode", "user") not in MODELING_MODES:
         raise ValueError("modeling.half_angle_entrance_mode is not supported")
     appendage_mode = appendages.get("mode", "percent_bare_hull_resistance")
     if appendage_mode not in ("percent_bare_hull_resistance", "equivalent_area_form_factor"):
@@ -186,6 +207,28 @@ def validate_case(case):
 def validate_speed_sweep(speed_sweep, point_count):
     if point_count > 1 and speed_sweep["speed_increment_knots"] <= 0:
         raise ValueError("speed_sweep.speed_increment_knots must be positive when point_count is greater than 1")
+
+
+def estimated_wetted_surface(hull, features, derived):
+    lwl = hull["lwl_m"]
+    beam = hull["beam_lwl_m"]
+    mean_draft = derived["mean_draft_m"]
+    cb = hull["block_coefficient"]
+    cm = hull["midship_coefficient"]
+    cwp = hull["waterplane_coefficient"]
+    bulb_area = features["bulb_area_station_0_m2"]
+    return lwl * (2 * mean_draft + beam) * sqrt(cm) * (0.453 + 0.4425 * cb - 0.2862 * cm - 0.003467 * beam / mean_draft + 0.3696 * cwp) + 2.38 * bulb_area / cb
+
+
+def estimated_half_angle_entrance(hull, derived):
+    lwl = hull["lwl_m"]
+    beam = hull["beam_lwl_m"]
+    cp = derived["prismatic_coefficient"]
+    cwp = hull["waterplane_coefficient"]
+    lcb_percent = hull["lcb_percent_lwl_from_midships_forward_positive"]
+    lr = lwl * (1 - cp + 0.06 * cp * lcb_percent / (4 * cp - 1))
+    displacement_volume = derived["displacement_volume_m3"]
+    return 1 + 89 * exp(-(lwl / beam) ** 0.80856 * (1 - cwp) ** 0.30484 * (1 - cp - 0.0225 * lcb_percent) ** 0.6367 * (lr / beam) ** 0.34574 * (100 * displacement_volume / lwl ** 3) ** 0.16302)
 
 
 def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, hull, features, modeling, derived, appendages, propulsion, margin):

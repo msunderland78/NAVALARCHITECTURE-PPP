@@ -27,25 +27,22 @@ Implemented:
 - Percent appendage resistance based on currently implemented bare-hull resistance
 - Equivalent-area appendage resistance from `SAPP(1+K2)`
 - Design-margin resistance
-- Partial total resistance and effective power
-- Explicit modeling source values for wetted surface and half angle of entrance
-- Explicit null placeholders for unrecovered legacy report columns
+- Total resistance, effective power, propulsion factors, and required thrust for the captured sample workflow
+- Explicit modeling source values for user-entered or estimated wetted surface and half angle of entrance
 - Legacy applicability checks
 - CSV export for speed rows
 - Modern evaluation CLI for reproducible result fixture refreshes
 - Dependency-free HTTP routes
 - API validation for invalid physical inputs
-- API validation for unsupported estimated wetted-surface and half-angle modes
+- API validation for supported user and estimated wetted-surface and half-angle modes
 - API validation for unsupported stern, propulsion, and water types
 - API validation for hull coefficients greater than 1
 - API validation for invalid feature, propulsion, and modeling dimensions
 
 Not yet implemented:
 
-- Full Holtrop and Mennen resistance components
-- Propulsion factors
-- Required thrust
-- A real captured legacy `OUT` oracle fixture
+- Additional oracle fixtures beyond the normalized sample
+- Docker runtime smoke test from a Docker-enabled account
 
 ## Run Tests
 
@@ -101,4 +98,4 @@ Current routes:
 - `POST /api/import/out`
 - `POST /api/compare/out`
 
-The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, explicit user-mode controls for wetted surface and half angle, HTML min/max constraints aligned with backend validation, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, HTML min/max constraints aligned with backend validation, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
