@@ -15,6 +15,12 @@ class DeploymentTest(unittest.TestCase):
         self.assertNotIn("COPY backend ./backend", text)
         self.assertNotIn("PPP-OLD", text)
 
+    def test_dockerfile_runs_as_unprivileged_user(self):
+        text = (APP / "Dockerfile").read_text()
+
+        self.assertIn("RUN useradd --create-home --shell /usr/sbin/nologin ppp", text)
+        self.assertIn("USER ppp", text)
+
     def test_dockerignore_excludes_non_runtime_backend_tests(self):
         text = (APP / ".dockerignore").read_text()
 
