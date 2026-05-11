@@ -31,7 +31,7 @@ The backend container listens on `PPP_PORT=8000` and NGINX proxies `/` and `/hea
 
 Both Compose services use `restart: unless-stopped`.
 
-The backend image creates and runs as the unprivileged `ppp` user.
+The backend image creates and runs as the unprivileged `ppp` user and disables Python bytecode writes in the runtime filesystem.
 
 ## Start
 
