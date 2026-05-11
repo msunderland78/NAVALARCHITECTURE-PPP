@@ -155,6 +155,25 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["error"], "modeling.half_angle_entrance_degrees must be finite")
 
+    def test_bad_formula_domain_route(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["block_coefficient"] = case["hull"]["midship_coefficient"]
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "derived prismatic_coefficient must be less than 1")
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["half_angle_entrance_degrees"] = 90
+        body = json.dumps({"case": case, "point_count": 1}).encode("utf-8")
+        status, content_type, payload = route("POST", "/api/evaluate", body)
+
+        self.assertEqual(status, 400)
+        self.assertEqual(content_type, "application/json")
+        self.assertEqual(payload["error"], "modeling.half_angle_entrance_degrees must be less than 90")
+
     def test_bad_appendage_area_route(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["appendages"]["equivalent_wetted_area_form_factor_m2"] = -1
@@ -341,6 +360,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("appendages.mode", (FRONTEND / "index.html").read_text())
         self.assertIn("modeling.wetted_surface_mode", (FRONTEND / "index.html").read_text())
         self.assertIn("modeling.half_angle_entrance_mode", (FRONTEND / "index.html").read_text())
+        self.assertIn('name="modeling.half_angle_entrance_degrees" type="number" min="0.01" max="89.99"', (FRONTEND / "index.html").read_text())
         self.assertIn("equivalent_wetted_area_form_factor_m2", (FRONTEND / "app.js").read_text())
         self.assertIn("required_thrust_n", (FRONTEND / "app.js").read_text())
         self.assertIn("RF*K1 N", (FRONTEND / "app.js").read_text())

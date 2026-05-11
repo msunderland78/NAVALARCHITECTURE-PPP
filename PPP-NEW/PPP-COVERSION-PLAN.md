@@ -98,6 +98,7 @@ Current status as of May 10, 2026:
 - Browser initial-speed constraints now match backend positive-speed validation.
 - Backend validation now requires the air-drag toggle to be a boolean.
 - Backend validation now rejects non-finite numeric inputs, including modeling dimensions, before formula evaluation.
+- Backend validation now rejects prismatic coefficient and half-angle values that would make the recovered Holtrop equations leave the real-number domain.
 - Air-drag toggle behavior is implemented and pinned by core/API regression tests.
 - Markdown engineering report exports now include speed-sweep, water-property, propulsion, appendage, modeling-mode, air-drag, and margin input summary.
 - Non-conventional propulsion selections now surface an engineering warning because recovered wake, thrust-deduction, and relative-rotative-efficiency equations are still pinned to the captured single-screw conventional-stern workflow.

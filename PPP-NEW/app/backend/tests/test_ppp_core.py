@@ -207,6 +207,11 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "hull.waterplane_coefficient must be less than or equal to 1"):
             evaluate_case(case, point_count=1)
 
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["hull"]["block_coefficient"] = case["hull"]["midship_coefficient"]
+        with self.assertRaisesRegex(ValueError, "derived prismatic_coefficient must be less than 1"):
+            evaluate_case(case, point_count=1)
+
     def test_invalid_feature_and_modeling_dimensions(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["features"]["bulb_area_station_0_m2"] = -1
@@ -221,6 +226,11 @@ class PppCoreTest(unittest.TestCase):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["modeling"]["half_angle_entrance_degrees"] = 0
         with self.assertRaisesRegex(ValueError, "modeling.half_angle_entrance_degrees must be positive"):
+            evaluate_case(case, point_count=1)
+
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["modeling"]["half_angle_entrance_degrees"] = 90
+        with self.assertRaisesRegex(ValueError, "modeling.half_angle_entrance_degrees must be less than 90"):
             evaluate_case(case, point_count=1)
 
     def test_numeric_inputs_must_be_finite(self):

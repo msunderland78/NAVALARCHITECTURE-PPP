@@ -206,6 +206,10 @@ def validate_case(case):
     for name, value in bounded.items():
         if value > 1:
             raise ValueError(f"{name} must be less than or equal to 1")
+    if hull["block_coefficient"] / hull["midship_coefficient"] >= 1:
+        raise ValueError("derived prismatic_coefficient must be less than 1")
+    if modeling.get("half_angle_entrance_mode", "user") == "user" and modeling["half_angle_entrance_degrees"] >= 90:
+        raise ValueError("modeling.half_angle_entrance_degrees must be less than 90")
     non_negative = {
         "features.bulb_area_station_0_m2": features["bulb_area_station_0_m2"],
         "features.bulb_vertical_center_m": features["bulb_vertical_center_m"],
