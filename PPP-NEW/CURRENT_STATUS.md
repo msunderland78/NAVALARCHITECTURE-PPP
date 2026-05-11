@@ -64,6 +64,7 @@ Version 1.0, May 10, 2026
   - CSV and JSON result export
   - Applicability panel
   - Derived hydrostatic summary
+  - Engineering review status note in browser and printed report output
   - Result table
   - Legacy `IN` oracle variant controls
   - Legacy `OUT` comparison speed tolerance control

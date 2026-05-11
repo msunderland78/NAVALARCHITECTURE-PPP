@@ -19,10 +19,12 @@ def main(argv=None):
     case = json.loads((FIXTURES / "pppin_sample_import.json").read_text())
     estimated_case = json.loads((FIXTURES / "pppin_sample_estimated_import.json").read_text())
     legacy_out = (FIXTURES / "pppin_sample_legacy_oracle.OUT").read_text()
+    frontend = request_text(base_url, "GET", "/")
 
     checks = [
         check_json("health", request_json(base_url, "GET", "/health"), {"status": "ok"}),
-        check_text_contains("frontend", request_text(base_url, "GET", "/"), "case-form"),
+        check_text_contains("frontend", frontend, "case-form"),
+        check_text_contains("frontend engineering note", frontend, "engineering-note"),
         check_evaluate(base_url, case),
         check_estimated_evaluate(base_url, estimated_case),
         check_legacy_in_export(base_url, estimated_case),

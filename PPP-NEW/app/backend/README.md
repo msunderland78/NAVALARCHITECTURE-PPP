@@ -29,6 +29,7 @@ Implemented:
 - Design-margin resistance
 - Total resistance, effective power, propulsion factors, and required thrust for the captured sample workflow
 - Explicit modeling source values for user-entered or estimated wetted surface and half angle of entrance
+- Engineering review status note in browser and printed report output
 - Legacy applicability checks
 - CSV export for speed rows
 - Modern evaluation CLI for reproducible result fixture refreshes
@@ -108,4 +109,4 @@ Current routes:
 - `POST /api/import/out`
 - `POST /api/compare/out`
 
-The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, HTML min/max constraints aligned with backend validation, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, HTML min/max constraints aligned with backend validation, an engineering review status note, a speed table, a canvas plot, CSV/JSON result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.

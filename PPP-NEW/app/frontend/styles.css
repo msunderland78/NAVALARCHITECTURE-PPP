@@ -74,6 +74,7 @@ p {
 
 section,
 .summary,
+.engineering-note,
 .oracle,
 .table-wrap {
   border: 1px solid var(--line);
@@ -185,6 +186,26 @@ button:hover {
   display: block;
   margin-top: 4px;
   font-size: 18px;
+}
+
+.engineering-note {
+  padding: 10px 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.engineering-note strong,
+.engineering-note span {
+  display: block;
+}
+
+.engineering-note strong {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.engineering-note span {
+  margin-top: 4px;
 }
 
 .checks {
@@ -362,10 +383,15 @@ td:first-child {
   }
 
   .summary,
+  .engineering-note,
   .checks {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     break-inside: avoid;
     page-break-inside: avoid;
+  }
+
+  .summary,
+  .checks {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .metric:nth-child(4n) {

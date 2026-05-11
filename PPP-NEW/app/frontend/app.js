@@ -1,6 +1,7 @@
 const form = document.getElementById("case-form");
 const statusBox = document.getElementById("status");
 const summary = document.getElementById("summary");
+const engineeringNote = document.getElementById("engineering-note");
 const checks = document.getElementById("checks");
 const table = document.getElementById("results-table");
 const plot = document.getElementById("plot");
@@ -195,6 +196,7 @@ async function runCase() {
   }
   lastPayload = payload;
   renderSummary(result);
+  renderEngineeringNote(result);
   renderChecks(result);
   renderTable(result);
   renderPlot(result);
@@ -356,6 +358,15 @@ function renderSummary(result) {
 
 function metric(label, value) {
   return `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`;
+}
+
+function renderEngineeringNote(result) {
+  const statuses = [...new Set(result.speeds.map(row => row.resistance_status).filter(Boolean))];
+  const statusText = statuses.length > 0 ? statuses.join(", ") : "not reported";
+  engineeringNote.innerHTML = `
+    <strong>Engineering review status</strong>
+    <span>Preliminary resistance and powering estimate. Current calculation status: ${statusText}. Use with naval architect review and project-specific validation before design, procurement, or operational decisions.</span>
+  `;
 }
 
 function renderChecks(result) {

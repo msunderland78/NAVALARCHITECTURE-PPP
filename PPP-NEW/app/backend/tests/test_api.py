@@ -218,6 +218,7 @@ class ApiTest(unittest.TestCase):
         self.assertTrue((ROOT / "tests" / "fixtures" / "README.md").exists())
         self.assertIn("case-form", (FRONTEND / "index.html").read_text())
         self.assertIn("checks", (FRONTEND / "index.html").read_text())
+        self.assertIn("engineering-note", (FRONTEND / "index.html").read_text())
         self.assertIn('max="1"', (FRONTEND / "index.html").read_text())
         self.assertIn('min="0.01"', (FRONTEND / "index.html").read_text())
         self.assertIn("/api/evaluate", (FRONTEND / "app.js").read_text())
@@ -248,6 +249,7 @@ class ApiTest(unittest.TestCase):
         self.assertIn("speed_tolerance", (FRONTEND / "app.js").read_text())
         self.assertIn("/api/compare/out", (FRONTEND / "app.js").read_text())
         self.assertIn("numeric deltas", (FRONTEND / "app.js").read_text())
+        self.assertIn("Engineering review status", (FRONTEND / "app.js").read_text())
 
 
 if __name__ == "__main__":
