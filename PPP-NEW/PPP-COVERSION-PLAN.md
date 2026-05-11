@@ -692,7 +692,6 @@ Exit criteria:
 These questions should be answered before declaring the app complete:
 
 - What is the exact legacy `IN` file layout written by `PPP.EXE`?
-- How many speed points does PPP run from the `Run ...` dialog?
 - Does the legacy run dialog store final speed, count, or only initial speed plus increment?
 - Are English units actually implemented or only exposed in command strings?
 - What exact formulas or coefficients did Parsons use for each Holtrop and Mennen term?
@@ -701,6 +700,10 @@ These questions should be answered before declaring the app complete:
 - How exactly are wake fraction, thrust deduction, and relative rotative efficiency selected for SSC, SSOF, and TS propulsion types?
 - What does the Fortran `TLOSS error` path represent?
 - Are Word and Excel commands dead UI, automation hooks, or planned features?
+
+## Resolved Questions
+
+- PPP runs eight speed points from initial speed and speed increment. This is confirmed by `470Manuals.pdf` and by the captured user-mode and estimated-mode oracle fixtures.
 
 ## Maintenance Rules
 

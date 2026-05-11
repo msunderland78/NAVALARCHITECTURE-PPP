@@ -133,6 +133,7 @@ Automated HTTP smoke testing passes against an in-process backend for `/health`,
 - Captured-sample resistance and propulsion fields now align with the legacy oracle to report-rounding scale.
 - Current resistance totals remain marked `partial_source_safe_components` until additional oracle cases are captured.
 - Captured legacy `OUT` oracles are available for the normalized user-mode sample and an estimated-mode variant.
+- PPP's eight-speed run behavior is resolved from `470Manuals.pdf` and captured oracle fixtures.
 - More oracle cases are needed before full formula equivalence can be trusted.
 - `PPPFTRN.EXE` requires PTY-backed Wine execution because plain piped execution fails at Fortran unit 6 `CONOUT$`.
 
