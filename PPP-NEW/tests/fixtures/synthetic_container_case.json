@@ -1,0 +1,62 @@
+{
+  "schema": "navarch.ppp.case",
+  "version": 1,
+  "source": {
+    "kind": "synthetic_regression_baseline",
+    "purpose": "non-oracle regression coverage at a smaller, faster hull than the captured 212 m sample",
+    "note": "Values are pinned to the current implementation; this is NOT validated against legacy oracle or published Holtrop benchmark."
+  },
+  "project": {
+    "name": "Synthetic Container Regression",
+    "run_id": "Reg-Container-1"
+  },
+  "speed_sweep": {
+    "initial_speed_knots": 18.0,
+    "speed_increment_knots": 1.5,
+    "status": "synthetic"
+  },
+  "hull": {
+    "lwl_m": 150.0,
+    "beam_lwl_m": 22.0,
+    "draft_forward_m": 8.0,
+    "draft_aft_m": 8.0,
+    "block_coefficient": 0.62,
+    "midship_coefficient": 0.97,
+    "waterplane_coefficient": 0.74,
+    "lcb_percent_lwl_from_midships_forward_positive": -1.5
+  },
+  "features": {
+    "bulb_area_station_0_m2": 9.0,
+    "bulb_vertical_center_m": 2.5,
+    "transom_immersed_area_zero_speed_m2": 7.0,
+    "stern_type": "normal_shaped_sections"
+  },
+  "propulsion": {
+    "type": "single_screw_conventional_stern",
+    "propeller_diameter_m": 5.5,
+    "expanded_area_ratio": 0.75,
+    "pitch_diameter_ratio": null
+  },
+  "appendages": {
+    "mode": "percent_bare_hull_resistance",
+    "percent_bare_hull_resistance": 4.0,
+    "equivalent_wetted_area_form_factor_m2": null
+  },
+  "modeling": {
+    "air_drag": true,
+    "depth_at_bow_m": 14.0,
+    "deckhouse_cargo_frontal_area_m2": 180.0,
+    "wetted_surface_mode": "user",
+    "wetted_surface_m2": 4250.0,
+    "half_angle_entrance_mode": "user",
+    "half_angle_entrance_degrees": 14.5
+  },
+  "water": {
+    "type": "salt_water_15_c",
+    "density_kg_m3": 1025.87,
+    "kinematic_viscosity_m2_s": 0.00000118831
+  },
+  "margin": {
+    "design_margin_percent": 8.0
+  }
+}

@@ -275,6 +275,7 @@ function buildPayload() {
       },
       modeling: {
         air_drag: data.get("modeling.air_drag") === "true",
+        air_drag_coefficient: numberValue(data, "modeling.air_drag_coefficient"),
         depth_at_bow_m: numberValue(data, "modeling.depth_at_bow_m"),
         deckhouse_cargo_frontal_area_m2: numberValue(data, "modeling.deckhouse_cargo_frontal_area_m2"),
         wetted_surface_mode: data.get("modeling.wetted_surface_mode"),
@@ -318,6 +319,9 @@ function applyCase(caseData) {
   setValue("appendages.percent_bare_hull_resistance", caseData.appendages.percent_bare_hull_resistance);
   setValue("appendages.equivalent_wetted_area_form_factor_m2", caseData.appendages.equivalent_wetted_area_form_factor_m2 || 0);
   setValue("modeling.air_drag", String(caseData.modeling.air_drag));
+  if (caseData.modeling.air_drag_coefficient !== undefined && caseData.modeling.air_drag_coefficient !== null) {
+    setValue("modeling.air_drag_coefficient", caseData.modeling.air_drag_coefficient);
+  }
   setValue("modeling.depth_at_bow_m", caseData.modeling.depth_at_bow_m);
   setValue("modeling.deckhouse_cargo_frontal_area_m2", caseData.modeling.deckhouse_cargo_frontal_area_m2);
   setValue("modeling.wetted_surface_mode", caseData.modeling.wetted_surface_mode || "user");

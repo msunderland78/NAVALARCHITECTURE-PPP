@@ -16,5 +16,9 @@ These fixtures are regression inputs for the modern implementation. None of them
 | `pppin_sample_estimated_oracle_compare.json` | Delta report comparing the estimated-mode oracle against the modern implementation | Oracle comparison baseline |
 | `pppin_sample_modern_result.json` | Current modern partial-result baseline for the normalized sample, including derived hydrostatic terms and two speeds | Modern regression baseline |
 | `pppin_sample_estimated_modern_result.json` | Current modern partial-result baseline for the estimated-mode sample, including active modeling terms and two speeds | Modern regression baseline |
+| `synthetic_container_case.json` | Smaller, faster hull (LWL 150 m, B/T 2.75, Cp 0.64, Fn up to 0.28) used only to widen the geometry envelope covered by regression tests | Synthetic, **not** an oracle |
+| `synthetic_container_result.json` | Pinned modern output for `synthetic_container_case.json`; locks the current implementation against silent drift outside the captured sample's geometry | Synthetic regression baseline |
 
 Captured oracle fixtures are plain text or JSON only. Legacy executables remain in ignored archival folders and are not part of the modern product.
+
+The only literature- or executable-validated cases today are the two captured PPP 1.8 oracles (user-mode and estimated-mode) at LWL 212 m. The synthetic fixtures lock additional geometries to the current implementation; they do **not** validate correctness against Holtrop & Mennen published values.

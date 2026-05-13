@@ -141,6 +141,8 @@ Fix: build a second-tier oracle from **published** Holtrop and Mennen benchmark 
 
 `core.py:383-393`: between `Fn = 0.4` and `Fn = 0.55`, wave resistance is linearly interpolated between the low-Fn and high-Fn formulas (the Holtrop approach). At the endpoints, the result is continuous but the first derivative is not — so the residual-resistance coefficient curve has kinks at exactly those speeds. For most preliminary work this is fine; for plotting smooth curves it shows. The standard fix is a smooth blend (cubic Hermite). Optional, not a defect.
 
+**Status (2026-05-13): deferred.** The linear blend matches Holtrop's published formulation and the captured PPP 1.8 oracle. Replacing it with a smooth Hermite blend would diverge from the legacy reference. Reopen if a future oracle case lands in the transition band and the kink shows up as a plot or report concern.
+
 ### D4. `holtrop_propulsion_factors` is conditional on `propulsion["type"]` only through the warning
 
 The function applies the Holtrop single-screw conventional-stern wake-fraction equation regardless of `propulsion["type"]`. The `engineering_review` warning is the user-facing signal. For open-flow and twin-screw, Holtrop gives different `c11`, `c19`, `c20` and a different wake formula entirely. The right path is to either (a) refuse to compute for non-conventional types until the formulas are added, or (b) implement them — the 1984 paper has them. Today we silently produce numbers that look right but are not validated.

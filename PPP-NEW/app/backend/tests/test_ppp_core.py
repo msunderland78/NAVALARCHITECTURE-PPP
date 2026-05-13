@@ -295,13 +295,34 @@ class PppCoreTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "propulsion.pitch_diameter_ratio must be non-negative"):
             evaluate_case(case, point_count=1)
 
+    def test_synthetic_container_regression_baseline(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "synthetic_container_case.json").read_text())
+        expected = json.loads((ROOT / "tests" / "fixtures" / "synthetic_container_result.json").read_text())
+        result = evaluate_case(case, point_count=3)
+
+        self.assertEqual(result, expected)
+
     def test_nonconventional_propulsion_gets_engineering_warning(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["propulsion"]["type"] = "twin_screw"
         result = evaluate_case(case, point_count=1)
 
         self.assertIn("warnings", result["engineering_review"])
-        self.assertIn("single-screw conventional-stern equations", result["engineering_review"]["warnings"][0])
+        self.assertIn("are not reported for this propulsion type", result["engineering_review"]["warnings"][0])
+
+    def test_nonconventional_propulsion_omits_propulsion_factor_values(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "twin_screw"
+        result = evaluate_case(case, point_count=1)
+        speed = result["speeds"][0]
+
+        self.assertIsNone(speed["wake_fraction"])
+        self.assertIsNone(speed["thrust_deduction"])
+        self.assertIsNone(speed["hull_efficiency"])
+        self.assertIsNone(speed["relative_rotative_efficiency"])
+        self.assertIsNone(speed["required_thrust_n"])
+        self.assertGreater(speed["total_resistance_n"], 0)
+        self.assertGreater(speed["effective_power_kw"], 0)
 
     def test_multi_point_sweep_requires_positive_increment(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

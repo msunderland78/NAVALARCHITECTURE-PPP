@@ -66,6 +66,7 @@ class Modeling(TypedDict):
     wetted_surface_m2: float
     half_angle_entrance_mode: ModelingMode
     half_angle_entrance_degrees: float
+    air_drag_coefficient: NotRequired[float]
 
 
 class Water(TypedDict):
@@ -161,6 +162,7 @@ class ActiveModeling(TypedDict):
     wetted_surface_m2: float
     half_angle_entrance_mode: ModelingMode
     half_angle_entrance_degrees: float
+    air_drag_coefficient: float
 
 
 class Result(TypedDict):

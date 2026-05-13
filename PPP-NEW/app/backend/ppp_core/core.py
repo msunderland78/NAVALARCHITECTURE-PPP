@@ -42,8 +42,9 @@ ENGINEERING_REVIEW_NOTE = (
     "project-specific validation before design, procurement, or operational decisions."
 )
 NONCONVENTIONAL_PROPULSION_WARNING = (
-    "Wake fraction, thrust deduction, and relative rotative efficiency use the recovered "
-    "single-screw conventional-stern equations until additional open-flow or twin-screw oracle cases are captured."
+    "Wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust "
+    "are not reported for this propulsion type because the open-flow and twin-screw equations from "
+    "Holtrop & Mennen have not been recovered against a captured oracle. Resistance and effective power are still calculated."
 )
 
 
@@ -145,7 +146,8 @@ def modeling_result(modeling, active_modeling):
         "wetted_surface_mode": modeling.get("wetted_surface_mode", "user"),
         "wetted_surface_m2": active_modeling["wetted_surface_m2"],
         "half_angle_entrance_mode": modeling.get("half_angle_entrance_mode", "user"),
-        "half_angle_entrance_degrees": active_modeling["half_angle_entrance_degrees"]
+        "half_angle_entrance_degrees": active_modeling["half_angle_entrance_degrees"],
+        "air_drag_coefficient": modeling.get("air_drag_coefficient", LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT)
     }
 
 
@@ -165,6 +167,11 @@ def validate_point_count(point_count):
 
 
 def validate_case(case):
+    # validate_case enforces only math-stability and physical-impossibility
+    # bounds (coefficients <= 1, denominators non-zero, log/sqrt domains, etc.).
+    # Holtrop applicability ranges (B/T 2.1-4.0, LWL/B 3.9-14.9, Cp 0.55-0.85,
+    # Fn 0-1.0) are reported by applicability() as warnings instead of being
+    # enforced here, matching legacy PPP 1.8 behavior.
     hull = case["hull"]
     features = case["features"]
     propulsion = case["propulsion"]
@@ -202,6 +209,10 @@ def validate_case(case):
         raise ValueError("modeling.half_angle_entrance_degrees must be positive")
     if not isinstance(modeling["air_drag"], bool):
         raise ValueError("modeling.air_drag must be boolean")
+    if "air_drag_coefficient" in modeling:
+        validate_finite_values({"modeling.air_drag_coefficient": modeling["air_drag_coefficient"]})
+        if modeling["air_drag_coefficient"] < 0:
+            raise ValueError("modeling.air_drag_coefficient must be non-negative")
     bounded = {
         "hull.block_coefficient": hull["block_coefficient"],
         "hull.midship_coefficient": hull["midship_coefficient"],
@@ -324,6 +335,8 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, hull, features, 
     components = resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resistance, transom_resistance, ca, rho, wetted_surface, modeling, appendages, margin)
     dynamic_pressure_area = 0.5 * rho * speed_mps ** 2 * wetted_surface
     propulsion_factors = holtrop_propulsion_factors(cf, ca, form_factor, hull, features, propulsion, derived, wetted_surface)
+    thrust_deduction = propulsion_factors["thrust_deduction"]
+    required_thrust = components["total_resistance_n"] / (1 - thrust_deduction) if thrust_deduction is not None else None
     return {
         "speed_knots": speed_knots,
         "speed_mps": speed_mps,
@@ -336,7 +349,7 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, hull, features, 
         **components,
         "effective_power_kw": components["total_resistance_n"] * speed_mps / 1000,
         **propulsion_factors,
-        "required_thrust_n": components["total_resistance_n"] / (1 - propulsion_factors["thrust_deduction"])
+        "required_thrust_n": required_thrust
     }
 
 
@@ -454,6 +467,13 @@ def holtrop_c16(cp):
 
 
 def holtrop_propulsion_factors(cf, ca, form_factor, hull, features, propulsion, derived, wetted_surface):
+    if propulsion["type"] != "single_screw_conventional_stern":
+        return {
+            "wake_fraction": None,
+            "thrust_deduction": None,
+            "hull_efficiency": None,
+            "relative_rotative_efficiency": None
+        }
     lwl = hull["lwl_m"]
     beam = hull["beam_lwl_m"]
     mean_draft = derived["mean_draft_m"]
@@ -495,7 +515,8 @@ def resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resi
     correlation_allowance_resistance = 0.5 * rho * speed_mps ** 2 * wetted_surface * correlation_allowance_coefficient
     air_resistance = 0.0
     if modeling["air_drag"]:
-        air_resistance = LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT * speed_mps ** 2 * modeling["deckhouse_cargo_frontal_area_m2"]
+        air_drag_coefficient = modeling.get("air_drag_coefficient", LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT)
+        air_resistance = air_drag_coefficient * speed_mps ** 2 * modeling["deckhouse_cargo_frontal_area_m2"]
     implemented_bare_hull_resistance = rf + rf_form_resistance + wave_resistance + bulb_resistance + transom_resistance
     appendage_mode = appendages.get("mode", "percent_bare_hull_resistance")
     appendage_resistance = 0.0

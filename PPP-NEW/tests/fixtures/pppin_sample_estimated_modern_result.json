@@ -22,7 +22,8 @@
     "wetted_surface_mode": "estimated",
     "wetted_surface_m2": 8074.589977924038,
     "half_angle_entrance_mode": "estimated",
-    "half_angle_entrance_degrees": 12.503189765172571
+    "half_angle_entrance_degrees": 12.503189765172571,
+    "air_drag_coefficient": 0.737223
   },
   "engineering_review": {
     "statuses": [

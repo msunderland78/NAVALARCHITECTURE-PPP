@@ -51,7 +51,10 @@ REPORT_SPEED_NUMERIC_COLUMNS = [
     "speed_knots",
     "froude_number",
     "total_resistance_n",
-    "effective_power_kw",
+    "effective_power_kw"
+]
+
+REPORT_SPEED_OPTIONAL_NUMERIC_COLUMNS = [
     "required_thrust_n"
 ]
 
@@ -163,12 +166,14 @@ def result_to_markdown(result, case=None):
         "|---:|---:|---:|---:|---:|---|"
     ])
     for row in result["speeds"]:
+        required_thrust = row.get("required_thrust_n")
+        required_thrust_kn = required_thrust / 1000 if required_thrust is not None else None
         lines.append(
             f"| {format_report_number(row['speed_knots'])} | "
             f"{format_report_number(row['froude_number'])} | "
             f"{format_report_number(row['total_resistance_n'] / 1000)} | "
             f"{format_report_number(row['effective_power_kw'])} | "
-            f"{format_report_number(row['required_thrust_n'] / 1000)} | "
+            f"{format_optional_number(required_thrust_kn)} | "
             f"`{row['resistance_status']}` |"
         )
     return "\n".join(lines) + "\n"
@@ -200,10 +205,10 @@ def validate_report_result(result):
             raise ValueError(f"result.modeling.{key} is required")
         validate_report_number(result["modeling"][key], f"result.modeling.{key}")
     validate_report_rows(result, "applicability", REPORT_APPLICABILITY_COLUMNS, REPORT_APPLICABILITY_NUMERIC_COLUMNS)
-    validate_report_rows(result, "speeds", REPORT_SPEED_COLUMNS, REPORT_SPEED_NUMERIC_COLUMNS)
+    validate_report_rows(result, "speeds", REPORT_SPEED_COLUMNS, REPORT_SPEED_NUMERIC_COLUMNS, REPORT_SPEED_OPTIONAL_NUMERIC_COLUMNS)
 
 
-def validate_report_rows(result, name, columns, numeric_columns):
+def validate_report_rows(result, name, columns, numeric_columns, optional_numeric_columns=()):
     rows = result.get(name)
     if not isinstance(rows, list):
         raise ValueError(f"result.{name} must be a list")
@@ -215,6 +220,9 @@ def validate_report_rows(result, name, columns, numeric_columns):
                 raise ValueError(f"result.{name}.{column} is required")
         for column in numeric_columns:
             validate_report_number(row[column], f"result.{name}.{column}")
+        for column in optional_numeric_columns:
+            if row.get(column) is not None:
+                validate_report_number(row[column], f"result.{name}.{column}")
 
 
 def validate_report_number(value, field):
@@ -277,6 +285,12 @@ def format_report_number(value):
     if abs(value) >= 100:
         return f"{value:.2f}"
     return f"{value:.4f}"
+
+
+def format_optional_number(value):
+    if value is None:
+        return "—"
+    return format_report_number(value)
 
 
 def format_scientific(value):
