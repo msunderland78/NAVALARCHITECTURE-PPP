@@ -9,7 +9,6 @@ from pathlib import Path
 
 from server import Handler
 
-
 ROOT = Path(__file__).resolve().parents[3]
 SMOKE_PATH = ROOT / "tools" / "smoke_http.py"
 

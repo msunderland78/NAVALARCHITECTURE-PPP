@@ -7,7 +7,6 @@ from pathlib import Path
 from ppp_core import candidate_option_sets, run_oracle_sweep
 from ppp_core.legacy_in import generate_candidate_legacy_in
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 

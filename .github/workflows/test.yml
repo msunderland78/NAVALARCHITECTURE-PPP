@@ -16,6 +16,17 @@ jobs:
       - name: Run backend tests
         run: PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python -m unittest discover PPP-NEW/app/backend/tests
 
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff mypy
+      - run: ruff check .
+      - run: mypy
+
   compose-validate:
     runs-on: ubuntu-latest
     steps:

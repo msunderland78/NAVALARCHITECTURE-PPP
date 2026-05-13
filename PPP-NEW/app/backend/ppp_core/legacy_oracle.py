@@ -1,9 +1,9 @@
 import errno
 import os
 import pty
+import select
 import shutil
 import signal
-import select
 import subprocess
 import time
 import tty
@@ -97,9 +97,13 @@ def run_command_pty(command, workdir, stdout_path, stderr_path, timeout_seconds,
     status = None
     pid, fd = pty.fork()
     if pid == 0:
-        child_env = os.environ.copy() if env is None else env
-        os.chdir(workdir)
-        os.execvpe(command[0], command, child_env)
+        try:
+            child_env = os.environ.copy() if env is None else env
+            os.chdir(workdir)
+            os.execvpe(command[0], command, child_env)
+        except BaseException:
+            os._exit(127)
+        os._exit(127)
     tty.setraw(fd)
     try:
         while True:

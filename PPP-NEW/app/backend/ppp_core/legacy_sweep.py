@@ -3,7 +3,6 @@ from pathlib import Path
 
 from .legacy_oracle import run_oracle
 
-
 DEFAULT_STERN_CORRECTIONS = [0, -10, 10]
 DEFAULT_PITCH_DIAMETER_RATIOS = [0, 0.8, 1.0]
 DEFAULT_WATER_TYPE_CODES = [1, 2, 3]

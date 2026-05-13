@@ -1,0 +1,31 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["PPP-OLD", "**/__pycache__"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM"]
+ignore = [
+    "E501",  # line length is managed by formatter, not lint
+    "E741",  # ambiguous variable name (k1/k2 are domain terms)
+    "B008",  # function call in default argument
+]
+
+[tool.ruff.lint.per-file-ignores]
+"PPP-NEW/app/backend/tests/**" = ["B011", "SIM117"]
+"PPP-NEW/tools/run_legacy_oracle.py" = ["E402"]
+"PPP-NEW/app/backend/server.py" = ["SIM108"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.12"
+files = ["PPP-NEW/app/backend/ppp_core/types.py"]
+strict = true
+warn_unused_configs = true
+follow_imports = "silent"
+mypy_path = "PPP-NEW/app/backend"
+namespace_packages = true
+explicit_package_bases = true

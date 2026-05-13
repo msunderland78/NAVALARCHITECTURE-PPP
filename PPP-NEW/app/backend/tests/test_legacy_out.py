@@ -3,7 +3,6 @@ from pathlib import Path
 
 from ppp_core.legacy_out import parse_legacy_out
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 

@@ -3,9 +3,16 @@ import unittest
 from pathlib import Path
 
 from ppp_core import route
+from server import (
+    FRONTEND,
+    MAX_REQUEST_BYTES,
+    Handler,
+    RequestTooLarge,
+    request_content_length,
+    request_path,
+    safe_static_path,
+)
 from test_legacy_ppp import sample_ole_document
-from server import FRONTEND, Handler, MAX_REQUEST_BYTES, RequestTooLarge, request_content_length, request_path
-
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -407,6 +414,16 @@ class ApiTest(unittest.TestCase):
         with self.assertRaises(RequestTooLarge):
             request_content_length(str(MAX_REQUEST_BYTES + 1))
         self.assertEqual(request_content_length(str(MAX_REQUEST_BYTES)), MAX_REQUEST_BYTES)
+
+    def test_safe_static_path_allows_frontend_files(self):
+        self.assertTrue(safe_static_path(FRONTEND / "index.html"))
+        self.assertTrue(safe_static_path(FRONTEND / "app.js"))
+        self.assertTrue(safe_static_path(FRONTEND / "styles.css"))
+
+    def test_safe_static_path_rejects_traversal_and_missing(self):
+        self.assertFalse(safe_static_path(FRONTEND / ".." / "backend" / "server.py"))
+        self.assertFalse(safe_static_path(FRONTEND / "does-not-exist.html"))
+        self.assertFalse(safe_static_path(FRONTEND))
 
     def test_server_banner_hides_python_runtime(self):
         self.assertEqual(Handler.server_version, "PPPBackend")

@@ -4,7 +4,6 @@ from pathlib import Path
 
 from ppp_core.legacy_in import generate_candidate_legacy_in
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 

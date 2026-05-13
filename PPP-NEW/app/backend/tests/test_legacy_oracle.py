@@ -5,7 +5,6 @@ from pathlib import Path
 
 from ppp_core.legacy_oracle import run_oracle, stage_oracle_run
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 

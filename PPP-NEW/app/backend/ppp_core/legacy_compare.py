@@ -1,4 +1,8 @@
 from math import isfinite
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .types import Result
 
 
 DEFAULT_COMPARE_FIELDS = [
@@ -41,7 +45,12 @@ def merge_legacy_out_rows(parsed_out):
     return [rows_by_speed[speed] for speed in sorted(rows_by_speed)]
 
 
-def compare_legacy_out_to_result(parsed_out, modern_result, fields=None, speed_tolerance=1e-6):
+def compare_legacy_out_to_result(
+    parsed_out: dict,
+    modern_result: "Result",
+    fields: list[str] | None = None,
+    speed_tolerance: float = 1e-6,
+) -> dict:
     compare_fields, speed_tolerance = validate_compare_options(fields, speed_tolerance)
     legacy_rows = merge_legacy_out_rows(parsed_out)
     modern_rows = validate_modern_rows(modern_result)

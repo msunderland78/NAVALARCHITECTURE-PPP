@@ -1,5 +1,9 @@
 import hashlib
 import struct
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .types import Case
 
 
 FREESECT = 0xFFFFFFFF
@@ -8,12 +12,12 @@ FATSECT = 0xFFFFFFFD
 OLE_SIGNATURE = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
 
 
-def import_legacy_ppp(data, filename="legacy.ppp"):
+def import_legacy_ppp(data: bytes, filename: str = "legacy.ppp") -> "Case":
     contents = extract_ole_stream(data, "Contents")
     return import_contents_stream(contents, filename, data)
 
 
-def import_contents_stream(contents, filename="legacy.ppp", source_data=None):
+def import_contents_stream(contents: bytes, filename: str = "legacy.ppp", source_data: bytes | None = None) -> "Case":
     project_name = read_ascii_string(contents, 0x0004)
     run_id = read_ascii_string(contents, 0x001f)
     stern_label = read_ascii_string(contents, 0x008c)

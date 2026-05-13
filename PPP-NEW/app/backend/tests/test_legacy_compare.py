@@ -6,7 +6,6 @@ from ppp_core import compare_legacy_out_to_result, evaluate_case, merge_legacy_o
 from ppp_core.legacy_out import parse_legacy_out
 from test_legacy_out import sample_out
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 

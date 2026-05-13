@@ -8,7 +8,6 @@ from urllib.parse import urlsplit
 
 from ppp_core.api import route
 
-
 FRONTEND = Path(__file__).resolve().parents[1] / "frontend"
 STATIC_TYPES = {
     ".html": "text/html",
@@ -27,6 +26,9 @@ class RequestTooLarge(ValueError):
 
 
 class Handler(BaseHTTPRequestHandler):
+    # server_version + empty sys_version produce a `Server: PPPBackend` header.
+    # The Python runtime fingerprint is intentionally not exposed; the short
+    # framework name is kept for operator/log correlation.
     server_version = "PPPBackend"
     sys_version = ""
 
@@ -124,7 +126,7 @@ class Handler(BaseHTTPRequestHandler):
             path = FRONTEND / "index.html"
         else:
             path = FRONTEND / request_path_value.lstrip("/")
-        if not path.exists() or path.parent != FRONTEND:
+        if not safe_static_path(path):
             self.respond(404, "application/json", {"error": "not found"}, head_only)
             return
         body = path.read_bytes()
@@ -145,11 +147,22 @@ def request_path(target):
     return urlsplit(target).path
 
 
+def safe_static_path(path):
+    try:
+        resolved = path.resolve(strict=True)
+    except (FileNotFoundError, OSError):
+        return False
+    frontend = FRONTEND.resolve()
+    if resolved == frontend:
+        return False
+    return resolved.is_relative_to(frontend) and resolved.parent == frontend
+
+
 def request_content_length(value):
     try:
         length = int(value)
-    except (TypeError, ValueError):
-        raise ValueError("Content-Length must be a non-negative integer")
+    except (TypeError, ValueError) as error:
+        raise ValueError("Content-Length must be a non-negative integer") from error
     if length < 0:
         raise ValueError("Content-Length must be a non-negative integer")
     if length > MAX_REQUEST_BYTES:

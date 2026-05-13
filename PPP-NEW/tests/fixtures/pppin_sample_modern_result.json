@@ -33,15 +33,7 @@
   "applicability": [
     {
       "name": "froude_number",
-      "label": "Fn(Vk = 15.00)",
-      "value": 0.16923925200101986,
-      "lower": 0.0,
-      "upper": 1.0,
-      "ok": true
-    },
-    {
-      "name": "froude_number",
-      "label": "Fn(Vk = 17.00)",
+      "label": "Fn (max at Vk = 17.00)",
       "value": 0.19180448560115582,
       "lower": 0.0,
       "upper": 1.0,
@@ -86,7 +78,6 @@
       "appendage_equivalent_wetted_area_form_factor_m2": null,
       "frictional_resistance_n": 354653.773723008,
       "rf_form_resistance_n": 58082.26203815715,
-      "form_resistance_n": 58082.26203815715,
       "appendage_resistance_n": 23050.46330462614,
       "wave_resistance_n": 14254.935406375247,
       "bulb_resistance_n": 0.5404734866866778,
@@ -117,7 +108,6 @@
       "appendage_equivalent_wetted_area_form_factor_m2": null,
       "frictional_resistance_n": 448674.3204301622,
       "rf_form_resistance_n": 73480.16961852543,
-      "form_resistance_n": 73480.16961852543,
       "appendage_resistance_n": 29899.787937231264,
       "wave_resistance_n": 43059.65910904602,
       "bulb_resistance_n": 0.6686644552481733,

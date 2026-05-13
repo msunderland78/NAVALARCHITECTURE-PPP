@@ -1,4 +1,8 @@
 from math import isfinite
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .types import Case, LegacyInOptions
 
 
 PROPULSION_CODES = {
@@ -30,18 +34,20 @@ PROPELLER_RECORD_ORDERS = {
 }
 
 
-def generate_candidate_legacy_in(case, options=None):
-    from .core import evaluate_case
+def generate_candidate_legacy_in(case: "Case", options: "LegacyInOptions | None" = None) -> str:
+    from .core import compute_derived, modeling_values, validate_case
     options = {} if options is None else options
     validate_legacy_in_options(options)
+    validate_case(case)
     hull = case["hull"]
     features = case["features"]
     propulsion = case["propulsion"]
     appendages = case["appendages"]
-    modeling = {**case["modeling"], **evaluate_case(case, 1)["modeling"]}
     water = case["water"]
     margin = case["margin"]
     speed_sweep = case["speed_sweep"]
+    derived = compute_derived(hull, water)
+    modeling = modeling_values(hull, features, case["modeling"], derived)
     rows = [
         first_record_values(hull, modeling, options.get("first_record_order", "depth_before_drafts")),
         [

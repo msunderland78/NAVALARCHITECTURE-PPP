@@ -4,7 +4,6 @@ from pathlib import Path
 
 from ppp_core import evaluate_case
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 

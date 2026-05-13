@@ -1,7 +1,6 @@
 import csv
-from math import isfinite
 from io import StringIO
-
+from math import isfinite
 
 SPEED_COLUMNS = [
     "speed_knots",
@@ -16,7 +15,6 @@ SPEED_COLUMNS = [
     "appendage_equivalent_wetted_area_form_factor_m2",
     "frictional_resistance_n",
     "rf_form_resistance_n",
-    "form_resistance_n",
     "appendage_resistance_n",
     "wave_resistance_n",
     "bulb_resistance_n",

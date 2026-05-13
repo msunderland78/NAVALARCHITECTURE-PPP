@@ -5,7 +5,6 @@ from pathlib import Path
 
 from ppp_core.legacy_ppp import ENDOFCHAIN, FATSECT, FREESECT, import_contents_stream, import_legacy_ppp
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 

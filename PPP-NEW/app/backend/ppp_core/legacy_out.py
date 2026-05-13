@@ -1,7 +1,6 @@
 import re
 from math import isfinite
 
-
 NUMBER_RE = re.compile(r"[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[deDE][-+]?\d+)?")
 
 COEFFICIENT_COLUMNS = [
@@ -115,6 +114,9 @@ def parse_input_line(target, line):
 
 
 def numeric_values(text):
+    # NUMBER_RE constrains the D/d to the Fortran exponent slot only, so the
+    # blanket D→E swap inside the matched token is safe and matches DEC Fortran
+    # double-precision output like `1.234D+02`.
     values = [float(match.group(0).replace("D", "E").replace("d", "e")) for match in NUMBER_RE.finditer(text)]
     if any(not isfinite(value) for value in values):
         raise ValueError("legacy OUT numeric value must be finite")

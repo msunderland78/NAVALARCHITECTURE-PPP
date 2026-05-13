@@ -1,4 +1,8 @@
 from math import cos, exp, isfinite, log10, sqrt
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .types import Case, Result
 
 
 KNOT_TO_MPS = 0.514444
@@ -43,7 +47,7 @@ NONCONVENTIONAL_PROPULSION_WARNING = (
 )
 
 
-def evaluate_case(case, point_count=DEFAULT_POINT_COUNT):
+def evaluate_case(case: "Case", point_count: int = DEFAULT_POINT_COUNT) -> "Result":
     point_count = validate_point_count(point_count)
     validate_case(case)
     validate_speed_sweep(case["speed_sweep"], point_count)
@@ -55,40 +59,13 @@ def evaluate_case(case, point_count=DEFAULT_POINT_COUNT):
     appendages = case["appendages"]
     margin = case["margin"]
     speed_sweep = case["speed_sweep"]
-    lwl = hull["lwl_m"]
-    beam = hull["beam_lwl_m"]
-    tf = hull["draft_forward_m"]
-    ta = hull["draft_aft_m"]
-    mean_draft = (tf + ta) / 2
-    cb = hull["block_coefficient"]
-    cm = hull["midship_coefficient"]
-    cp = cb / cm
-    lcb_percent = hull["lcb_percent_lwl_from_midships_forward_positive"]
-    lcb_m_from_fp = lwl * (0.5 - lcb_percent / 100)
-    displacement_volume = lwl * beam * mean_draft * cb
-    midship_area = beam * mean_draft * cm
-    waterplane_area = lwl * beam * hull["waterplane_coefficient"]
-    derived = {
-        "mean_draft_m": mean_draft,
-        "prismatic_coefficient": cp,
-        "lcb_m_from_fp": lcb_m_from_fp,
-        "lcb_percent_lwl_from_fp": lcb_m_from_fp / lwl * 100,
-        "beam_draft_ratio": beam / mean_draft,
-        "draft_beam_ratio": mean_draft / beam,
-        "lwl_beam_ratio": lwl / beam,
-        "beam_lwl_ratio": beam / lwl,
-        "midship_area_m2": midship_area,
-        "waterplane_area_m2": waterplane_area,
-        "displacement_volume_m3": displacement_volume,
-        "length_displacement_ratio": lwl / displacement_volume ** (1 / 3),
-        "displacement_mass_tonnes": displacement_volume * water["density_kg_m3"] / 1000
-    }
+    derived = compute_derived(hull, water)
     active_modeling = modeling_values(hull, features, modeling, derived)
     speeds = []
     for index in range(point_count):
         speed_knots = speed_sweep["initial_speed_knots"] + speed_sweep["speed_increment_knots"] * index
         speeds.append(evaluate_speed(
-            lwl,
+            hull["lwl_m"],
             speed_knots,
             water["kinematic_viscosity_m2_s"],
             water["density_kg_m3"],
@@ -108,6 +85,33 @@ def evaluate_case(case, point_count=DEFAULT_POINT_COUNT):
         "engineering_review": engineering_review(propulsion, speeds),
         "applicability": applicability(case, derived, speeds),
         "speeds": speeds
+    }
+
+
+def compute_derived(hull, water):
+    lwl = hull["lwl_m"]
+    beam = hull["beam_lwl_m"]
+    mean_draft = (hull["draft_forward_m"] + hull["draft_aft_m"]) / 2
+    cb = hull["block_coefficient"]
+    cm = hull["midship_coefficient"]
+    cp = cb / cm
+    lcb_percent = hull["lcb_percent_lwl_from_midships_forward_positive"]
+    lcb_m_from_fp = lwl * (0.5 - lcb_percent / 100)
+    displacement_volume = lwl * beam * mean_draft * cb
+    return {
+        "mean_draft_m": mean_draft,
+        "prismatic_coefficient": cp,
+        "lcb_m_from_fp": lcb_m_from_fp,
+        "lcb_percent_lwl_from_fp": lcb_m_from_fp / lwl * 100,
+        "beam_draft_ratio": beam / mean_draft,
+        "draft_beam_ratio": mean_draft / beam,
+        "lwl_beam_ratio": lwl / beam,
+        "beam_lwl_ratio": beam / lwl,
+        "midship_area_m2": beam * mean_draft * cm,
+        "waterplane_area_m2": lwl * beam * hull["waterplane_coefficient"],
+        "displacement_volume_m3": displacement_volume,
+        "length_displacement_ratio": lwl / displacement_volume ** (1 / 3),
+        "displacement_mass_tonnes": displacement_volume * water["density_kg_m3"] / 1000
     }
 
 
@@ -150,8 +154,8 @@ def validate_point_count(point_count):
         raise ValueError("point_count must be an integer")
     try:
         numeric = float(point_count)
-    except (TypeError, ValueError):
-        raise ValueError("point_count must be an integer")
+    except (TypeError, ValueError) as error:
+        raise ValueError("point_count must be an integer") from error
     if not isfinite(numeric) or numeric != int(numeric):
         raise ValueError("point_count must be an integer")
     value = int(numeric)
@@ -508,7 +512,6 @@ def resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resi
         "appendage_equivalent_wetted_area_form_factor_m2": equivalent_area,
         "frictional_resistance_n": rf,
         "rf_form_resistance_n": rf_form_resistance,
-        "form_resistance_n": rf_form_resistance,
         "appendage_resistance_n": appendage_resistance,
         "wave_resistance_n": wave_resistance,
         "bulb_resistance_n": bulb_resistance,
@@ -528,13 +531,14 @@ def froude_number(speed_mps, lwl_m):
 
 def applicability(case, derived, speeds):
     checks = []
-    for speed in speeds:
+    if speeds:
+        peak = max(speeds, key=lambda speed: speed["froude_number"])
         checks.append(check_between(
             "froude_number",
-            speed["froude_number"],
+            peak["froude_number"],
             0.0,
             1.0,
-            f"Fn(Vk = {speed['speed_knots']:.2f})"
+            f"Fn (max at Vk = {peak['speed_knots']:.2f})"
         ))
     checks.append(check_between("beam_draft_ratio", derived["beam_draft_ratio"], 2.10, 4.00, "B/T"))
     checks.append(check_between("lwl_beam_ratio", derived["lwl_beam_ratio"], 3.90, 14.9, "LWL/B"))

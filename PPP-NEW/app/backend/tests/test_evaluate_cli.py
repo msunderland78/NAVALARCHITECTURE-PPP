@@ -5,7 +5,6 @@ from pathlib import Path
 
 from ppp_core.evaluate_cli import main
 
-
 ROOT = Path(__file__).resolve().parents[3]
 
 
