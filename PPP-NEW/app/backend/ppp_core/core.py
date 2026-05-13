@@ -13,7 +13,7 @@ STERN_CORRECTIONS = {
     "normal_shaped_sections": 0,
     "v_shaped_sections": -10,
     "u_shaped_sections_with_hogner_stern": 10,
-    "pram_with_gondola": 10
+    "pram_with_gondola": -25
 }
 STERN_TYPES = {
     "normal_shaped_sections",
@@ -41,11 +41,25 @@ ENGINEERING_REVIEW_NOTE = (
     "Preliminary resistance and powering estimate. Use with naval architect review and "
     "project-specific validation before design, procurement, or operational decisions."
 )
-NONCONVENTIONAL_PROPULSION_WARNING = (
-    "Wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust "
-    "are not reported for this propulsion type because the open-flow and twin-screw equations from "
-    "Holtrop & Mennen have not been recovered against a captured oracle. Resistance and effective power are still calculated."
+TWIN_SCREW_PROPULSION_WARNING = (
+    "Twin-screw propulsion factors use the 1982 Holtrop & Mennen formulas. "
+    "Numerical results are produced, but they have not yet been validated against a captured PPPFTRN.EXE oracle run."
 )
+OPEN_STERN_PROPULSION_WARNING = (
+    "Single-screw open-stern propulsion factors use the 1982 Holtrop & Mennen formulas. "
+    "The paper itself describes these as tentative, based on a limited data set. "
+    "Validation against a captured PPPFTRN.EXE oracle is pending."
+)
+DEFAULT_PITCH_DIAMETER_RATIO = 1.0
+PROPULSION_STATUS_LABELS = {
+    "single_screw_conventional_stern": "partial_source_safe_components",
+    "twin_screw": "partial_source_safe_unvalidated_propulsion_twin_screw",
+    "single_screw_open_flow_stern": "partial_source_safe_unvalidated_propulsion_open_stern"
+}
+PROPULSION_WARNINGS = {
+    "twin_screw": TWIN_SCREW_PROPULSION_WARNING,
+    "single_screw_open_flow_stern": OPEN_STERN_PROPULSION_WARNING
+}
 
 
 def evaluate_case(case: "Case", point_count: int = DEFAULT_POINT_COUNT) -> "Result":
@@ -83,6 +97,7 @@ def evaluate_case(case: "Case", point_count: int = DEFAULT_POINT_COUNT) -> "Resu
         "project": case["project"],
         "derived": derived,
         "modeling": modeling_result(modeling, active_modeling),
+        "propulsion": propulsion_result(propulsion),
         "engineering_review": engineering_review(propulsion, speeds),
         "applicability": applicability(case, derived, speeds),
         "speeds": speeds
@@ -122,8 +137,9 @@ def engineering_review(propulsion, speeds):
         "statuses": statuses,
         "note": ENGINEERING_REVIEW_NOTE
     }
-    if propulsion["type"] != "single_screw_conventional_stern":
-        review["warnings"] = [NONCONVENTIONAL_PROPULSION_WARNING]
+    warning = PROPULSION_WARNINGS.get(propulsion["type"])
+    if warning is not None:
+        review["warnings"] = [warning]
     return review
 
 
@@ -148,6 +164,16 @@ def modeling_result(modeling, active_modeling):
         "half_angle_entrance_mode": modeling.get("half_angle_entrance_mode", "user"),
         "half_angle_entrance_degrees": active_modeling["half_angle_entrance_degrees"],
         "air_drag_coefficient": modeling.get("air_drag_coefficient", LEGACY_AIR_DRAG_PRESSURE_COEFFICIENT)
+    }
+
+
+def propulsion_result(propulsion):
+    return {
+        "type": propulsion["type"],
+        "propeller_diameter_m": propulsion["propeller_diameter_m"],
+        "expanded_area_ratio": propulsion["expanded_area_ratio"],
+        "pitch_diameter_ratio": propulsion.get("pitch_diameter_ratio"),
+        "active_pitch_diameter_ratio": active_pitch_diameter_ratio(propulsion)
     }
 
 
@@ -332,11 +358,10 @@ def evaluate_speed(lwl_m, speed_knots, nu, rho, wetted_surface, hull, features, 
     wave_resistance = holtrop_wave_resistance(speed_mps, rho, hull, features, modeling, derived)
     bulb_resistance = holtrop_bulb_resistance(speed_mps, rho, hull, features)
     transom_resistance = holtrop_transom_resistance(speed_mps, rho, hull, features)
-    components = resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resistance, transom_resistance, ca, rho, wetted_surface, modeling, appendages, margin)
+    components = resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resistance, transom_resistance, ca, rho, wetted_surface, modeling, appendages, margin, propulsion)
     dynamic_pressure_area = 0.5 * rho * speed_mps ** 2 * wetted_surface
     propulsion_factors = holtrop_propulsion_factors(cf, ca, form_factor, hull, features, propulsion, derived, wetted_surface)
-    thrust_deduction = propulsion_factors["thrust_deduction"]
-    required_thrust = components["total_resistance_n"] / (1 - thrust_deduction) if thrust_deduction is not None else None
+    required_thrust = components["total_resistance_n"] / (1 - propulsion_factors["thrust_deduction"])
     return {
         "speed_knots": speed_knots,
         "speed_mps": speed_mps,
@@ -467,16 +492,20 @@ def holtrop_c16(cp):
 
 
 def holtrop_propulsion_factors(cf, ca, form_factor, hull, features, propulsion, derived, wetted_surface):
-    if propulsion["type"] != "single_screw_conventional_stern":
-        return {
-            "wake_fraction": None,
-            "thrust_deduction": None,
-            "hull_efficiency": None,
-            "relative_rotative_efficiency": None
-        }
+    cv = (1 + form_factor) * cf + ca
+    propulsion_type = propulsion["type"]
+    if propulsion_type == "single_screw_conventional_stern":
+        return single_screw_conventional_propulsion_factors(cv, hull, features, propulsion, derived, wetted_surface)
+    if propulsion_type == "twin_screw":
+        return twin_screw_propulsion_factors(cv, hull, propulsion, derived)
+    return single_screw_open_stern_propulsion_factors(cv, derived)
+
+
+def single_screw_conventional_propulsion_factors(cv, hull, features, propulsion, derived, wetted_surface):
     lwl = hull["lwl_m"]
     beam = hull["beam_lwl_m"]
     mean_draft = derived["mean_draft_m"]
+    draft_aft = hull["draft_aft_m"]
     cb = hull["block_coefficient"]
     cp = derived["prismatic_coefficient"]
     cm = hull["midship_coefficient"]
@@ -485,15 +514,14 @@ def holtrop_propulsion_factors(cf, ca, form_factor, hull, features, propulsion, 
     expanded_area_ratio = propulsion["expanded_area_ratio"]
     cstern = STERN_CORRECTIONS[features["stern_type"]]
     thrust_deduction = 0.25014 * (beam / lwl) ** 0.28956 * (sqrt(beam * mean_draft) / propeller_diameter) ** 0.2624 / (1 - cp + 0.0225 * lcb_percent) ** 0.01762 + 0.0015 * cstern
-    c8 = holtrop_c8(beam, mean_draft, wetted_surface, lwl, propeller_diameter)
+    c8 = holtrop_c8(beam, draft_aft, wetted_surface, lwl, propeller_diameter)
     c9 = c8 if c8 < 28 else 32 - 16 / (c8 - 24)
-    draft_diameter_ratio = mean_draft / propeller_diameter
-    c11 = draft_diameter_ratio if draft_diameter_ratio < 2 else 0.0833333 * draft_diameter_ratio ** 3 + 1.33333
+    draft_aft_diameter_ratio = draft_aft / propeller_diameter
+    c11 = draft_aft_diameter_ratio if draft_aft_diameter_ratio < 2 else 0.0833333 * draft_aft_diameter_ratio ** 3 + 1.33333
     c19 = 0.12997 / (0.95 - cb) - 0.11056 / (0.95 - cp) if cp < 0.7 else 0.18567 / (1.3571 - cm) - 0.71276 + 0.38648 * cp
     c20 = 1 + 0.015 * cstern
     cp1 = 1.45 * cp - 0.315 - 0.0225 * lcb_percent
-    cv = (1 + form_factor) * cf + ca
-    wake_fraction = c9 * c20 * cv * lwl / mean_draft * (0.050776 + 0.93405 * c11 * cv / (1 - cp1)) + 0.27915 * c20 * sqrt(beam / (lwl * (1 - cp1))) + c19 * c20
+    wake_fraction = c9 * c20 * cv * lwl / draft_aft * (0.050776 + 0.93405 * c11 * cv / (1 - cp1)) + 0.27915 * c20 * sqrt(beam / (lwl * (1 - cp1))) + c19 * c20
     relative_rotative_efficiency = 0.9922 - 0.05908 * expanded_area_ratio + 0.07424 * (cp - 0.0225 * lcb_percent)
     return {
         "wake_fraction": wake_fraction,
@@ -503,14 +531,56 @@ def holtrop_propulsion_factors(cf, ca, form_factor, hull, features, propulsion, 
     }
 
 
-def holtrop_c8(beam, mean_draft, wetted_surface, lwl, propeller_diameter):
-    beam_draft_ratio = beam / mean_draft
+def twin_screw_propulsion_factors(cv, hull, propulsion, derived):
+    # Holtrop & Mennen 1982 paper, page 4, twin-screw formulas (lines 444-449 of OCR).
+    beam = hull["beam_lwl_m"]
+    mean_draft = derived["mean_draft_m"]
+    cb = hull["block_coefficient"]
+    cp = derived["prismatic_coefficient"]
+    lcb_percent = hull["lcb_percent_lwl_from_midships_forward_positive"]
+    propeller_diameter = propulsion["propeller_diameter_m"]
+    pitch_diameter_ratio = active_pitch_diameter_ratio(propulsion)
+    wake_fraction = 0.3095 * cb + 10 * cv * cb - 0.23 * propeller_diameter / sqrt(beam * mean_draft)
+    thrust_deduction = 0.325 * cb - 0.1885 * propeller_diameter / sqrt(beam * mean_draft)
+    relative_rotative_efficiency = 0.9737 + 0.111 * (cp - 0.0225 * lcb_percent) - 0.06325 * pitch_diameter_ratio
+    return {
+        "wake_fraction": wake_fraction,
+        "thrust_deduction": thrust_deduction,
+        "hull_efficiency": (1 - thrust_deduction) / (1 - wake_fraction),
+        "relative_rotative_efficiency": relative_rotative_efficiency
+    }
+
+
+def single_screw_open_stern_propulsion_factors(cv, derived):
+    # Holtrop & Mennen 1982 paper, page 4, open-stern formulas (lines 434-435 of OCR).
+    # Authors describe these as tentative, based on a limited data set.
+    cp = derived["prismatic_coefficient"]
+    wake_fraction = 0.3 * cp + 10 * cv * cp - 0.1
+    thrust_deduction = 0.10
+    relative_rotative_efficiency = 0.98
+    return {
+        "wake_fraction": wake_fraction,
+        "thrust_deduction": thrust_deduction,
+        "hull_efficiency": (1 - thrust_deduction) / (1 - wake_fraction),
+        "relative_rotative_efficiency": relative_rotative_efficiency
+    }
+
+
+def active_pitch_diameter_ratio(propulsion):
+    value = propulsion.get("pitch_diameter_ratio")
+    if value is None:
+        return DEFAULT_PITCH_DIAMETER_RATIO
+    return value
+
+
+def holtrop_c8(beam, draft_aft, wetted_surface, lwl, propeller_diameter):
+    beam_draft_ratio = beam / draft_aft
     if beam_draft_ratio < 5:
-        return beam * wetted_surface / (lwl * propeller_diameter * mean_draft)
+        return beam * wetted_surface / (lwl * propeller_diameter * draft_aft)
     return wetted_surface * (7 * beam_draft_ratio - 25) / (lwl * propeller_diameter * (beam_draft_ratio - 3))
 
 
-def resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resistance, transom_resistance, correlation_allowance_coefficient, rho, wetted_surface, modeling, appendages, margin):
+def resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resistance, transom_resistance, correlation_allowance_coefficient, rho, wetted_surface, modeling, appendages, margin, propulsion):
     rf_form_resistance = rf * form_factor
     correlation_allowance_resistance = 0.5 * rho * speed_mps ** 2 * wetted_surface * correlation_allowance_coefficient
     air_resistance = 0.0
@@ -542,7 +612,7 @@ def resistance_components(speed_mps, rf, form_factor, wave_resistance, bulb_resi
         "implemented_resistance_subtotal_n": subtotal,
         "design_margin_resistance_n": design_margin,
         "total_resistance_n": total,
-        "resistance_status": "partial_source_safe_components"
+        "resistance_status": PROPULSION_STATUS_LABELS.get(propulsion["type"], "partial_source_safe_components")
     }
 
 

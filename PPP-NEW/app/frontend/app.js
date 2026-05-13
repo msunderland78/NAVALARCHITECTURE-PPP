@@ -266,7 +266,7 @@ function buildPayload() {
         type: data.get("propulsion.type"),
         propeller_diameter_m: numberValue(data, "propulsion.propeller_diameter_m"),
         expanded_area_ratio: numberValue(data, "propulsion.expanded_area_ratio"),
-        pitch_diameter_ratio: null
+        pitch_diameter_ratio: optionalNumberValue(data, "propulsion.pitch_diameter_ratio")
       },
       appendages: {
         mode: data.get("appendages.mode"),
@@ -315,6 +315,9 @@ function applyCase(caseData) {
   setValue("propulsion.type", caseData.propulsion.type);
   setValue("propulsion.propeller_diameter_m", caseData.propulsion.propeller_diameter_m);
   setValue("propulsion.expanded_area_ratio", caseData.propulsion.expanded_area_ratio);
+  if (caseData.propulsion.pitch_diameter_ratio !== null && caseData.propulsion.pitch_diameter_ratio !== undefined) {
+    setValue("propulsion.pitch_diameter_ratio", caseData.propulsion.pitch_diameter_ratio);
+  }
   setValue("appendages.mode", caseData.appendages.mode || "percent_bare_hull_resistance");
   setValue("appendages.percent_bare_hull_resistance", caseData.appendages.percent_bare_hull_resistance);
   setValue("appendages.equivalent_wetted_area_form_factor_m2", caseData.appendages.equivalent_wetted_area_form_factor_m2 || 0);

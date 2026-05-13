@@ -1,0 +1,67 @@
+{
+  "schema": "navarch.ppp.case",
+  "version": 1,
+  "source": {
+    "kind": "synthetic_regression_baseline",
+    "purpose": "lock the 1982 open-stern propulsion-factor formulas against silent drift",
+    "note": "NOT oracle-validated; the 1982 paper labels open-stern formulas tentative."
+  },
+  "project": {
+    "name": "Synthetic Open-Stern Regression",
+    "run_id": "Reg-OpenStern-1"
+  },
+  "speed_sweep": {
+    "initial_speed_knots": 15.0,
+    "speed_increment_knots": 2.0,
+    "status": "candidate_from_binary_offsets"
+  },
+  "hull": {
+    "lwl_m": 212.0,
+    "beam_lwl_m": 32.0,
+    "draft_forward_m": 11.0,
+    "draft_aft_m": 11.0,
+    "block_coefficient": 0.6,
+    "midship_coefficient": 0.98,
+    "waterplane_coefficient": 0.75,
+    "lcb_percent_lwl_from_midships_forward_positive": -0.75
+  },
+  "features": {
+    "bulb_area_station_0_m2": 21.0,
+    "bulb_vertical_center_m": 4.0,
+    "transom_immersed_area_zero_speed_m2": 16.0,
+    "stern_type": "normal_shaped_sections"
+  },
+  "propulsion": {
+    "type": "single_screw_open_flow_stern",
+    "propeller_diameter_m": 8.0,
+    "expanded_area_ratio": 0.8,
+    "pitch_diameter_ratio": null
+  },
+  "appendages": {
+    "mode": "percent_bare_hull_resistance",
+    "percent_bare_hull_resistance": 5.0,
+    "equivalent_wetted_area_form_factor_m2": null
+  },
+  "modeling": {
+    "air_drag": true,
+    "depth_at_bow_m": 21.0,
+    "deckhouse_cargo_frontal_area_m2": 321.0,
+    "wetted_surface_mode": "user",
+    "wetted_surface_m2": 7890.0,
+    "half_angle_entrance_mode": "user",
+    "half_angle_entrance_degrees": 12.11
+  },
+  "water": {
+    "type": "salt_water_15_c",
+    "density_kg_m3": 1025.87,
+    "kinematic_viscosity_m2_s": 1.18831e-06
+  },
+  "margin": {
+    "design_margin_percent": 5.0
+  },
+  "legacy_labels": {
+    "stern_type": "normal shaped sections",
+    "propulsion_type": "single-screw with \"conventional\" stern",
+    "water_type": "Salt Water at 15 degrees Celsius"
+  }
+}

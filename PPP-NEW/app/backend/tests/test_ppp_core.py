@@ -302,27 +302,69 @@ class PppCoreTest(unittest.TestCase):
 
         self.assertEqual(result, expected)
 
-    def test_nonconventional_propulsion_gets_engineering_warning(self):
-        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
-        case["propulsion"]["type"] = "twin_screw"
-        result = evaluate_case(case, point_count=1)
+    def test_synthetic_twin_screw_regression_baseline(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "synthetic_twin_screw_case.json").read_text())
+        expected = json.loads((ROOT / "tests" / "fixtures" / "synthetic_twin_screw_result.json").read_text())
+        result = evaluate_case(case, point_count=2)
 
-        self.assertIn("warnings", result["engineering_review"])
-        self.assertIn("are not reported for this propulsion type", result["engineering_review"]["warnings"][0])
+        self.assertEqual(result, expected)
 
-    def test_nonconventional_propulsion_omits_propulsion_factor_values(self):
+    def test_synthetic_open_stern_regression_baseline(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "synthetic_open_stern_case.json").read_text())
+        expected = json.loads((ROOT / "tests" / "fixtures" / "synthetic_open_stern_result.json").read_text())
+        result = evaluate_case(case, point_count=2)
+
+        self.assertEqual(result, expected)
+
+    def test_twin_screw_propulsion_factors_numeric(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
         case["propulsion"]["type"] = "twin_screw"
         result = evaluate_case(case, point_count=1)
         speed = result["speeds"][0]
 
-        self.assertIsNone(speed["wake_fraction"])
-        self.assertIsNone(speed["thrust_deduction"])
-        self.assertIsNone(speed["hull_efficiency"])
-        self.assertIsNone(speed["relative_rotative_efficiency"])
-        self.assertIsNone(speed["required_thrust_n"])
-        self.assertGreater(speed["total_resistance_n"], 0)
-        self.assertGreater(speed["effective_power_kw"], 0)
+        for field in ["wake_fraction", "thrust_deduction", "hull_efficiency", "relative_rotative_efficiency", "required_thrust_n"]:
+            self.assertIsInstance(speed[field], float)
+            self.assertGreater(speed[field], 0)
+        self.assertEqual(speed["resistance_status"], "partial_source_safe_unvalidated_propulsion_twin_screw")
+        self.assertIn("warnings", result["engineering_review"])
+        self.assertIn("Twin-screw propulsion factors use the 1982 Holtrop", result["engineering_review"]["warnings"][0])
+
+    def test_twin_screw_uses_pitch_diameter_default_when_missing(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "twin_screw"
+        case["propulsion"]["pitch_diameter_ratio"] = None
+        result = evaluate_case(case, point_count=1)
+
+        self.assertEqual(result["propulsion"]["pitch_diameter_ratio"], None)
+        self.assertEqual(result["propulsion"]["active_pitch_diameter_ratio"], 1.0)
+
+    def test_twin_screw_uses_supplied_pitch_diameter(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "twin_screw"
+        case["propulsion"]["pitch_diameter_ratio"] = 1.2
+        result = evaluate_case(case, point_count=1)
+        speed = result["speeds"][0]
+
+        self.assertEqual(result["propulsion"]["active_pitch_diameter_ratio"], 1.2)
+        # eta_R = 0.9737 + 0.111*(Cp - 0.0225*lcb) - 0.06325*1.2
+        # Cp = 0.6/0.98 = 0.6122..., lcb = -0.75
+        cp = 0.6 / 0.98
+        expected_eta_r = 0.9737 + 0.111 * (cp - 0.0225 * -0.75) - 0.06325 * 1.2
+        self.assertAlmostEqual(speed["relative_rotative_efficiency"], expected_eta_r)
+
+    def test_open_stern_propulsion_factors_constants(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        case["propulsion"]["type"] = "single_screw_open_flow_stern"
+        result = evaluate_case(case, point_count=1)
+        speed = result["speeds"][0]
+
+        self.assertEqual(speed["thrust_deduction"], 0.10)
+        self.assertEqual(speed["relative_rotative_efficiency"], 0.98)
+        self.assertGreater(speed["wake_fraction"], 0)
+        self.assertGreater(speed["required_thrust_n"], 0)
+        self.assertEqual(speed["resistance_status"], "partial_source_safe_unvalidated_propulsion_open_stern")
+        self.assertIn("Single-screw open-stern propulsion factors", result["engineering_review"]["warnings"][0])
+        self.assertIn("tentative", result["engineering_review"]["warnings"][0])
 
     def test_multi_point_sweep_requires_positive_increment(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

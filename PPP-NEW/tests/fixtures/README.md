@@ -18,6 +18,10 @@ These fixtures are regression inputs for the modern implementation. None of them
 | `pppin_sample_estimated_modern_result.json` | Current modern partial-result baseline for the estimated-mode sample, including active modeling terms and two speeds | Modern regression baseline |
 | `synthetic_container_case.json` | Smaller, faster hull (LWL 150 m, B/T 2.75, Cp 0.64, Fn up to 0.28) used only to widen the geometry envelope covered by regression tests | Synthetic, **not** an oracle |
 | `synthetic_container_result.json` | Pinned modern output for `synthetic_container_case.json`; locks the current implementation against silent drift outside the captured sample's geometry | Synthetic regression baseline |
+| `synthetic_twin_screw_case.json` | Captured sample geometry with `propulsion.type = "twin_screw"` and explicit `pitch_diameter_ratio = 1.0` | Synthetic, **not** an oracle |
+| `synthetic_twin_screw_result.json` | Pinned modern output using the 1982 Holtrop & Mennen twin-screw formulas | Synthetic regression baseline (1982 paper formulas, not yet PPPFTRN.EXE-validated) |
+| `synthetic_open_stern_case.json` | Captured sample geometry with `propulsion.type = "single_screw_open_flow_stern"` | Synthetic, **not** an oracle |
+| `synthetic_open_stern_result.json` | Pinned modern output using the 1982 Holtrop & Mennen open-stern formulas, which the paper itself labels tentative | Synthetic regression baseline (paper-tentative, not yet PPPFTRN.EXE-validated) |
 
 Captured oracle fixtures are plain text or JSON only. Legacy executables remain in ignored archival folders and are not part of the modern product.
 

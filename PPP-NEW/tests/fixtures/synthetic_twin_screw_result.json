@@ -1,7 +1,7 @@
 {
   "project": {
-    "name": "Holtrop and Mennen Example",
-    "run_id": "Test 1.0"
+    "name": "Synthetic Twin-Screw Regression",
+    "run_id": "Reg-TwinScrew-1"
   },
   "derived": {
     "mean_draft_m": 11.0,
@@ -19,24 +19,27 @@
     "displacement_mass_tonnes": 45932.713728
   },
   "modeling": {
-    "wetted_surface_mode": "estimated",
-    "wetted_surface_m2": 8074.589977924038,
-    "half_angle_entrance_mode": "estimated",
-    "half_angle_entrance_degrees": 12.503189765172571,
+    "wetted_surface_mode": "user",
+    "wetted_surface_m2": 7890.0,
+    "half_angle_entrance_mode": "user",
+    "half_angle_entrance_degrees": 12.11,
     "air_drag_coefficient": 0.737223
   },
   "propulsion": {
-    "type": "single_screw_conventional_stern",
+    "type": "twin_screw",
     "propeller_diameter_m": 8.0,
     "expanded_area_ratio": 0.8,
-    "pitch_diameter_ratio": null,
+    "pitch_diameter_ratio": 1.0,
     "active_pitch_diameter_ratio": 1.0
   },
   "engineering_review": {
     "statuses": [
-      "partial_source_safe_components"
+      "partial_source_safe_unvalidated_propulsion_twin_screw"
     ],
-    "note": "Preliminary resistance and powering estimate. Use with naval architect review and project-specific validation before design, procurement, or operational decisions."
+    "note": "Preliminary resistance and powering estimate. Use with naval architect review and project-specific validation before design, procurement, or operational decisions.",
+    "warnings": [
+      "Twin-screw propulsion factors use the 1982 Holtrop & Mennen formulas. Numerical results are produced, but they have not yet been validated against a captured PPPFTRN.EXE oracle run."
+    ]
   },
   "applicability": [
     {
@@ -80,28 +83,28 @@
       "speed_length_ratio": 0.5687623106703097,
       "reynolds_number": 1376687833.982715,
       "friction_coefficient": 0.001471656717746287,
-      "residual_resistance_coefficient": 0.0004371529088187592,
+      "residual_resistance_coefficient": 0.00044132837829904167,
       "correlation_allowance_coefficient": 0.00034379257377701797,
       "appendage_mode": "percent_bare_hull_resistance",
       "appendage_equivalent_wetted_area_form_factor_m2": null,
-      "frictional_resistance_n": 362951.0528436933,
-      "rf_form_resistance_n": 59441.12179321439,
-      "appendage_resistance_n": 23538.24962321817,
-      "wave_resistance_n": 14354.522902473269,
+      "frictional_resistance_n": 354653.773723008,
+      "rf_form_resistance_n": 58082.26203815715,
+      "appendage_resistance_n": 23050.46330462614,
+      "wave_resistance_n": 14254.935406375247,
       "bulb_resistance_n": 0.5404734866866778,
       "transom_resistance_n": 34017.75445149571,
-      "correlation_allowance_resistance_n": 84788.71132617202,
+      "correlation_allowance_resistance_n": 82850.39044614023,
       "air_resistance_n": 14091.675676258255,
-      "implemented_resistance_subtotal_n": 593183.6290900118,
-      "design_margin_resistance_n": 29659.181454500595,
-      "total_resistance_n": 622842.8105445125,
-      "resistance_status": "partial_source_safe_components",
-      "effective_power_kw": 4806.266202416417,
-      "wake_fraction": 0.24471045283013204,
-      "thrust_deduction": 0.18413071998689332,
-      "hull_efficiency": 1.0802072967516048,
-      "relative_rotative_efficiency": 0.9916418612244898,
-      "required_thrust_n": 763410.0533047484
+      "implemented_resistance_subtotal_n": 581001.7955195474,
+      "design_margin_resistance_n": 29050.089775977372,
+      "total_resistance_n": 610051.8852955248,
+      "resistance_status": "partial_source_safe_unvalidated_propulsion_twin_screw",
+      "effective_power_kw": 4707.562981184565,
+      "wake_fraction": 0.09996646082446406,
+      "thrust_deduction": 0.11462332993393487,
+      "hull_efficiency": 0.9837151967437824,
+      "relative_rotative_efficiency": 0.9802823086734693,
+      "required_thrust_n": 689030.9016726225
     },
     {
       "speed_knots": 17.0,
@@ -110,28 +113,28 @@
       "speed_length_ratio": 0.644597285426351,
       "reynolds_number": 1560246211.847077,
       "friction_coefficient": 0.0014494986690413152,
-      "residual_resistance_coefficient": 0.0004777500792896426,
+      "residual_resistance_coefficient": 0.0004824016357536086,
       "correlation_allowance_coefficient": 0.00034379257377701797,
       "appendage_mode": "percent_bare_hull_resistance",
       "appendage_equivalent_wetted_area_form_factor_m2": null,
-      "frictional_resistance_n": 459171.25108964083,
-      "rf_form_resistance_n": 75199.27011126792,
-      "appendage_resistance_n": 30525.63061397495,
-      "wave_resistance_n": 43360.48149169859,
+      "frictional_resistance_n": 448674.3204301622,
+      "rf_form_resistance_n": 73480.16961852543,
+      "appendage_resistance_n": 29899.787937231264,
+      "wave_resistance_n": 43059.65910904602,
       "bulb_resistance_n": 0.6686644552481733,
       "transom_resistance_n": 32780.94092243633,
-      "correlation_allowance_resistance_n": 108906.38921450538,
+      "correlation_allowance_resistance_n": 106416.72372859786,
       "air_resistance_n": 18099.97453528282,
-      "implemented_resistance_subtotal_n": 768044.6066432622,
-      "design_margin_resistance_n": 38402.23033216311,
-      "total_resistance_n": 806446.8369754254,
-      "resistance_status": "partial_source_safe_components",
-      "effective_power_kw": 7052.819522216757,
-      "wake_fraction": 0.24427290182790282,
-      "thrust_deduction": 0.18413071998689332,
-      "hull_efficiency": 1.0795818781495032,
-      "relative_rotative_efficiency": 0.9916418612244898,
-      "required_thrust_n": 988451.0383360311
+      "implemented_resistance_subtotal_n": 752412.2449457372,
+      "design_margin_resistance_n": 37620.61224728686,
+      "total_resistance_n": 790032.857193024,
+      "resistance_status": "partial_source_safe_unvalidated_propulsion_twin_screw",
+      "effective_power_kw": 6909.270274158736,
+      "wake_fraction": 0.0998117393604285,
+      "thrust_deduction": 0.11462332993393487,
+      "hull_efficiency": 0.9835461189385175,
+      "relative_rotative_efficiency": 0.9802823086734693,
+      "required_thrust_n": 892312.711531097
     }
   ]
 }

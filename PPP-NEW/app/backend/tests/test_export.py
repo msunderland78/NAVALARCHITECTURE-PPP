@@ -70,8 +70,8 @@ class ExportTest(unittest.TestCase):
         text = result_to_markdown(result, case)
 
         self.assertIn("Warnings:", text)
-        self.assertIn("are not reported for this propulsion type", text)
-        self.assertIn(" — ", text)
+        self.assertIn("Single-screw open-stern propulsion factors", text)
+        self.assertIn("tentative", text)
 
     def test_result_to_markdown_rejects_bad_result_shape(self):
         with self.assertRaisesRegex(ValueError, "result must be an object"):

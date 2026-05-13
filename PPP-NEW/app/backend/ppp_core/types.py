@@ -165,10 +165,19 @@ class ActiveModeling(TypedDict):
     air_drag_coefficient: float
 
 
+class ActivePropulsion(TypedDict):
+    type: PropulsionType
+    propeller_diameter_m: float
+    expanded_area_ratio: float
+    pitch_diameter_ratio: float | None
+    active_pitch_diameter_ratio: float
+
+
 class Result(TypedDict):
     project: Project
     derived: Derived
     modeling: ActiveModeling
+    propulsion: ActivePropulsion
     engineering_review: EngineeringReview
     applicability: list[ApplicabilityCheck]
     speeds: list[SpeedRow]
