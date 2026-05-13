@@ -75,4 +75,4 @@ User and estimated wetted-surface and half-angle modes plus air-drag on/off mode
 
 The Docker image copies only the runtime backend modules and frontend assets, runs the backend as the unprivileged `ppp` user under `init: true` (tini as PID 1), and reports health through a dedicated `healthcheck.py`. The NGINX proxy adds `Content-Security-Policy`, rate-limits `/api/evaluate`, and applies standard timeouts.
 
-Source papers for cross-checking the formulas are committed under `PPP-NEW/Paper/`; the design plan that drove the non-conventional propulsion-factor work is at `PPP-NEW/HALTROP-PAPER-PLAN.md`.
+Source papers for cross-checking the formulas are committed under `PPP-NEW/Paper/`; the design plan that drove the non-conventional propulsion-factor work is at `PPP-NEW/HOLTROP-PAPER-PLAN.md`.

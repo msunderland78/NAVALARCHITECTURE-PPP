@@ -12,7 +12,7 @@ No obvious hardware-lock or dongle dependency was found in the current artifacts
 
 ## Implementation Status
 
-Current status as of May 13, 2026 (post code-review and HALTROP-PAPER-PLAN batch). The granular item-by-item status of the post-build code review lives in `PPP-NEW/CLAUDE-PLAN.md`. Snapshot below:
+Current status as of May 13, 2026 (post code-review and HOLTROP-PAPER-PLAN batch). The granular item-by-item status of the post-build code review lives in `PPP-NEW/CLAUDE-PLAN.md`. Snapshot below:
 
 - Repository setup is complete with `PPP-OLD/` ignored by git and `PPP-NEW/` available for documentation and implementation.
 - Public project, documentation, browser, and test references use the corrected name `Power Prediction Program (PPP)`.
@@ -141,7 +141,7 @@ Current status as of May 13, 2026 (post code-review and HALTROP-PAPER-PLAN batch
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
 - OCR'd 1982 and 1984 Holtrop & Mennen papers are committed under `PPP-NEW/Paper/` for cross-check reference.
-- Twin-screw and single-screw open-stern propulsion-factor formulas are now implemented from the 1982 paper (D4 in the code review). Wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust now compute for all three propulsion types. `resistance_status` splits three ways: `partial_source_safe_components` for oracle-validated single-screw conventional stern; `partial_source_safe_unvalidated_propulsion_twin_screw` and `partial_source_safe_unvalidated_propulsion_open_stern` for the formulas-only paths. `HALTROP-PAPER-PLAN.md` documents the design.
+- Twin-screw and single-screw open-stern propulsion-factor formulas are now implemented from the 1982 paper (D4 in the code review). Wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust now compute for all three propulsion types. `resistance_status` splits three ways: `partial_source_safe_components` for oracle-validated single-screw conventional stern; `partial_source_safe_unvalidated_propulsion_twin_screw` and `partial_source_safe_unvalidated_propulsion_open_stern` for the formulas-only paths. `HOLTROP-PAPER-PLAN.md` documents the design.
 - Single-screw conventional wake fraction and `c_8` / `c_11` now use draft aft, matching the 1982 paper page 4. Captured oracle max delta is 53 N at 27 kn, well under the 100 N gate.
 - Pram-with-gondola `C_stern` corrected to -25 per the 1984 paper stern-correction table.
 - Air drag coefficient parameterized (`modeling.air_drag_coefficient`); legacy `0.737223` is the default.

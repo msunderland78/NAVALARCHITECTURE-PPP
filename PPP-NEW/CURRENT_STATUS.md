@@ -164,7 +164,7 @@ Version 1.1, May 13, 2026
 - Air drag coefficient is now a configurable input (`modeling.air_drag_coefficient`); legacy `0.737223` is the default.
 - Pram-with-gondola `C_stern` corrected to -25 per the 1984 paper.
 - Single-screw conventional stern wake fraction and `c_8` / `c_11` now use draft aft, matching the 1982 paper. Captured oracle still matches to 53 N max delta.
-- Both Holtrop & Mennen papers (1982 and 1984) committed under `PPP-NEW/Paper/` as OCR'd markdown for reference; `PPP-NEW/HALTROP-PAPER-PLAN.md` documents the design plan that drove D4.
+- Both Holtrop & Mennen papers (1982 and 1984) committed under `PPP-NEW/Paper/` as OCR'd markdown for reference; `PPP-NEW/HOLTROP-PAPER-PLAN.md` documents the design plan that drove D4.
 - Synthetic regression fixtures added for additional geometry (`synthetic_container_*`), twin-screw (`synthetic_twin_screw_*`), and open-stern (`synthetic_open_stern_*`) cases.
 - Backend hardening: 16 MB POST body cap, 1 MB OLE upload cap, path-traversal-safe static serving via `safe_static_path()`, `Content-Security-Policy` header (strict `default-src 'self'`), JSON request logs to stdout.
 - NGINX hardening: rate limit on `/api/evaluate` (10 r/s + burst 20), Content-Security-Policy header.

@@ -201,7 +201,7 @@ PPP-NEW/
   Paper/           OCR'd Holtrop & Mennen 1982 and 1984 source papers
   tests/fixtures/  Normalized samples and oracle fixtures
   CLAUDE-PLAN.md   Code-review plan and implementation status
-  HALTROP-PAPER-PLAN.md  Design plan for the D4 propulsion-factor implementation
+  HOLTROP-PAPER-PLAN.md  Design plan for the D4 propulsion-factor implementation
 
 PPP-OLD/
   Legacy archival inputs, ignored by git

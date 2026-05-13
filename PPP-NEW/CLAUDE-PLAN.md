@@ -62,18 +62,18 @@ Almost everything in this plan shipped. Snapshot below; per-item "Status" lines 
 
 Three places where the plan itself was wrong or imprecise. The codebase is the source of truth; the plan got corrected:
 
-- **A2 was wrong about Holtrop's published value.** The plan asserted `pram_with_gondola Cstern = +10`. The 1984 paper's stern-correction table (read after the user supplied the OCR) shows the progression `pram-with-gondola: -25 / V-shaped: -10 / normal: 0 / U-shaped with Hogner: +10`. The first A2 commit aligned both modules to `+10` (incorrect). The second commit (`56ac5c1`, in the HALTROP-PAPER-PLAN batch) re-aligned them both to **-25**, the published value. The captured oracle is unaffected because the sample uses `normal_shaped_sections`.
+- **A2 was wrong about Holtrop's published value.** The plan asserted `pram_with_gondola Cstern = +10`. The 1984 paper's stern-correction table (read after the user supplied the OCR) shows the progression `pram-with-gondola: -25 / V-shaped: -10 / normal: 0 / U-shaped with Hogner: +10`. The first A2 commit aligned both modules to `+10` (incorrect). The second commit (`56ac5c1`, in the HOLTROP-PAPER-PLAN batch) re-aligned them both to **-25**, the published value. The captured oracle is unaffected because the sample uses `normal_shaped_sections`.
 - **B9 was inaccurate.** The plan said `__pycache__/` needed to be added to `.gitignore`. It was already there. No change was made; the verification step caught the false claim.
 - **D5 was inaccurate.** The plan said `validate_case` mixed math-stability checks with applicability bounds. Reading the code confirmed it only contains math-stability checks (coefficients ≤ 1, denominators non-zero, sqrt/log domains). The Holtrop applicability ranges (B/T 2.1–4.0, etc.) already live in `applicability()`, not in validation. An inline comment was added to document the split; no behavioural change was needed.
 
 ### Out-of-plan work that landed alongside
 
-The HALTROP-PAPER-PLAN batch (commit `56ac5c1`) introduced two correctness fixes that the original review missed but that surfaced from cross-checking against the 1982 and 1984 papers the user supplied:
+The HOLTROP-PAPER-PLAN batch (commit `56ac5c1`) introduced two correctness fixes that the original review missed but that surfaced from cross-checking against the 1982 and 1984 papers the user supplied:
 
 - **Draft aft vs mean draft in propulsion factor formulas.** The 1982 paper (page 4) specifies `L/T_A`, `B/T_A`, and `T_A/D` in the single-screw conventional wake fraction and in `c_8` / `c_11`. The codebase used mean draft. The captured oracle didn't catch this because the sample has `T_F = T_A = 11 m`. After the fix, the oracle still matches to **53 N max delta** at 27 kn, well under the 100 N gate. Any future case with trim will now compute correctly.
 - **Implementation of D4 from the 1982 paper.** The 1984 paper explicitly says it kept the 1982 formulas for multiple-screw and open-stern. The user supplied the 1982 paper, which carries the missing equations. D4 is now closed with full numeric output for both twin-screw and open-stern, marked with type-specific `resistance_status` labels that flag them as still-pending oracle validation.
 
-The full design plan that drove the HALTROP-PAPER-PLAN batch lives at `PPP-NEW/HALTROP-PAPER-PLAN.md`. The source papers are committed under `PPP-NEW/Paper/` for reference.
+The full design plan that drove the HOLTROP-PAPER-PLAN batch lives at `PPP-NEW/HOLTROP-PAPER-PLAN.md`. The source papers are committed under `PPP-NEW/Paper/` for reference.
 
 ### What's left if you want to keep going
 
@@ -274,7 +274,7 @@ Fix: build a second-tier oracle from **published** Holtrop and Mennen benchmark 
 
 The function applies the Holtrop single-screw conventional-stern wake-fraction equation regardless of `propulsion["type"]`. The `engineering_review` warning is the user-facing signal. For open-flow and twin-screw, Holtrop gives different `c11`, `c19`, `c20` and a different wake formula entirely. The right path is to either (a) refuse to compute for non-conventional types until the formulas are added, or (b) implement them — the 1984 paper has them. Today we silently produce numbers that look right but are not validated.
 
-**Status (2026-05-13): done in two phases — `8c87e08` (interim refusal) and `56ac5c1` (final implementation).** First pass took option (a) and made the function return `None` for non-conventional types. After the user supplied the OCR'd 1982 paper (which carries the missing formulas — the 1984 paper explicitly says it kept the 1982 formulas for multiple-screw and open-stern), the second pass replaced the function with a three-way dispatcher that fully computes the propulsion factors per type. P/D defaults to 1.0 for twin-screw when missing, with `result.propulsion.active_pitch_diameter_ratio` exposing the active value. `resistance_status` splits three ways: `partial_source_safe_components` (single-screw conventional, oracle-validated), `partial_source_safe_unvalidated_propulsion_twin_screw`, `partial_source_safe_unvalidated_propulsion_open_stern`. See `PPP-NEW/HALTROP-PAPER-PLAN.md` for the full design.
+**Status (2026-05-13): done in two phases — `8c87e08` (interim refusal) and `56ac5c1` (final implementation).** First pass took option (a) and made the function return `None` for non-conventional types. After the user supplied the OCR'd 1982 paper (which carries the missing formulas — the 1984 paper explicitly says it kept the 1982 formulas for multiple-screw and open-stern), the second pass replaced the function with a three-way dispatcher that fully computes the propulsion factors per type. P/D defaults to 1.0 for twin-screw when missing, with `result.propulsion.active_pitch_diameter_ratio` exposing the active value. `resistance_status` splits three ways: `partial_source_safe_components` (single-screw conventional, oracle-validated), `partial_source_safe_unvalidated_propulsion_twin_screw`, `partial_source_safe_unvalidated_propulsion_open_stern`. See `PPP-NEW/HOLTROP-PAPER-PLAN.md` for the full design.
 
 ### D5. `validate_case` mixes hard validation with bounds enforcement
 

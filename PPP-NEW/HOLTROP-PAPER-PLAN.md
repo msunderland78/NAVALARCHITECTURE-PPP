@@ -1,4 +1,4 @@
-# HALTROP-PAPER-PLAN.md — D4 Implementation Plan
+# HOLTROP-PAPER-PLAN.md — D4 Implementation Plan
 
 Date: 2026-05-13
 Owner: Claude (Opus 4.7)
