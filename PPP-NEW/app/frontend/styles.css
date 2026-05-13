@@ -271,9 +271,15 @@ canvas {
 }
 
 .oracle-meta,
-.oracle-empty {
+.oracle-empty,
+.oracle-print-notice {
   color: var(--muted);
   font-size: 12px;
+}
+
+.oracle-print-notice {
+  margin-top: 6px;
+  font-style: italic;
 }
 
 .oracle-meta {

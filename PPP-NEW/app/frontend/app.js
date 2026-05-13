@@ -17,17 +17,6 @@ const importJsonFile = document.getElementById("import-json-file");
 const importOutFile = document.getElementById("import-out-file");
 const waterType = form.elements["water.type"];
 
-const WATER_PRESETS = {
-  salt_water_15_c: {
-    density_kg_m3: 1025.87,
-    kinematic_viscosity_m2_s: 0.00000118831
-  },
-  fresh_water_15_c: {
-    density_kg_m3: 999.1026,
-    kinematic_viscosity_m2_s: 0.0000011386
-  }
-};
-
 let lastPayload = null;
 
 form.addEventListener("submit", async event => {
@@ -132,19 +121,27 @@ importJsonFile.addEventListener("change", async () => {
   let payload = null;
   try {
     payload = JSON.parse(await file.text());
-    applyCase(payload.case || payload);
-    if (payload.point_count) {
-      setValue("point_count", payload.point_count);
-    }
   } catch (error) {
-    statusBox.textContent = "Import JSON failed";
+    statusBox.textContent = "Import JSON failed: invalid JSON";
     importJsonFile.value = "";
     return;
+  }
+  const caseData = payload && (payload.case || payload);
+  const validationError = validateImportedCase(caseData);
+  if (validationError) {
+    statusBox.textContent = `Import JSON failed: ${validationError}`;
+    importJsonFile.value = "";
+    return;
+  }
+  applyCase(caseData);
+  if (payload.point_count) {
+    setValue("point_count", payload.point_count);
   }
   statusBox.textContent = "Imported";
   await runCase();
   importJsonFile.value = "";
 });
+
 
 importFile.addEventListener("change", async () => {
   const file = importFile.files[0];
@@ -335,7 +332,12 @@ function applyCase(caseData) {
   setValue("water.density_kg_m3", caseData.water.density_kg_m3);
   setValue("water.kinematic_viscosity_m2_s", caseData.water.kinematic_viscosity_m2_s);
   setValue("margin.design_margin_percent", caseData.margin.design_margin_percent);
+  const presetMismatch = waterPresetMismatch(caseData.water);
+  if (presetMismatch) {
+    statusBox.textContent = presetMismatch;
+  }
 }
+
 
 function setValue(name, value) {
   const field = form.elements[name];
@@ -497,6 +499,9 @@ function renderOracleComparison(comparison) {
   const maxDeltaText = maxDelta ? `${maxDelta.field} at ${formatCell(maxDelta.speed_knots)} kn: ${formatCell(maxDelta.absolute_delta)}` : "";
   const maxRelativeText = maxRelativeDelta ? `${maxRelativeDelta.field}: ${formatCell(maxRelativeDelta.absolute_relative_delta)}` : "";
   const heading = textElement("h2", "Legacy OUT Comparison");
+  const printNotice = document.createElement("div");
+  printNotice.className = "oracle-print-notice";
+  printNotice.textContent = "Excluded from printed engineering report by design. Use the JSON or CSV export to attach legacy diagnostics.";
   const meta = document.createElement("div");
   meta.className = "oracle-meta";
   meta.append(
@@ -530,7 +535,7 @@ function renderOracleComparison(comparison) {
   }
   tableNode.append(thead, tbody);
   tableWrap.append(tableNode);
-  replaceChildren(oracle, [heading, meta, tableWrap]);
+  replaceChildren(oracle, [heading, printNotice, meta, tableWrap]);
 }
 
 function textElement(tag, text) {
@@ -557,6 +562,8 @@ function formatNumber(value) {
   return new Intl.NumberFormat("en-US", {maximumFractionDigits: 2}).format(value);
 }
 
+let lastPlotState = null;
+
 function renderPlot(result) {
   const ctx = plot.getContext("2d");
   const width = plot.width;
@@ -564,38 +571,124 @@ function renderPlot(result) {
   ctx.clearRect(0, 0, width, height);
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, width, height);
-  const margin = {left: 68, right: 28, top: 24, bottom: 46};
+  const margin = {left: 78, right: 78, top: 30, bottom: 50};
   const rows = result.speeds;
+  if (rows.length === 0) {
+    lastPlotState = null;
+    return;
+  }
   const maxRt = Math.max(...rows.map(row => row.total_resistance_n));
   const maxPe = Math.max(...rows.map(row => row.effective_power_kw));
   const minSpeed = Math.min(...rows.map(row => row.speed_knots));
   const maxSpeed = Math.max(...rows.map(row => row.speed_knots));
-  drawAxes(ctx, width, height, margin);
-  drawLine(ctx, rows, margin, width, height, minSpeed, maxSpeed, maxRt, "total_resistance_n", "#0f766e");
-  drawLine(ctx, rows, margin, width, height, minSpeed, maxSpeed, maxPe, "effective_power_kw", "#334155", true);
-  ctx.fillStyle = "#0f766e";
-  ctx.fillText("RT N", width - 110, 26);
-  ctx.fillStyle = "#334155";
-  ctx.fillText("PE kW", width - 58, 26);
+  const rtScale = niceScale(maxRt);
+  const peScale = niceScale(maxPe);
+  drawGrid(ctx, width, height, margin, rtScale.ticks, minSpeed, maxSpeed, rows);
+  drawAxes(ctx, width, height, margin, rtScale, peScale, minSpeed, maxSpeed);
+  drawLine(ctx, rows, margin, width, height, minSpeed, maxSpeed, rtScale.max, "total_resistance_n", "#0f766e");
+  drawLine(ctx, rows, margin, width, height, minSpeed, maxSpeed, peScale.max, "effective_power_kw", "#334155", true);
+  drawLegend(ctx, width);
+  lastPlotState = {rows, margin, width, height, minSpeed, maxSpeed, rtMax: rtScale.max, peMax: peScale.max};
 }
 
-function drawAxes(ctx, width, height, margin) {
+
+function drawGrid(ctx, width, height, margin, ticks, minSpeed, maxSpeed, rows) {
+  ctx.strokeStyle = "#e2e8f0";
+  ctx.lineWidth = 1;
+  const plotBottom = height - margin.bottom;
+  for (const tick of ticks) {
+    const y = plotBottom - (tick / ticks[ticks.length - 1]) * (plotBottom - margin.top);
+    ctx.beginPath();
+    ctx.moveTo(margin.left, y);
+    ctx.lineTo(width - margin.right, y);
+    ctx.stroke();
+  }
+  const xTicks = rows.length;
+  if (xTicks > 1) {
+    for (let i = 0; i < rows.length; i++) {
+      const x = margin.left + (rows[i].speed_knots - minSpeed) / Math.max(maxSpeed - minSpeed, 1) * (width - margin.left - margin.right);
+      ctx.beginPath();
+      ctx.moveTo(x, margin.top);
+      ctx.lineTo(x, plotBottom);
+      ctx.stroke();
+    }
+  }
+}
+
+function drawAxes(ctx, width, height, margin, rtScale, peScale, minSpeed, maxSpeed) {
   ctx.strokeStyle = "#9aa6b2";
   ctx.lineWidth = 1;
+  const plotBottom = height - margin.bottom;
   ctx.beginPath();
   ctx.moveTo(margin.left, margin.top);
-  ctx.lineTo(margin.left, height - margin.bottom);
-  ctx.lineTo(width - margin.right, height - margin.bottom);
+  ctx.lineTo(margin.left, plotBottom);
+  ctx.lineTo(width - margin.right, plotBottom);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(width - margin.right, margin.top);
+  ctx.lineTo(width - margin.right, plotBottom);
   ctx.stroke();
   ctx.fillStyle = "#5d6975";
+  ctx.font = "11px Arial";
+  ctx.textAlign = "right";
+  for (let i = 0; i < rtScale.ticks.length; i++) {
+    const tick = rtScale.ticks[i];
+    const y = plotBottom - (tick / rtScale.max) * (plotBottom - margin.top);
+    ctx.fillText(formatAxisTick(tick), margin.left - 6, y + 4);
+  }
+  ctx.textAlign = "left";
+  for (let i = 0; i < peScale.ticks.length; i++) {
+    const tick = peScale.ticks[i];
+    const y = plotBottom - (tick / peScale.max) * (plotBottom - margin.top);
+    ctx.fillText(formatAxisTick(tick), width - margin.right + 6, y + 4);
+  }
+  ctx.textAlign = "center";
+  const xTickCount = 5;
+  for (let i = 0; i <= xTickCount; i++) {
+    const speedTick = minSpeed + (maxSpeed - minSpeed) * i / xTickCount;
+    const x = margin.left + i / xTickCount * (width - margin.left - margin.right);
+    ctx.fillText(speedTick.toFixed(1), x, plotBottom + 16);
+  }
   ctx.font = "12px Arial";
-  ctx.fillText("Speed, kn", width / 2 - 28, height - 12);
+  ctx.fillText("Speed, kn", width / 2, height - 14);
+  ctx.save();
+  ctx.translate(18, height / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillStyle = "#0f766e";
+  ctx.fillText("RT, N", 0, 0);
+  ctx.restore();
+  ctx.save();
+  ctx.translate(width - 18, height / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillStyle = "#334155";
+  ctx.fillText("PE, kW", 0, 0);
+  ctx.restore();
+}
+
+function formatAxisTick(value) {
+  if (value === 0) {
+    return "0";
+  }
+  if (Math.abs(value) >= 1000) {
+    return formatNumber(value);
+  }
+  return value.toFixed(1);
+}
+
+function drawLegend(ctx, width) {
+  ctx.font = "12px Arial";
+  ctx.textAlign = "left";
+  ctx.fillStyle = "#0f766e";
+  ctx.fillText("— RT", width / 2 - 50, 20);
+  ctx.fillStyle = "#334155";
+  ctx.fillText("--- PE", width / 2 + 4, 20);
 }
 
 function drawLine(ctx, rows, margin, width, height, minSpeed, maxSpeed, maxValue, key, color, dashed = false) {
   const xSpan = Math.max(maxSpeed - minSpeed, 1);
   const ySpan = Math.max(maxValue, 1);
   ctx.strokeStyle = color;
+  ctx.fillStyle = color;
   ctx.lineWidth = 2;
   ctx.setLineDash(dashed ? [7, 5] : []);
   ctx.beginPath();
@@ -610,6 +703,64 @@ function drawLine(ctx, rows, margin, width, height, minSpeed, maxSpeed, maxValue
   });
   ctx.stroke();
   ctx.setLineDash([]);
+  rows.forEach(row => {
+    const x = margin.left + (row.speed_knots - minSpeed) / xSpan * (width - margin.left - margin.right);
+    const y = height - margin.bottom - row[key] / ySpan * (height - margin.top - margin.bottom);
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+  });
 }
+
+plot.addEventListener("mousemove", event => {
+  if (!lastPlotState) {
+    return;
+  }
+  const rect = plot.getBoundingClientRect();
+  const scaleX = plot.width / rect.width;
+  const scaleY = plot.height / rect.height;
+  const mx = (event.clientX - rect.left) * scaleX;
+  const my = (event.clientY - rect.top) * scaleY;
+  const {rows, margin, width, height, minSpeed, maxSpeed, rtMax, peMax} = lastPlotState;
+  const xSpan = Math.max(maxSpeed - minSpeed, 1);
+  let nearest = null;
+  let nearestDx = Infinity;
+  for (const row of rows) {
+    const x = margin.left + (row.speed_knots - minSpeed) / xSpan * (width - margin.left - margin.right);
+    const dx = Math.abs(mx - x);
+    if (dx < nearestDx) {
+      nearestDx = dx;
+      nearest = {row, x};
+    }
+  }
+  if (!nearest || nearestDx > 40 || my < margin.top || my > height - margin.bottom) {
+    renderPlot({speeds: lastPlotState.rows});
+    return;
+  }
+  renderPlot({speeds: lastPlotState.rows});
+  const ctx = plot.getContext("2d");
+  ctx.strokeStyle = "#94a3b8";
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath();
+  ctx.moveTo(nearest.x, margin.top);
+  ctx.lineTo(nearest.x, height - margin.bottom);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = "rgba(23, 33, 43, 0.92)";
+  const label = `${nearest.row.speed_knots.toFixed(1)} kn  RT ${formatNumber(nearest.row.total_resistance_n)} N  PE ${formatNumber(nearest.row.effective_power_kw)} kW`;
+  ctx.font = "11px Arial";
+  ctx.textAlign = "left";
+  const textWidth = ctx.measureText(label).width + 12;
+  const tooltipX = Math.min(nearest.x + 8, width - textWidth - 4);
+  ctx.fillRect(tooltipX, margin.top + 4, textWidth, 20);
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText(label, tooltipX + 6, margin.top + 18);
+});
+
+plot.addEventListener("mouseleave", () => {
+  if (lastPlotState) {
+    renderPlot({speeds: lastPlotState.rows});
+  }
+});
 
 runCase();

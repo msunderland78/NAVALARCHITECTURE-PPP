@@ -85,14 +85,14 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_HEAD(self):
         path = request_path(self.path)
-        if path == "/" or path in ("/app.js", "/styles.css"):
+        if path == "/" or path in ("/app.js", "/pure.js", "/styles.css"):
             self.serve_static(path, head_only=True)
         else:
             self.respond(*route("GET", path), head_only=True)
 
     def do_GET(self):
         path = request_path(self.path)
-        if path == "/" or path in ("/app.js", "/styles.css"):
+        if path == "/" or path in ("/app.js", "/pure.js", "/styles.css"):
             self.serve_static(path)
         else:
             self.respond(*route("GET", path))

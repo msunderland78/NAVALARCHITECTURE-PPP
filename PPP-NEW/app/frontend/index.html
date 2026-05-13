@@ -12,7 +12,7 @@
       <h1>Power Prediction Program (PPP)</h1>
       <p>Holtrop and Mennen resistance and powering workspace</p>
     </div>
-    <div class="status" id="status">Ready</div>
+    <div class="status" id="status" role="status" aria-live="polite">Ready</div>
   </header>
 
   <main class="workspace">
@@ -20,41 +20,41 @@
       <section>
         <h2>Project</h2>
         <div class="grid two">
-          <label>Project name<input name="project.name" value="Holtrop and Mennen Example"></label>
-          <label>Run ID<input name="project.run_id" value="Test 1.0"></label>
+          <label for="field-project-name">Project name<input id="field-project-name" name="project.name" value="Holtrop and Mennen Example"></label>
+          <label for="field-project-run-id">Run ID<input id="field-project-run-id" name="project.run_id" value="Test 1.0"></label>
         </div>
       </section>
 
       <section>
         <h2>Speed Range</h2>
         <div class="grid three">
-          <label>Initial speed, kn<input name="speed_sweep.initial_speed_knots" type="number" min="0.01" step="0.01" value="15"></label>
-          <label>Increment, kn<input name="speed_sweep.speed_increment_knots" type="number" min="0" step="0.01" value="2"></label>
-          <label>Points<input name="point_count" type="number" min="1" max="20" step="1" value="8"></label>
+          <label for="field-initial-speed">Initial speed, kn<input id="field-initial-speed" name="speed_sweep.initial_speed_knots" type="number" min="0.01" step="0.01" value="15"></label>
+          <label for="field-speed-increment">Increment, kn<input id="field-speed-increment" name="speed_sweep.speed_increment_knots" type="number" min="0" step="0.01" value="2"></label>
+          <label for="field-point-count">Points<input id="field-point-count" name="point_count" type="number" min="1" max="20" step="1" value="8"></label>
         </div>
       </section>
 
       <section>
         <h2>Hull</h2>
         <div class="grid four">
-          <label>LWL, m<input name="hull.lwl_m" type="number" min="0.01" step="0.01" value="212"></label>
-          <label>Beam, m<input name="hull.beam_lwl_m" type="number" min="0.01" step="0.01" value="32"></label>
-          <label>Draft fwd, m<input name="hull.draft_forward_m" type="number" min="0.01" step="0.01" value="11"></label>
-          <label>Draft aft, m<input name="hull.draft_aft_m" type="number" min="0.01" step="0.01" value="11"></label>
-          <label>CB<input name="hull.block_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.6"></label>
-          <label>CM<input name="hull.midship_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.98"></label>
-          <label>CWP<input name="hull.waterplane_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.75"></label>
-          <label>LCB, % LWL<input name="hull.lcb_percent_lwl_from_midships_forward_positive" type="number" step="0.01" value="-0.75"></label>
+          <label for="field-hull-lwl">LWL, m<input id="field-hull-lwl" name="hull.lwl_m" type="number" min="0.01" step="0.01" value="212"></label>
+          <label for="field-hull-beam">Beam, m<input id="field-hull-beam" name="hull.beam_lwl_m" type="number" min="0.01" step="0.01" value="32"></label>
+          <label for="field-hull-draft-fwd">Draft fwd, m<input id="field-hull-draft-fwd" name="hull.draft_forward_m" type="number" min="0.01" step="0.01" value="11"></label>
+          <label for="field-hull-draft-aft">Draft aft, m<input id="field-hull-draft-aft" name="hull.draft_aft_m" type="number" min="0.01" step="0.01" value="11"></label>
+          <label for="field-hull-cb">CB<input id="field-hull-cb" name="hull.block_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.6"></label>
+          <label for="field-hull-cm">CM<input id="field-hull-cm" name="hull.midship_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.98"></label>
+          <label for="field-hull-cwp">CWP<input id="field-hull-cwp" name="hull.waterplane_coefficient" type="number" min="0.0001" max="1" step="0.0001" value="0.75"></label>
+          <label for="field-hull-lcb">LCB, % LWL<input id="field-hull-lcb" name="hull.lcb_percent_lwl_from_midships_forward_positive" type="number" step="0.01" value="-0.75"></label>
         </div>
       </section>
 
       <section>
         <h2>Features</h2>
         <div class="grid four">
-          <label>Bulb area, m2<input name="features.bulb_area_station_0_m2" type="number" min="0" step="0.01" value="21"></label>
-          <label>Bulb center, m<input name="features.bulb_vertical_center_m" type="number" min="0" step="0.01" value="4"></label>
-          <label>Transom area, m2<input name="features.transom_immersed_area_zero_speed_m2" type="number" min="0" step="0.01" value="16"></label>
-          <label>Stern type<select name="features.stern_type">
+          <label for="field-features-bulb-area">Bulb area, m2<input id="field-features-bulb-area" name="features.bulb_area_station_0_m2" type="number" min="0" step="0.01" value="21"></label>
+          <label for="field-features-bulb-center">Bulb center, m<input id="field-features-bulb-center" name="features.bulb_vertical_center_m" type="number" min="0" step="0.01" value="4"></label>
+          <label for="field-features-transom">Transom area, m2<input id="field-features-transom" name="features.transom_immersed_area_zero_speed_m2" type="number" min="0" step="0.01" value="16"></label>
+          <label for="field-features-stern-type">Stern type<select id="field-features-stern-type" name="features.stern_type">
             <option value="normal_shaped_sections">Normal shaped sections</option>
             <option value="v_shaped_sections">V-shaped sections</option>
             <option value="u_shaped_sections_with_hogner_stern">U-shaped sections with Hogner stern</option>
@@ -66,79 +66,79 @@
       <section>
         <h2>Propulsion And Drag</h2>
         <div class="grid four">
-          <label>Propulsion<select name="propulsion.type">
+          <label for="field-propulsion-type">Propulsion<select id="field-propulsion-type" name="propulsion.type">
             <option value="single_screw_conventional_stern">Single-screw conventional stern</option>
             <option value="single_screw_open_flow_stern">Single-screw open-flow stern</option>
             <option value="twin_screw">Twin screw</option>
           </select></label>
-          <label>Propeller Dp, m<input name="propulsion.propeller_diameter_m" type="number" min="0.01" step="0.01" value="8"></label>
-          <label>Ae/Ao<input name="propulsion.expanded_area_ratio" type="number" min="0" max="1" step="0.0001" value="0.8"></label>
-          <label>P/D (twin-screw)<input name="propulsion.pitch_diameter_ratio" type="number" min="0" step="0.001" placeholder="auto = 1.0"></label>
-          <label>Appendage mode<select name="appendages.mode">
+          <label for="field-propulsion-dp">Propeller Dp, m<input id="field-propulsion-dp" name="propulsion.propeller_diameter_m" type="number" min="0.01" step="0.01" value="8"></label>
+          <label for="field-propulsion-ae-ao">Ae/Ao<input id="field-propulsion-ae-ao" name="propulsion.expanded_area_ratio" type="number" min="0" max="1" step="0.0001" value="0.8"></label>
+          <label for="field-propulsion-pd">P/D (twin-screw)<input id="field-propulsion-pd" name="propulsion.pitch_diameter_ratio" type="number" min="0" step="0.001" placeholder="auto = 1.0"></label>
+          <label for="field-appendages-mode">Appendage mode<select id="field-appendages-mode" name="appendages.mode">
             <option value="percent_bare_hull_resistance">Percent bare hull</option>
             <option value="equivalent_area_form_factor">SAPP(1+K2)</option>
           </select></label>
-          <label>Appendage, %<input name="appendages.percent_bare_hull_resistance" type="number" min="0" step="0.01" value="5"></label>
-          <label>SAPP(1+K2), m2<input name="appendages.equivalent_wetted_area_form_factor_m2" type="number" min="0" step="0.01" value="0"></label>
+          <label for="field-appendages-percent">Appendage, %<input id="field-appendages-percent" name="appendages.percent_bare_hull_resistance" type="number" min="0" step="0.01" value="5"></label>
+          <label for="field-appendages-sapp">SAPP(1+K2), m2<input id="field-appendages-sapp" name="appendages.equivalent_wetted_area_form_factor_m2" type="number" min="0" step="0.01" value="0"></label>
         </div>
       </section>
 
       <section>
         <h2>Modeling</h2>
         <div class="grid four">
-          <label>Air drag<select name="modeling.air_drag">
+          <label for="field-modeling-air-drag">Air drag<select id="field-modeling-air-drag" name="modeling.air_drag">
             <option value="true">Yes</option>
             <option value="false">No</option>
           </select></label>
-          <label>Depth at bow, m<input name="modeling.depth_at_bow_m" type="number" min="0.01" step="0.01" value="21"></label>
-          <label>Frontal area, m2<input name="modeling.deckhouse_cargo_frontal_area_m2" type="number" min="0" step="0.01" value="321"></label>
-          <label>Air drag coeff<input name="modeling.air_drag_coefficient" type="number" min="0" step="0.0001" value="0.737223"></label>
-          <label>Surface mode<select name="modeling.wetted_surface_mode">
+          <label for="field-modeling-depth-at-bow">Depth at bow, m<input id="field-modeling-depth-at-bow" name="modeling.depth_at_bow_m" type="number" min="0.01" step="0.01" value="21"></label>
+          <label for="field-modeling-frontal-area">Frontal area, m2<input id="field-modeling-frontal-area" name="modeling.deckhouse_cargo_frontal_area_m2" type="number" min="0" step="0.01" value="321"></label>
+          <label for="field-modeling-air-drag-coeff">Air drag coeff<input id="field-modeling-air-drag-coeff" name="modeling.air_drag_coefficient" type="number" min="0" step="0.0001" value="0.737223"></label>
+          <label for="field-modeling-surface-mode">Surface mode<select id="field-modeling-surface-mode" name="modeling.wetted_surface_mode">
             <option value="user">User</option>
             <option value="estimated">Estimated</option>
           </select></label>
-          <label>Wetted surface, m2<input name="modeling.wetted_surface_m2" type="number" min="0.01" step="0.01" value="7890"></label>
-          <label>Angle mode<select name="modeling.half_angle_entrance_mode">
+          <label for="field-modeling-wetted-surface">Wetted surface, m2<input id="field-modeling-wetted-surface" name="modeling.wetted_surface_m2" type="number" min="0.01" step="0.01" value="7890"></label>
+          <label for="field-modeling-angle-mode">Angle mode<select id="field-modeling-angle-mode" name="modeling.half_angle_entrance_mode">
             <option value="user">User</option>
             <option value="estimated">Estimated</option>
           </select></label>
-          <label>Half angle, deg<input name="modeling.half_angle_entrance_degrees" type="number" min="0.01" max="89.99" step="0.01" value="12.11"></label>
+          <label for="field-modeling-half-angle">Half angle, deg<input id="field-modeling-half-angle" name="modeling.half_angle_entrance_degrees" type="number" min="0.01" max="89.99" step="0.01" value="12.11"></label>
         </div>
       </section>
 
       <section>
         <h2>Water And Margin</h2>
         <div class="grid four">
-          <label>Water<select name="water.type">
+          <label for="field-water-type">Water<select id="field-water-type" name="water.type">
             <option value="salt_water_15_c">Salt water, 15 C</option>
             <option value="fresh_water_15_c">Fresh water, 15 C</option>
             <option value="custom">Custom</option>
           </select></label>
-          <label>Density, kg/m3<input name="water.density_kg_m3" type="number" min="0.001" step="0.001" value="1025.87"></label>
-          <label>Nu, m2/s<input name="water.kinematic_viscosity_m2_s" type="number" min="0.000000001" step="0.000000001" value="0.00000118831"></label>
-          <label>Margin, %<input name="margin.design_margin_percent" type="number" min="0" step="0.01" value="5"></label>
+          <label for="field-water-density">Density, kg/m3<input id="field-water-density" name="water.density_kg_m3" type="number" min="0.001" step="0.001" value="1025.87"></label>
+          <label for="field-water-viscosity">Nu, m2/s<input id="field-water-viscosity" name="water.kinematic_viscosity_m2_s" type="number" min="0.000000001" step="0.000000001" value="0.00000118831"></label>
+          <label for="field-margin">Margin, %<input id="field-margin" name="margin.design_margin_percent" type="number" min="0" step="0.01" value="5"></label>
         </div>
       </section>
 
       <section>
         <h2>Legacy Oracle</h2>
         <div class="grid four">
-          <label>First record<select name="legacy_options.first_record_order">
+          <label for="field-legacy-first-record">First record<select id="field-legacy-first-record" name="legacy_options.first_record_order">
             <option value="">Default</option>
             <option value="depth_before_drafts">Depth before drafts</option>
             <option value="drafts_before_depth">Drafts before depth</option>
           </select></label>
-          <label>Propeller record<select name="legacy_options.propeller_record_order">
+          <label for="field-legacy-propeller-record">Propeller record<select id="field-legacy-propeller-record" name="legacy_options.propeller_record_order">
             <option value="">Default</option>
             <option value="wetted_half_dp">Wetted, half, Dp</option>
             <option value="dp_wetted_half">Dp, wetted, half</option>
           </select></label>
-          <label>Stern correction<input name="legacy_options.stern_correction" type="number" step="1"></label>
-          <label>P/Dp<input name="legacy_options.pitch_diameter_ratio" type="number" min="0" step="0.01"></label>
-          <label>Water code<input name="legacy_options.water_type_code" type="number" min="1" step="1"></label>
-          <label>Appendage primary<input name="legacy_options.appendage_primary_value" type="number" step="0.01"></label>
-          <label>Appendage model total<input name="legacy_options.appendage_model_total" type="number" step="0.01"></label>
-          <label>Compare tolerance, kn<input name="legacy_options.speed_tolerance" type="number" min="0" step="0.000001" value="0.000001"></label>
+          <label for="field-legacy-stern-correction">Stern correction<input id="field-legacy-stern-correction" name="legacy_options.stern_correction" type="number" step="1"></label>
+          <label for="field-legacy-pitch-diameter">P/Dp<input id="field-legacy-pitch-diameter" name="legacy_options.pitch_diameter_ratio" type="number" min="0" step="0.01"></label>
+          <label for="field-legacy-water-code">Water code<input id="field-legacy-water-code" name="legacy_options.water_type_code" type="number" min="1" step="1"></label>
+          <label for="field-legacy-appendage-primary">Appendage primary<input id="field-legacy-appendage-primary" name="legacy_options.appendage_primary_value" type="number" step="0.01"></label>
+          <label for="field-legacy-appendage-model">Appendage model total<input id="field-legacy-appendage-model" name="legacy_options.appendage_model_total" type="number" step="0.01"></label>
+          <label for="field-legacy-speed-tolerance">Compare tolerance, kn<input id="field-legacy-speed-tolerance" name="legacy_options.speed_tolerance" type="number" min="0" step="0.000001" value="0.000001"></label>
         </div>
       </section>
 
@@ -150,9 +150,9 @@
         <button type="button" id="report-button">Report MD</button>
         <button type="button" id="legacy-in-button">Legacy IN</button>
         <button type="button" id="print-button">Print</button>
-        <label class="file-action">Import JSON<input type="file" id="import-json-file" accept=".json,application/json"></label>
-        <label class="file-action">Import .PPP<input type="file" id="import-file" accept=".ppp"></label>
-        <label class="file-action">Compare OUT<input type="file" id="import-out-file" accept=".out,.txt,text/plain"></label>
+        <label class="file-action" for="import-json-file">Import JSON<input type="file" id="import-json-file" accept=".json,application/json"></label>
+        <label class="file-action" for="import-file">Import .PPP<input type="file" id="import-file" accept=".ppp"></label>
+        <label class="file-action" for="import-out-file">Compare OUT<input type="file" id="import-out-file" accept=".out,.txt,text/plain"></label>
       </div>
     </form>
 
@@ -160,7 +160,7 @@
       <div class="summary" id="summary"></div>
       <div class="engineering-note" id="engineering-note"></div>
       <div class="checks" id="checks"></div>
-      <canvas id="plot" width="900" height="360"></canvas>
+      <canvas id="plot" width="900" height="360" role="img" aria-label="Resistance and effective power versus speed plot"></canvas>
       <div class="oracle" id="oracle"></div>
       <div class="table-wrap">
         <table id="results-table">
@@ -171,6 +171,7 @@
     </section>
   </main>
 
+  <script src="/pure.js"></script>
   <script src="/app.js"></script>
 </body>
 </html>
