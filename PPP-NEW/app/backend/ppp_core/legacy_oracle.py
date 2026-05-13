@@ -15,8 +15,10 @@ from .legacy_out import parse_legacy_out
 
 
 def stage_oracle_run(case, legacy_exe_path, workdir, options=None):
-    workdir = Path(workdir)
+    workdir = validate_workdir(workdir)
     legacy_exe_path = Path(legacy_exe_path)
+    if not legacy_exe_path.is_file():
+        raise ValueError(f"legacy_exe_path {legacy_exe_path} is not a file")
     workdir.mkdir(parents=True, exist_ok=True)
     staged_exe = workdir / "PPPFTRN.EXE"
     shutil.copy2(legacy_exe_path, staged_exe)
@@ -67,6 +69,18 @@ def validate_timeout_seconds(timeout_seconds):
     if isinstance(timeout_seconds, bool) or not isinstance(timeout_seconds, (int, float)) or not isfinite(timeout_seconds) or timeout_seconds <= 0:
         raise ValueError("timeout_seconds must be a positive finite number")
     return timeout_seconds
+
+
+def validate_workdir(workdir):
+    if not isinstance(workdir, (str, os.PathLike)):
+        raise ValueError("workdir must be a path-like value")
+    raw = os.fspath(workdir)
+    if not raw.strip():
+        raise ValueError("workdir must not be empty")
+    path = Path(raw)
+    if path.exists() and not path.is_dir():
+        raise ValueError(f"workdir {path} exists but is not a directory")
+    return path
 
 
 def run_command_piped(command, workdir, stdout_path, stderr_path, timeout_seconds, env):

@@ -186,11 +186,18 @@ def check_security_headers(base_url):
         headers = response.headers
         details = {
             "X-Content-Type-Options": headers.get("X-Content-Type-Options"),
-            "Referrer-Policy": headers.get("Referrer-Policy")
+            "Referrer-Policy": headers.get("Referrer-Policy"),
+            "Content-Security-Policy": headers.get("Content-Security-Policy")
         }
+    csp = details["Content-Security-Policy"] or ""
     return {
         "name": "security headers",
-        "passed": details["X-Content-Type-Options"] == "nosniff" and details["Referrer-Policy"] == "no-referrer",
+        "passed": (
+            details["X-Content-Type-Options"] == "nosniff"
+            and details["Referrer-Policy"] == "no-referrer"
+            and "default-src 'self'" in csp
+            and "frame-ancestors 'none'" in csp
+        ),
         "details": details
     }
 

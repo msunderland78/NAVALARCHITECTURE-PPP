@@ -69,9 +69,18 @@ class DeploymentTest(unittest.TestCase):
         self.assertIn("client_max_body_size 10m;", text)
         self.assertIn("add_header X-Content-Type-Options nosniff always;", text)
         self.assertIn("add_header Referrer-Policy no-referrer always;", text)
+        self.assertIn("add_header Content-Security-Policy", text)
+        self.assertIn("frame-ancestors 'none'", text)
         self.assertIn("proxy_connect_timeout 5s;", text)
         self.assertIn("proxy_send_timeout 30s;", text)
         self.assertIn("proxy_read_timeout 30s;", text)
+
+    def test_nginx_rate_limits_evaluate_endpoint(self):
+        text = (APP / "nginx" / "default.conf").read_text()
+
+        self.assertIn("limit_req_zone $binary_remote_addr zone=ppp_evaluate", text)
+        self.assertIn("location = /api/evaluate", text)
+        self.assertIn("limit_req zone=ppp_evaluate", text)
 
 
 if __name__ == "__main__":

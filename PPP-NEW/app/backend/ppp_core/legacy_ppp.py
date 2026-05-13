@@ -10,11 +10,16 @@ FREESECT = 0xFFFFFFFF
 ENDOFCHAIN = 0xFFFFFFFE
 FATSECT = 0xFFFFFFFD
 OLE_SIGNATURE = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
+MAX_OLE_BYTES = 1024 * 1024
 
 
 def import_legacy_ppp(data: bytes, filename: str = "legacy.ppp") -> "Case":
-    contents = extract_ole_stream(data, "Contents")
-    return import_contents_stream(contents, filename, data)
+    if not isinstance(data, (bytes, bytearray)):
+        raise ValueError("legacy .PPP data must be bytes")
+    if len(data) > MAX_OLE_BYTES:
+        raise ValueError(f"legacy .PPP upload exceeds maximum of {MAX_OLE_BYTES} bytes")
+    contents = extract_ole_stream(bytes(data), "Contents")
+    return import_contents_stream(contents, filename, bytes(data))
 
 
 def import_contents_stream(contents: bytes, filename: str = "legacy.ppp", source_data: bytes | None = None) -> "Case":
@@ -109,8 +114,12 @@ def extract_ole_stream(data, stream_name):
     fat = read_allocation_table(data, sector_size, difat)
     directory = read_chain(data, sector_size, fat, dir_start)
     entries = parse_directory(directory)
-    root = next(entry for entry in entries if entry["type"] == 5)
-    target = next(entry for entry in entries if entry["name"] == stream_name)
+    root = next((entry for entry in entries if entry["type"] == 5), None)
+    if root is None:
+        raise ValueError("OLE Compound Document is missing its root entry")
+    target = next((entry for entry in entries if entry["name"] == stream_name), None)
+    if target is None:
+        raise ValueError(f"OLE Compound Document is missing stream {stream_name!r}")
     if target["size"] >= mini_cutoff:
         return read_chain(data, sector_size, fat, target["start"])[:target["size"]]
     mini_fat = read_allocation_table(data, sector_size, chain_ids(fat, mini_fat_start))

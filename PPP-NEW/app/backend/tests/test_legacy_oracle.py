@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ppp_core.legacy_oracle import run_oracle, stage_oracle_run
+from ppp_core.legacy_oracle import run_oracle, stage_oracle_run, validate_workdir
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -81,6 +81,27 @@ class LegacyOracleTest(unittest.TestCase):
             self.assertIsNone(result["returncode"])
             self.assertTrue(result["timed_out"])
             self.assertFalse(result["out_exists"])
+
+    def test_validate_workdir_rejects_bad_inputs(self):
+        with self.assertRaisesRegex(ValueError, "workdir must be a path-like value"):
+            validate_workdir(None)
+        with self.assertRaisesRegex(ValueError, "workdir must be a path-like value"):
+            validate_workdir(42)
+        with self.assertRaisesRegex(ValueError, "workdir must not be empty"):
+            validate_workdir("")
+        with tempfile.TemporaryDirectory() as temp:
+            file_path = Path(temp) / "not-a-dir"
+            file_path.write_text("x")
+            with self.assertRaisesRegex(ValueError, "is not a directory"):
+                validate_workdir(file_path)
+            self.assertEqual(validate_workdir(Path(temp) / "child"), Path(temp) / "child")
+
+    def test_stage_oracle_run_rejects_missing_exe(self):
+        case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            with self.assertRaisesRegex(ValueError, "is not a file"):
+                stage_oracle_run(case, temp / "missing.exe", temp / "work")
 
     def test_run_oracle_pty_sends_completion_return(self):
         case = json.loads((ROOT / "tests" / "fixtures" / "pppin_sample_import.json").read_text())

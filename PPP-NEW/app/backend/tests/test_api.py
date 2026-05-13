@@ -6,6 +6,7 @@ from ppp_core import route
 from server import (
     FRONTEND,
     MAX_REQUEST_BYTES,
+    SECURITY_HEADERS,
     Handler,
     RequestTooLarge,
     request_content_length,
@@ -428,6 +429,14 @@ class ApiTest(unittest.TestCase):
     def test_server_banner_hides_python_runtime(self):
         self.assertEqual(Handler.server_version, "PPPBackend")
         self.assertEqual(Handler.sys_version, "")
+
+    def test_security_headers_include_csp(self):
+        csp = SECURITY_HEADERS.get("Content-Security-Policy", "")
+        self.assertIn("default-src 'self'", csp)
+        self.assertIn("frame-ancestors 'none'", csp)
+        self.assertIn("base-uri 'none'", csp)
+        self.assertNotIn("unsafe-inline", csp)
+        self.assertNotIn("unsafe-eval", csp)
 
     def test_server_log_message_emits_json_to_stdout(self):
         import io

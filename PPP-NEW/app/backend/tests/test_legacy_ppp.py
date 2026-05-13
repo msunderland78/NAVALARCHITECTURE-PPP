@@ -3,7 +3,15 @@ import struct
 import unittest
 from pathlib import Path
 
-from ppp_core.legacy_ppp import ENDOFCHAIN, FATSECT, FREESECT, import_contents_stream, import_legacy_ppp
+from ppp_core.legacy_ppp import (
+    ENDOFCHAIN,
+    FATSECT,
+    FREESECT,
+    MAX_OLE_BYTES,
+    extract_ole_stream,
+    import_contents_stream,
+    import_legacy_ppp,
+)
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -38,6 +46,23 @@ class LegacyPppTest(unittest.TestCase):
 
         self.assertAlmostEqual(imported["appendages"]["percent_bare_hull_resistance"], 3.0)
         self.assertAlmostEqual(imported["margin"]["design_margin_percent"], 7.0)
+
+    def test_import_legacy_ppp_rejects_oversize_upload(self):
+        oversize = b"\x00" * (MAX_OLE_BYTES + 1)
+        with self.assertRaisesRegex(ValueError, "exceeds maximum"):
+            import_legacy_ppp(oversize, "huge.ppp")
+
+    def test_import_legacy_ppp_rejects_non_bytes(self):
+        with self.assertRaisesRegex(ValueError, "must be bytes"):
+            import_legacy_ppp("not bytes", "bad.ppp")
+
+    def test_import_legacy_ppp_rejects_non_ole_signature(self):
+        with self.assertRaisesRegex(ValueError, "not an OLE Compound Document"):
+            import_legacy_ppp(b"PK\x03\x04" + b"\x00" * 32, "bad.ppp")
+
+    def test_extract_ole_stream_reports_missing_stream(self):
+        with self.assertRaisesRegex(ValueError, "missing stream"):
+            extract_ole_stream(sample_ole_document(), "NotPresent")
 
 
 def sample_contents():
