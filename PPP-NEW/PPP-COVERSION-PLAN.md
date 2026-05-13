@@ -152,8 +152,8 @@ Current status as of May 13, 2026 (post code-review and HALTROP-PAPER-PLAN batch
 - Code-quality tooling: `pyproject.toml` with ruff + mypy strict on `ppp_core/types.py` (new TypedDict definitions); public API surface annotated.
 - GitHub Actions CI runs unittest discover, ruff, mypy, and `docker compose config` on push and PR.
 - Frontend accessibility and quality: explicit `for`/`id` on every form control, aria-live status box, canvas plot with gridlines and dual-axis tick labels and hover tooltips, import-JSON validator, water-preset mismatch warning, print-exclusion notice on the oracle panel.
-- Frontend test suite via `pure.js` extraction; 15 Node tests run under `unittest discover`.
-- Test count: 156 backend tests + 15 frontend tests pass.
+- Frontend test suite via `pure.js` extraction; 15 Node tests at `app/frontend/tests/pure.test.js`, driven from `unittest discover` by a wrapper test that spawns Node.
+- Test count: 156 backend tests pass; one of those wraps and runs 15 additional Node `node:test` cases. Not 171 independent tests — the 156 already includes the wrapper.
 
 The next milestone is to broaden oracle coverage for non-conventional propulsion types and at varied geometry, ideally by encoding the 1982 §5 and 1984 §5 worked examples as literature-oracle fixtures and by capturing PPPFTRN.EXE `.OUT` files for twin-screw and open-stern under Wine.
 

@@ -189,7 +189,7 @@ Current result:
 Ran 156 tests in ~0.9s — OK
 ```
 
-Frontend pure-helper tests run under the same `unittest discover` via `tests/test_frontend_pure.py`, which spawns Node and asserts on the `node:test` output. 15 additional checks. The Python wrapper skips cleanly when Node isn't installed.
+That count includes one wrapper test (`tests/test_frontend_pure.py`) that spawns Node and runs the 15 frontend `node:test` cases at `app/frontend/tests/pure.test.js`. Reporting form: **156 backend tests, with 15 additional frontend tests driven by one of those 156**. The Python wrapper skips cleanly when Node isn't installed.
 
 Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. The smoke harness now also verifies the `Content-Security-Policy` response header. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 

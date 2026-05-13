@@ -2,7 +2,7 @@
 
 Date: 2026-05-13
 Owner: Claude (Opus 4.7)
-Source papers: `PPP-NEW/Paper/Holtrop_Approximate_1982_OCR.md`, `PPP-NEW/Paper/Hultrop_Resistance_and_Propulsion_OCR.md`
+Source papers: `PPP-NEW/Paper/Holtrop_Approximate_1982_OCR.md`, `PPP-NEW/Paper/Holtrop_Resistance_and_Propulsion_1984_OCR.md`
 
 This plan covers CLAUDE-PLAN item **D4** (propulsion factors for non-conventional propulsion types) plus two genuine bug fixes the papers exposed during cross-check. It is the source-of-truth document for the work, including the resolved design decisions.
 

@@ -10,7 +10,7 @@ The project is in genuinely good shape. The Holtrop and Mennen workflow is recov
 
 ## Implementation Status — 2026-05-13
 
-Almost everything in this plan shipped. Snapshot below; per-item "Status" lines appear under each entry further down. Test count went from **132 tests at plan time** to **156 backend + 15 frontend = 171 tests** at this writing, with the captured oracle still within 100 N at every speed and the smoke suite green at 16/16.
+Almost everything in this plan shipped. Snapshot below; per-item "Status" lines appear under each entry further down. Test count went from **132 backend tests at plan time** to **156 backend tests** at this writing — one of which (`test_frontend_pure.py`) spawns Node and runs an additional **15 frontend tests** via `node:test`. So the headline counts are `156 / 15` rather than 171: the 156 already includes the wrapper test that drives the 15 Node tests. The captured oracle is still within 100 N at every speed; the smoke suite is green at 16/16.
 
 | Section | Item | Status | Commit | Note |
 |---|---|---|---|---|
