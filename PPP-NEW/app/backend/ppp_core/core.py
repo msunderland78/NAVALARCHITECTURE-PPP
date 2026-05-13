@@ -115,7 +115,6 @@ def engineering_review(propulsion, speeds):
     statuses = sorted(set(speed["resistance_status"] for speed in speeds if speed.get("resistance_status")))
     review = {
         "statuses": statuses,
-        "status": ", ".join(statuses) if statuses else "not reported",
         "note": ENGINEERING_REVIEW_NOTE
     }
     if propulsion["type"] != "single_screw_conventional_stern":

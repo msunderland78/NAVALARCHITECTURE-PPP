@@ -31,6 +31,15 @@ class LegacyPppTest(unittest.TestCase):
         self.assertAlmostEqual(imported["hull"]["lwl_m"], 212.0)
         self.assertAlmostEqual(imported["speed_sweep"]["initial_speed_knots"], 15.0)
 
+    def test_appendage_and_margin_read_distinct_offsets(self):
+        data = bytearray(sample_contents())
+        put_double(data, 0x00e6, 0.03)
+        put_double(data, 0x01da, 0.07)
+        imported = import_contents_stream(bytes(data), "PPPIN.PPP")
+
+        self.assertAlmostEqual(imported["appendages"]["percent_bare_hull_resistance"], 3.0)
+        self.assertAlmostEqual(imported["margin"]["design_margin_percent"], 7.0)
+
 
 def sample_contents():
     data = bytearray(1880)
@@ -52,6 +61,7 @@ def sample_contents():
     put_double(data, 0x00ab, 0.8)
     put_string(data, 0x00bf, 'single-screw with "conventional" stern')
     put_double(data, 0x01ae, 21.0)
+    put_double(data, 0x00e6, 0.05)
     put_double(data, 0x01b6, 321.0)
     put_double(data, 0x01be, 7890.0)
     put_double(data, 0x01c6, 12.11)

@@ -115,6 +115,8 @@ def result_to_markdown(result, case=None):
     validate_report_result(result)
     if case is not None:
         validate_report_case(case)
+    statuses = result["engineering_review"]["statuses"]
+    status_display = ", ".join(statuses) if statuses else "not reported"
     lines = [
         f"# {result['project']['name']}",
         "",
@@ -124,7 +126,7 @@ def result_to_markdown(result, case=None):
         "",
         result["engineering_review"]["note"],
         "",
-        f"Calculation status: `{result['engineering_review']['status']}`",
+        f"Calculation status: `{status_display}`",
         "",
     ]
     warnings = result["engineering_review"].get("warnings", [])
@@ -183,9 +185,11 @@ def validate_report_result(result):
     for key in ["name", "run_id"]:
         if key not in result["project"]:
             raise ValueError(f"result.project.{key} is required")
-    for key in ["note", "status"]:
-        if key not in result["engineering_review"]:
-            raise ValueError(f"result.engineering_review.{key} is required")
+    if "note" not in result["engineering_review"]:
+        raise ValueError("result.engineering_review.note is required")
+    statuses = result["engineering_review"].get("statuses")
+    if not isinstance(statuses, list) or not all(isinstance(item, str) for item in statuses):
+        raise ValueError("result.engineering_review.statuses must be a list of strings")
     warnings = result["engineering_review"].get("warnings", [])
     if not isinstance(warnings, list):
         raise ValueError("result.engineering_review.warnings must be a list")

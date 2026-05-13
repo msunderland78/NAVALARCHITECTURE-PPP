@@ -4,7 +4,7 @@ from pathlib import Path
 
 from ppp_core import route
 from test_legacy_ppp import sample_ole_document
-from server import FRONTEND, Handler, request_content_length, request_path
+from server import FRONTEND, Handler, MAX_REQUEST_BYTES, RequestTooLarge, request_content_length, request_path
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -289,7 +289,7 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(content_type, "application/json")
         self.assertEqual(payload["project"]["run_id"], "Test 1.0")
-        self.assertEqual(payload["engineering_review"]["status"], "partial_source_safe_components")
+        self.assertEqual(payload["engineering_review"]["statuses"], ["partial_source_safe_components"])
         self.assertAlmostEqual(payload["speeds"][0]["effective_power_kw"], 4707.562981184565)
 
     def test_report_markdown_export_route(self):
@@ -402,6 +402,11 @@ class ApiTest(unittest.TestCase):
             request_content_length("abc")
         with self.assertRaisesRegex(ValueError, "Content-Length must be a non-negative integer"):
             request_content_length("-1")
+
+    def test_server_request_content_length_rejects_oversize_body(self):
+        with self.assertRaises(RequestTooLarge):
+            request_content_length(str(MAX_REQUEST_BYTES + 1))
+        self.assertEqual(request_content_length(str(MAX_REQUEST_BYTES)), MAX_REQUEST_BYTES)
 
     def test_server_banner_hides_python_runtime(self):
         self.assertEqual(Handler.server_version, "PPPBackend")

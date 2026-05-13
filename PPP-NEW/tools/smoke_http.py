@@ -51,10 +51,11 @@ def main(argv=None):
 def check_evaluate(base_url, case):
     payload = request_json(base_url, "POST", "/api/evaluate", {"case": case})
     review = payload.get("engineering_review", {})
+    statuses = review.get("statuses", [])
     passed = (
         len(payload.get("speeds", [])) == 8
         and abs(payload["speeds"][0]["total_resistance_n"] - 610051.8852955248) < 1e-6
-        and review.get("status") == "partial_source_safe_components"
+        and statuses == ["partial_source_safe_components"]
     )
     return {
         "name": "evaluate user-mode sample",
@@ -62,7 +63,7 @@ def check_evaluate(base_url, case):
         "details": {
             "speed_count": len(payload.get("speeds", [])),
             "first_total_resistance_n": payload.get("speeds", [{}])[0].get("total_resistance_n"),
-            "engineering_review_status": review.get("status")
+            "engineering_review_statuses": statuses
         }
     }
 

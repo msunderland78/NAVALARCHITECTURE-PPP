@@ -62,7 +62,7 @@ def import_contents_stream(contents, filename="legacy.ppp", source_data=None):
         },
         "appendages": {
             "mode": "percent_bare_hull_resistance",
-            "percent_bare_hull_resistance": read_double(contents, 0x01da) * 100,
+            "percent_bare_hull_resistance": read_double(contents, 0x00e6) * 100,
             "equivalent_wetted_area_form_factor_m2": None
         },
         "modeling": {

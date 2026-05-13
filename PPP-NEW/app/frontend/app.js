@@ -226,7 +226,7 @@ async function runCase() {
   renderChecks(result);
   renderTable(result);
   renderPlot(result);
-  oracle.innerHTML = "";
+  oracle.replaceChildren();
   statusBox.textContent = result.applicability.every(item => item.ok) ? "Complete" : "Check inputs";
 }
 
@@ -368,42 +368,59 @@ function legacySpeedTolerance() {
 function renderSummary(result) {
   const last = result.speeds[result.speeds.length - 1];
   const failed = result.applicability.filter(item => !item.ok);
-  summary.innerHTML = [
-    metric("CP", result.derived.prismatic_coefficient.toFixed(4)),
-    metric("B/T", result.derived.beam_draft_ratio.toFixed(2)),
-    metric("L/B", result.derived.lwl_beam_ratio.toFixed(2)),
-    metric("LCB FP", `${formatNumber(result.derived.lcb_m_from_fp)} m`),
-    metric("Disp", `${formatNumber(result.derived.displacement_mass_tonnes)} t`),
-    metric("Awp", `${formatNumber(result.derived.waterplane_area_m2)} m2`),
-    metric("Am", `${formatNumber(result.derived.midship_area_m2)} m2`),
-    metric("L/V^(1/3)", result.derived.length_displacement_ratio.toFixed(2)),
-    metric("Last RT", `${formatNumber(last.total_resistance_n / 1000)} kN`),
-    metric("Applicability", failed.length === 0 ? "OK" : `${failed.length} warning`)
-  ].join("");
+  const metrics = [
+    ["CP", result.derived.prismatic_coefficient.toFixed(4)],
+    ["B/T", result.derived.beam_draft_ratio.toFixed(2)],
+    ["L/B", result.derived.lwl_beam_ratio.toFixed(2)],
+    ["LCB FP", `${formatNumber(result.derived.lcb_m_from_fp)} m`],
+    ["Disp", `${formatNumber(result.derived.displacement_mass_tonnes)} t`],
+    ["Awp", `${formatNumber(result.derived.waterplane_area_m2)} m2`],
+    ["Am", `${formatNumber(result.derived.midship_area_m2)} m2`],
+    ["L/V^(1/3)", result.derived.length_displacement_ratio.toFixed(2)],
+    ["Last RT", `${formatNumber(last.total_resistance_n / 1000)} kN`],
+    ["Applicability", failed.length === 0 ? "OK" : `${failed.length} warning`]
+  ];
+  replaceChildren(summary, metrics.map(([label, value]) => metricNode(label, value)));
 }
 
-function metric(label, value) {
-  return `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`;
+function metricNode(label, value) {
+  const wrap = document.createElement("div");
+  wrap.className = "metric";
+  wrap.append(textElement("span", label), textElement("strong", value));
+  return wrap;
 }
 
 function renderEngineeringNote(result) {
   const review = result.engineering_review || {};
-  const statusText = review.status || "not reported";
+  const statuses = Array.isArray(review.statuses) ? review.statuses : (review.status ? [review.status] : []);
+  const statusText = statuses.length ? statuses.join(", ") : "not reported";
   const note = review.note || "Preliminary resistance and powering estimate. Use with naval architect review and project-specific validation before design, procurement, or operational decisions.";
-  const warningItems = (review.warnings || []).map(item => `<li>${item}</li>`).join("");
-  const warnings = warningItems ? `<ul>${warningItems}</ul>` : "";
-  engineeringNote.innerHTML = `
-    <strong>Engineering review status</strong>
-    <span>${note} Current calculation status: ${statusText}.</span>
-    ${warnings}
-  `;
+  const children = [
+    textElement("strong", "Engineering review status"),
+    textElement("span", `${note} Current calculation status: ${statusText}.`)
+  ];
+  const warnings = Array.isArray(review.warnings) ? review.warnings : [];
+  if (warnings.length) {
+    const list = document.createElement("ul");
+    for (const warning of warnings) {
+      list.append(textElement("li", warning));
+    }
+    children.push(list);
+  }
+  replaceChildren(engineeringNote, children);
 }
 
 function renderChecks(result) {
-  checks.innerHTML = result.applicability.map(item => {
-    const className = item.ok ? "ok" : "warn";
-    return `<div class="check ${className}"><strong>${item.label}</strong><span>${item.value.toFixed(4)} within ${item.lower} to ${item.upper}</span></div>`;
-  }).join("");
+  const nodes = result.applicability.map(item => {
+    const wrap = document.createElement("div");
+    wrap.className = `check ${item.ok ? "ok" : "warn"}`;
+    wrap.append(
+      textElement("strong", item.label),
+      textElement("span", `${item.value.toFixed(4)} within ${item.lower} to ${item.upper}`)
+    );
+    return wrap;
+  });
+  replaceChildren(checks, nodes);
 }
 
 function renderTable(result) {
@@ -432,10 +449,19 @@ function renderTable(result) {
     ["hull_efficiency", "etaH"],
     ["relative_rotative_efficiency", "etaRR"]
   ];
-  table.tHead.innerHTML = `<tr>${columns.map(column => `<th>${column[1]}</th>`).join("")}</tr>`;
-  table.tBodies[0].innerHTML = result.speeds.map(row => {
-    return `<tr>${columns.map(column => `<td>${formatCell(row[column[0]])}</td>`).join("")}</tr>`;
-  }).join("");
+  const headRow = document.createElement("tr");
+  for (const [, label] of columns) {
+    headRow.append(textElement("th", label));
+  }
+  replaceChildren(table.tHead, [headRow]);
+  const bodyRows = result.speeds.map(row => {
+    const tr = document.createElement("tr");
+    for (const [key] of columns) {
+      tr.append(textElement("td", formatCell(row[key])));
+    }
+    return tr;
+  });
+  replaceChildren(table.tBodies[0], bodyRows);
 }
 
 function renderOracleComparison(comparison) {
@@ -452,7 +478,10 @@ function renderOracleComparison(comparison) {
     });
   });
   if (rows.length === 0) {
-    oracle.innerHTML = `<div class="oracle-empty">No matching speeds. Legacy: ${comparison.unmatched_legacy_speeds.join(", ")} Modern: ${comparison.unmatched_modern_speeds.join(", ")}</div>`;
+    const empty = document.createElement("div");
+    empty.className = "oracle-empty";
+    empty.textContent = `No matching speeds. Legacy: ${comparison.unmatched_legacy_speeds.join(", ")} Modern: ${comparison.unmatched_modern_speeds.join(", ")}`;
+    replaceChildren(oracle, [empty]);
     return;
   }
   const counts = comparison.summary ? comparison.summary.status_counts : {};
@@ -460,31 +489,51 @@ function renderOracleComparison(comparison) {
   const maxRelativeDelta = comparison.summary ? comparison.summary.max_relative_delta : null;
   const maxDeltaText = maxDelta ? `${maxDelta.field} at ${formatCell(maxDelta.speed_knots)} kn: ${formatCell(maxDelta.absolute_delta)}` : "";
   const maxRelativeText = maxRelativeDelta ? `${maxRelativeDelta.field}: ${formatCell(maxRelativeDelta.absolute_relative_delta)}` : "";
-  oracle.innerHTML = `
-    <h2>Legacy OUT Comparison</h2>
-    <div class="oracle-meta">
-      <span>${comparison.matched_speed_count} matched speeds</span>
-      <span>${counts.numeric_delta || 0} numeric deltas</span>
-      <span>${counts.missing_modern || 0} missing modern fields</span>
-      <span>${maxDeltaText}</span>
-      <span>${maxRelativeText}</span>
-    </div>
-    <div class="oracle-table">
-      <table>
-        <thead><tr><th>V kn</th><th>Field</th><th>Legacy</th><th>Modern</th><th>Abs delta</th><th>Status</th></tr></thead>
-        <tbody>${rows.map(row => `
-          <tr>
-            <td>${formatCell(row.speed_knots)}</td>
-            <td>${row.field}</td>
-            <td>${formatCell(row.legacy)}</td>
-            <td>${formatCell(row.modern)}</td>
-            <td>${formatCell(row.delta)}</td>
-            <td>${row.status}</td>
-          </tr>
-        `).join("")}</tbody>
-      </table>
-    </div>
-  `;
+  const heading = textElement("h2", "Legacy OUT Comparison");
+  const meta = document.createElement("div");
+  meta.className = "oracle-meta";
+  meta.append(
+    textElement("span", `${comparison.matched_speed_count} matched speeds`),
+    textElement("span", `${counts.numeric_delta || 0} numeric deltas`),
+    textElement("span", `${counts.missing_modern || 0} missing modern fields`),
+    textElement("span", maxDeltaText),
+    textElement("span", maxRelativeText)
+  );
+  const tableWrap = document.createElement("div");
+  tableWrap.className = "oracle-table";
+  const tableNode = document.createElement("table");
+  const thead = document.createElement("thead");
+  const headerRow = document.createElement("tr");
+  for (const header of ["V kn", "Field", "Legacy", "Modern", "Abs delta", "Status"]) {
+    headerRow.append(textElement("th", header));
+  }
+  thead.append(headerRow);
+  const tbody = document.createElement("tbody");
+  for (const row of rows) {
+    const tr = document.createElement("tr");
+    tr.append(
+      textElement("td", formatCell(row.speed_knots)),
+      textElement("td", row.field),
+      textElement("td", formatCell(row.legacy)),
+      textElement("td", formatCell(row.modern)),
+      textElement("td", formatCell(row.delta)),
+      textElement("td", row.status)
+    );
+    tbody.append(tr);
+  }
+  tableNode.append(thead, tbody);
+  tableWrap.append(tableNode);
+  replaceChildren(oracle, [heading, meta, tableWrap]);
+}
+
+function textElement(tag, text) {
+  const node = document.createElement(tag);
+  node.textContent = text == null ? "" : String(text);
+  return node;
+}
+
+function replaceChildren(parent, children) {
+  parent.replaceChildren(...children);
 }
 
 function formatCell(value) {

@@ -17,6 +17,11 @@ SECURITY_HEADERS = {
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "no-referrer"
 }
+MAX_REQUEST_BYTES = 16 * 1024 * 1024
+
+
+class RequestTooLarge(ValueError):
+    pass
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -53,10 +58,16 @@ class Handler(BaseHTTPRequestHandler):
         path = request_path(self.path)
         try:
             length = request_content_length(self.headers.get("Content-Length", "0"))
+        except RequestTooLarge as error:
+            self.respond(413, "application/json", {"error": str(error)})
+            return
         except ValueError as error:
             self.respond(400, "application/json", {"error": str(error)})
             return
         body = self.rfile.read(length)
+        if len(body) != length:
+            self.respond(400, "application/json", {"error": "Content-Length did not match body length"})
+            return
         self.respond(*route("POST", path, body))
 
     def respond_method_not_allowed(self):
@@ -110,6 +121,8 @@ def request_content_length(value):
         raise ValueError("Content-Length must be a non-negative integer")
     if length < 0:
         raise ValueError("Content-Length must be a non-negative integer")
+    if length > MAX_REQUEST_BYTES:
+        raise RequestTooLarge(f"Content-Length exceeds maximum of {MAX_REQUEST_BYTES} bytes")
     return length
 
 

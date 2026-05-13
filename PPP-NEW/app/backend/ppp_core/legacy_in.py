@@ -17,7 +17,7 @@ STERN_CORRECTION_CANDIDATES = {
     "normal_shaped_sections": 0,
     "v_shaped_sections": -10,
     "u_shaped_sections_with_hogner_stern": 10,
-    "pram_with_gondola": 0
+    "pram_with_gondola": 10
 }
 
 FIRST_RECORD_ORDERS = {

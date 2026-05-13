@@ -81,7 +81,7 @@ class ExportTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "result.engineering_review.warnings must be a list"):
             result_to_markdown({
                 "project": {"name": "Example", "run_id": "1"},
-                "engineering_review": {"note": "note", "status": "status", "warnings": "bad"},
+                "engineering_review": {"note": "note", "statuses": ["status"], "warnings": "bad"},
                 "derived": {},
                 "modeling": {},
                 "applicability": [],
