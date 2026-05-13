@@ -412,6 +412,25 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(Handler.server_version, "PPPBackend")
         self.assertEqual(Handler.sys_version, "")
 
+    def test_server_log_message_emits_json_to_stdout(self):
+        import io
+        from unittest.mock import patch
+
+        handler = Handler.__new__(Handler)
+        handler.client_address = ("198.51.100.42", 9999)
+        handler.command = "GET"
+        handler.path = "/health"
+        buffer = io.StringIO()
+        with patch("server.sys.stdout", buffer):
+            handler.log_message('"%s" %s %s', 'GET /health HTTP/1.1', '200', '17')
+        record = json.loads(buffer.getvalue())
+        self.assertEqual(record["method"], "GET")
+        self.assertEqual(record["path"], "/health")
+        self.assertEqual(record["status"], "200")
+        self.assertEqual(record["size"], "17")
+        self.assertEqual(record["remote"], "198.51.100.42")
+        self.assertIn("ts", record)
+
     def test_frontend_files_exist(self):
         self.assertTrue((FRONTEND / "index.html").exists())
         self.assertTrue((FRONTEND / "styles.css").exists())

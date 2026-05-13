@@ -119,6 +119,8 @@ cd NAVALARCHITECTURE-PPP
 
 ### Run Without Docker
 
+Python 3.12 is the supported version (pinned in `.python-version` and the Docker image). The backend is dependency-free, so no virtual environment or `pip install` step is required.
+
 From the repository root:
 
 ```sh

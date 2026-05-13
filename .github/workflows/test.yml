@@ -1,0 +1,25 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run backend tests
+        run: PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python -m unittest discover PPP-NEW/app/backend/tests
+
+  compose-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate docker compose
+        working-directory: PPP-NEW/app
+        run: docker compose config --quiet

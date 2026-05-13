@@ -9,6 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 RUN useradd --create-home --shell /usr/sbin/nologin ppp
 
 COPY backend/server.py ./backend/server.py
+COPY backend/healthcheck.py ./backend/healthcheck.py
 COPY backend/ppp_core ./backend/ppp_core
 COPY frontend ./frontend
 

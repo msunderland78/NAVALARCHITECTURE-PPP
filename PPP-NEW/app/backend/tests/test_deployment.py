@@ -10,6 +10,7 @@ class DeploymentTest(unittest.TestCase):
         text = (APP / "Dockerfile").read_text()
 
         self.assertIn("COPY backend/server.py ./backend/server.py", text)
+        self.assertIn("COPY backend/healthcheck.py ./backend/healthcheck.py", text)
         self.assertIn("COPY backend/ppp_core ./backend/ppp_core", text)
         self.assertIn("COPY frontend ./frontend", text)
         self.assertNotIn("COPY backend ./backend", text)
@@ -40,6 +41,28 @@ class DeploymentTest(unittest.TestCase):
         text = (APP / "docker-compose.yml").read_text()
 
         self.assertIn("condition: service_healthy", text)
+
+    def test_compose_omits_obsolete_version_key(self):
+        text = (APP / "docker-compose.yml").read_text()
+
+        self.assertNotIn("version:", text)
+
+    def test_compose_backend_uses_init(self):
+        text = (APP / "docker-compose.yml").read_text()
+
+        self.assertIn("init: true", text)
+
+    def test_compose_healthcheck_uses_dedicated_script(self):
+        text = (APP / "docker-compose.yml").read_text()
+
+        self.assertIn("backend/healthcheck.py", text)
+        self.assertNotIn("urllib.request.urlopen", text)
+
+    def test_healthcheck_script_exists(self):
+        text = (APP / "backend" / "healthcheck.py").read_text()
+
+        self.assertIn("/health", text)
+        self.assertIn("PPP_PORT", text)
 
     def test_nginx_proxy_has_basic_hardening(self):
         text = (APP / "nginx" / "default.conf").read_text()

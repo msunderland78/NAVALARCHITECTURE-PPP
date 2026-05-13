@@ -1,5 +1,7 @@
 import json
 import os
+import sys
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -27,6 +29,35 @@ class RequestTooLarge(ValueError):
 class Handler(BaseHTTPRequestHandler):
     server_version = "PPPBackend"
     sys_version = ""
+
+    def log_message(self, format, *args):
+        method = getattr(self, "command", "") or ""
+        path = getattr(self, "path", "") or ""
+        status = ""
+        size = ""
+        if format == '"%s" %s %s' and len(args) == 3:
+            status = str(args[1])
+            size = str(args[2])
+        record = {
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "remote": self.address_string(),
+            "method": method,
+            "path": path,
+            "status": status,
+            "size": size
+        }
+        sys.stdout.write(json.dumps(record) + "\n")
+        sys.stdout.flush()
+
+    def log_error(self, format, *args):
+        record = {
+            "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "remote": self.address_string(),
+            "level": "error",
+            "message": format % args if args else format
+        }
+        sys.stderr.write(json.dumps(record) + "\n")
+        sys.stderr.flush()
 
     def do_OPTIONS(self):
         self.respond(204, "application/json", {}, headers={"Allow": "GET, HEAD, POST, OPTIONS"})
