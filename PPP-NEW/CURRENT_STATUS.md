@@ -1,6 +1,6 @@
 # PPP Current Status
 
-Version 1.0, May 10, 2026
+Version 1.1, May 13, 2026
 
 ## Implemented
 
@@ -158,6 +158,22 @@ Version 1.0, May 10, 2026
 - Legacy `OUT` comparison API accepts configurable speed matching tolerance.
 - Modern evaluation CLI for reproducible result fixture refreshes.
 - Candidate `IN` field map recovered from GUI writer/report cross-references.
+- Twin-screw and single-screw open-stern propulsion-factor formulas implemented from the 1982 Holtrop & Mennen paper. Wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust now compute for all three propulsion types.
+- `resistance_status` splits three ways by propulsion type: `partial_source_safe_components` for oracle-validated single-screw conventional stern, `partial_source_safe_unvalidated_propulsion_twin_screw` for twin-screw, and `partial_source_safe_unvalidated_propulsion_open_stern` for open-stern.
+- Pitch-diameter ratio is now an input. Defaults to 1.0 for twin-screw cases that don't supply it; active value surfaced in `result.propulsion.active_pitch_diameter_ratio`.
+- Air drag coefficient is now a configurable input (`modeling.air_drag_coefficient`); legacy `0.737223` is the default.
+- Pram-with-gondola `C_stern` corrected to -25 per the 1984 paper.
+- Single-screw conventional stern wake fraction and `c_8` / `c_11` now use draft aft, matching the 1982 paper. Captured oracle still matches to 53 N max delta.
+- Both Holtrop & Mennen papers (1982 and 1984) committed under `PPP-NEW/Paper/` as OCR'd markdown for reference; `PPP-NEW/HALTROP-PAPER-PLAN.md` documents the design plan that drove D4.
+- Synthetic regression fixtures added for additional geometry (`synthetic_container_*`), twin-screw (`synthetic_twin_screw_*`), and open-stern (`synthetic_open_stern_*`) cases.
+- Backend hardening: 16 MB POST body cap, 1 MB OLE upload cap, path-traversal-safe static serving via `safe_static_path()`, `Content-Security-Policy` header (strict `default-src 'self'`), JSON request logs to stdout.
+- NGINX hardening: rate limit on `/api/evaluate` (10 r/s + burst 20), Content-Security-Policy header.
+- Docker deployment: `init: true` runs tini as PID 1; dedicated `backend/healthcheck.py` honors `PPP_PORT`.
+- Code-quality tooling: `pyproject.toml` with ruff and mypy strict on `ppp_core/types.py` (new TypedDict definitions); public API surface type-annotated.
+- GitHub Actions CI runs unittest discover, ruff, mypy, and `docker compose config` on push and pull request.
+- Frontend hardening: every form control has explicit `for`/`id`; `#status` is an aria-live region; canvas plot has gridlines, dual-axis tick labels, hover tooltips, and an aria-label; print-exclusion notice on the oracle comparison panel; import-JSON validator runs before form population; water-preset density/viscosity mismatch warning.
+- Frontend test suite: `pure.js` extracted with pure helpers; 15 Node tests via `node:test` (no npm); Python wrapper runs them under `unittest discover`.
+- `.python-version` pinned to 3.12.
 
 ## Verification
 
@@ -170,22 +186,26 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=PPP-NEW/app/backend python3 -m unittest dis
 Current result:
 
 ```text
-132 tests OK
+Ran 156 tests in ~0.9s — OK
 ```
 
-Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
+Frontend pure-helper tests run under the same `unittest discover` via `tests/test_frontend_pure.py`, which spawns Node and asserts on the `node:test` output. 15 additional checks. The Python wrapper skips cleanly when Node isn't installed.
+
+Automated HTTP smoke testing passes against an in-process backend for `/health`, `/`, `/api/evaluate`, `/api/export/csv`, `/api/export/json`, `/api/export/report.md`, `/api/export/legacy-in-candidate`, and `/api/compare/out`. The smoke harness now also verifies the `Content-Security-Policy` response header. Local HTTP smoke testing also passes with `PPP-NEW/tools/smoke_http.py` against a running server. The corrected legacy oracle candidate now runs successfully through PTY-backed Wine execution and produces `PPP-NEW/tests/fixtures/pppin_sample_legacy_oracle.OUT`. `docker-compose config` validates. Runtime Docker smoke testing is pending Docker socket permission.
 
 ## Known Limits
 
-- Captured-sample resistance and propulsion fields now align with the legacy oracle to report-rounding scale.
-- Current resistance totals remain marked `partial_source_safe_components` until additional oracle cases are captured.
+- Captured-sample resistance and propulsion fields align with the legacy oracle to report-rounding scale; max absolute delta 53 N at 27 kn after the draft-aft propulsion-factor fix.
+- The single-screw conventional stern result is the only propulsion type with captured-oracle validation. Twin-screw and open-stern propulsion factors compute via the 1982 paper formulas and carry `..._unvalidated_propulsion_*` status labels until a PPPFTRN.EXE oracle is captured for each.
 - Captured legacy `OUT` oracles are available for the normalized user-mode sample and an estimated-mode variant.
 - PPP's eight-speed run behavior is resolved from `470Manuals.pdf` and captured oracle fixtures.
-- More oracle cases are needed before full formula equivalence can be trusted.
+- Synthetic regression fixtures lock additional geometries and propulsion types against silent drift but are not literature- or executable-validated.
+- More oracle cases are needed before full formula equivalence can be trusted across the Holtrop applicability range.
 - `PPPFTRN.EXE` requires PTY-backed Wine execution because plain piped execution fails at Fortran unit 6 `CONOUT$`.
 
 ## Next Best Work
 
-1. Add more oracle cases once additional valid legacy inputs are available.
-2. Add more oracle cases when additional legacy source files are available.
-3. Run Docker smoke tests from a Docker-enabled account.
+1. Encode the 1982 paper §5 (single-screw, L=205 m) and 1984 paper §5 (twin-screw, L=50 m) worked numerical examples as literature-oracle fixtures with pinned expected values. The papers are at `PPP-NEW/Paper/`.
+2. Capture twin-screw and open-stern `.OUT` files from `PPPFTRN.EXE` under Wine, then upgrade the `..._unvalidated_propulsion_*` status labels to validated.
+3. Add an estimated-mode oracle case at a different geometry (D6 in `CLAUDE-PLAN.md`).
+4. Run Docker smoke tests from a Docker-enabled account.

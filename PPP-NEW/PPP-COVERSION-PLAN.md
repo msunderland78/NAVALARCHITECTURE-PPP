@@ -1,6 +1,6 @@
 # PPP Conversion Plan
 
-Version 1.0, May 10, 2026
+Version 1.1, May 13, 2026
 
 ## Executive Summary
 
@@ -12,7 +12,7 @@ No obvious hardware-lock or dongle dependency was found in the current artifacts
 
 ## Implementation Status
 
-Current status as of May 10, 2026:
+Current status as of May 13, 2026 (post code-review and HALTROP-PAPER-PLAN batch). The granular item-by-item status of the post-build code review lives in `PPP-NEW/CLAUDE-PLAN.md`. Snapshot below:
 
 - Repository setup is complete with `PPP-OLD/` ignored by git and `PPP-NEW/` available for documentation and implementation.
 - Public project, documentation, browser, and test references use the corrected name `Power Prediction Program (PPP)`.
@@ -140,8 +140,22 @@ Current status as of May 10, 2026:
 - A modern evaluation CLI exists for reproducible result fixture refreshes.
 - Initial backend unit tests exist in `PPP-NEW/app/backend/tests` and pass with `PYTHONPATH=PPP-NEW/app/backend python3 -m unittest discover PPP-NEW/app/backend/tests`.
 - Holtrop and Mennen source tracking has started in `PPP-NEW/analysis/holtrop-mennen-sources.md`.
+- OCR'd 1982 and 1984 Holtrop & Mennen papers are committed under `PPP-NEW/Paper/` for cross-check reference.
+- Twin-screw and single-screw open-stern propulsion-factor formulas are now implemented from the 1982 paper (D4 in the code review). Wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust now compute for all three propulsion types. `resistance_status` splits three ways: `partial_source_safe_components` for oracle-validated single-screw conventional stern; `partial_source_safe_unvalidated_propulsion_twin_screw` and `partial_source_safe_unvalidated_propulsion_open_stern` for the formulas-only paths. `HALTROP-PAPER-PLAN.md` documents the design.
+- Single-screw conventional wake fraction and `c_8` / `c_11` now use draft aft, matching the 1982 paper page 4. Captured oracle max delta is 53 N at 27 kn, well under the 100 N gate.
+- Pram-with-gondola `C_stern` corrected to -25 per the 1984 paper stern-correction table.
+- Air drag coefficient parameterized (`modeling.air_drag_coefficient`); legacy `0.737223` is the default.
+- Pitch-diameter ratio is a frontend input; defaults to 1.0 when missing.
+- Backend hardening: 16 MB POST body cap, 1 MB OLE upload cap, path-traversal-safe static serving, JSON request logging, Content-Security-Policy header.
+- NGINX hardening: `Content-Security-Policy` header, rate limit on `/api/evaluate` (10 r/s, burst 20).
+- Docker: `init: true` runs tini as PID 1; dedicated `backend/healthcheck.py` honors `PPP_PORT`.
+- Code-quality tooling: `pyproject.toml` with ruff + mypy strict on `ppp_core/types.py` (new TypedDict definitions); public API surface annotated.
+- GitHub Actions CI runs unittest discover, ruff, mypy, and `docker compose config` on push and PR.
+- Frontend accessibility and quality: explicit `for`/`id` on every form control, aria-live status box, canvas plot with gridlines and dual-axis tick labels and hover tooltips, import-JSON validator, water-preset mismatch warning, print-exclusion notice on the oracle panel.
+- Frontend test suite via `pure.js` extraction; 15 Node tests run under `unittest discover`.
+- Test count: 156 backend tests + 15 frontend tests pass.
 
-The next milestone is to broaden oracle coverage when more valid legacy inputs are available.
+The next milestone is to broaden oracle coverage for non-conventional propulsion types and at varied geometry, ideally by encoding the 1982 §5 and 1984 §5 worked examples as literature-oracle fixtures and by capturing PPPFTRN.EXE `.OUT` files for twin-screw and open-stern under Wine.
 
 ## Legacy File Inventory
 

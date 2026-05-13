@@ -47,11 +47,26 @@ Implemented:
 - API validation for non-boolean air-drag values
 - API validation for point count as an integer from 1 to 20
 - API validation for non-positive waterplane coefficient inputs
+- Twin-screw propulsion-factor formulas from the 1982 Holtrop & Mennen paper (wake fraction, thrust deduction, relative rotative efficiency, required thrust)
+- Single-screw open-stern propulsion-factor formulas from the 1982 paper (paper itself labels these tentative)
+- Per-propulsion-type `resistance_status` labels distinguishing oracle-validated single-screw conventional from formula-only twin-screw and open-stern
+- Pitch-diameter ratio input with safe default of 1.0; active value surfaced in `result.propulsion.active_pitch_diameter_ratio`
+- Configurable air-drag coefficient (`modeling.air_drag_coefficient`) defaulting to the legacy `0.737223`
+- Pram-with-gondola `C_stern` aligned to -25 per the 1984 paper
+- Draft-aft (`T_A`) used in the single-screw conventional wake fraction and in `c_8` / `c_11` per the 1982 paper
+- `pyproject.toml` with ruff and mypy strict on the new `ppp_core/types.py` (TypedDicts for the public API surface)
+- Content-Security-Policy response header (strict `default-src 'self'`)
+- 16 MB POST body cap; 1 MB OLE upload cap; path-traversal-safe static serving
+- One-line-per-request JSON logging to stdout via `Handler.log_message` override
+- Dedicated `healthcheck.py` script honoring `PPP_PORT`
+- Synthetic regression fixtures for additional geometry and for twin-screw and open-stern propulsion types
+- Frontend pure-helper test suite at `frontend/tests/pure.test.js` runs under `unittest discover`
 
 Not yet implemented:
 
-- Additional oracle fixtures beyond the normalized sample
-- More legacy hull-form oracle cases
+- Captured PPPFTRN.EXE oracles for twin-screw and open-stern propulsion types (synthetic fixtures only)
+- Literature-oracle fixtures encoding the 1982 §5 and 1984 §5 worked examples
+- Estimated-mode oracle at varied geometry
 
 ## Run Tests
 
@@ -105,7 +120,8 @@ PYTHONPATH=PPP-NEW/app/backend python3 -m ppp_core.legacy_compare_cli PPP-NEW/te
 
 Current routes:
 
-- `GET /`
+- `GET /` — serves `index.html`
+- `GET /app.js`, `GET /pure.js`, `GET /styles.css` — frontend static assets
 - `GET /health`
 - `POST /api/evaluate`
 - `POST /api/export/csv`
@@ -116,4 +132,14 @@ Current routes:
 - `POST /api/import/out`
 - `POST /api/compare/out`
 
-The frontend is in `PPP-NEW/app/frontend` and is served by the backend. It currently supports direct sample-case editing, water-property presets, modern case JSON save/load, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, air-drag on/off modeling, HTML min/max constraints aligned with backend validation, an engineering review status note, a speed table, a canvas plot, CSV/JSON/Markdown result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
+The frontend is in `PPP-NEW/app/frontend` and is served by the backend. Pure helper functions live in `pure.js` and are loaded as a sibling `<script>` before `app.js`. The browser surface supports direct sample-case editing, water-property presets with mismatch detection, modern case JSON save/load with pre-population validation, legacy `.PPP` import for the observed sample layout, candidate legacy `IN` export, legacy `OUT` comparison upload, API-backed evaluation, applicability checks, user and estimated modes for wetted surface and half angle, air-drag on/off modeling with configurable coefficient, twin-screw P/D input, HTML min/max constraints aligned with backend validation, an engineering review status note, a speed table, a canvas plot with gridlines and dual-axis tick labels and hover tooltips, an aria-live status region, CSV/JSON/Markdown result download, and browser print/PDF output formatted for 8.5 by 11 inch paper with 1 inch margins.
+
+## Run Frontend Pure-Helper Tests
+
+The Python wrapper `tests/test_frontend_pure.py` invokes Node and runs the suite as part of `unittest discover`. To run the JavaScript tests directly:
+
+```sh
+node --test PPP-NEW/app/frontend/tests/pure.test.js
+```
+
+The test wrapper skips cleanly when Node isn't installed.

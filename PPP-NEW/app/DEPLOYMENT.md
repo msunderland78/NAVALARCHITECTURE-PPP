@@ -29,11 +29,13 @@ PPP_HOST_PORT=9090 docker-compose config
 
 The backend container listens on `PPP_PORT=8000` and NGINX proxies `/` and `/health` to that backend.
 
-Both Compose services use `restart: unless-stopped`. NGINX starts after the backend healthcheck reports healthy.
+Both Compose services use `restart: unless-stopped`. NGINX starts after the backend healthcheck reports healthy. The backend service runs under `init: true` so Docker's built-in tini handles PID 1 (signal delivery and zombie reaping).
 
-The backend image creates and runs as the unprivileged `ppp` user and disables Python bytecode writes in the runtime filesystem.
+The backend image creates and runs as the unprivileged `ppp` user, disables Python bytecode writes in the runtime filesystem, and uses a dedicated `backend/healthcheck.py` script for liveness checks (the script honors `PPP_PORT` and returns non-zero on any urllib or timeout error).
 
-The NGINX proxy limits request bodies to 10 MB, forwards standard proxy headers, applies 5 second connect and 30 second send/read timeouts, and returns `X-Content-Type-Options: nosniff` plus `Referrer-Policy: no-referrer`.
+Backend hardening at the application layer: 16 MB POST body cap (returns `413 Payload Too Large`), 1 MB cap on legacy `.PPP` uploads, path-traversal-safe static serving, and one-line-per-request JSON logging to stdout.
+
+The NGINX proxy limits request bodies to 10 MB, forwards standard proxy headers, applies 5 second connect and 30 second send/read timeouts, and returns `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, and `Content-Security-Policy: default-src 'self'; …; frame-ancestors 'none'`. `/api/evaluate` is rate-limited via `limit_req_zone` at 10 requests/second with a burst of 20 per client IP.
 
 ## Start
 
@@ -63,7 +65,7 @@ Expected health response:
 {"status": "ok"}
 ```
 
-The smoke test checks the frontend, health route, default eight-point evaluation, air-drag disabled evaluation, estimated modeling values, CSV export, JSON export, Markdown report export, candidate legacy `IN` export, and captured legacy `OUT` comparison.
+The smoke test checks the frontend, health route, response security headers (including `Content-Security-Policy`), OPTIONS handling, method-not-allowed handling, default eight-point evaluation, air-drag disabled evaluation, estimated modeling values, CSV export, JSON export, Markdown report export, candidate legacy `IN` export, and captured legacy `OUT` comparison.
 
 ## Stop
 

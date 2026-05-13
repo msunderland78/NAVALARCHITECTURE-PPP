@@ -42,9 +42,9 @@ Select the propulsion arrangement and enter the propeller and propulsive coeffic
 - Twin-screw arrangement
 - Propeller diameter
 - Expanded area ratio
-- Pitch-diameter ratio where applicable
+- Pitch-diameter ratio (used by twin-screw; defaults to 1.0 when not supplied)
 
-The recovered wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust calculations are currently strongest for the captured single-screw conventional-stern workflow. Non-conventional selections are marked for engineering review.
+Wake fraction, thrust deduction, hull efficiency, relative rotative efficiency, and required thrust now compute for all three propulsion types using the formulas from the 1982 and 1984 Holtrop and Mennen papers. The single-screw conventional-stern path is validated against the captured PPP 1.8 oracle (max absolute delta 53 N across the eight-speed sample). Twin-screw and open-stern carry per-type `resistance_status` labels noting that a captured-oracle validation is still pending. Reference papers are committed under `PPP-NEW/Paper/` for traceability.
 
 ### Appendage and Air Resistance
 
@@ -53,7 +53,7 @@ Choose appendage resistance treatment:
 - Percent of bare-hull resistance
 - Equivalent wetted area and form-factor method
 
-Air resistance can be included or disabled. When enabled, the deckhouse or cargo frontal area and air-drag coefficient contribute to the resistance build-up.
+Air resistance can be included or disabled. When enabled, the deckhouse or cargo frontal area and air-drag coefficient contribute to the resistance build-up. The air-drag coefficient is an input (`modeling.air_drag_coefficient`); the default is the legacy PPP 1.8 value of `0.737223`.
 
 ### Wetted Surface and Entrance Angle
 
@@ -102,7 +102,7 @@ Printed reports are formatted for letter paper: 8.5 inches wide by 11 inches hig
 
 ## Engineering Status
 
-The current implementation aligns the normalized captured sample and the estimated-mode captured sample to legacy oracle report-rounding scale. Results remain marked `partial_source_safe_components` until more independent legacy oracle cases or published benchmark cases are added.
+The single-screw conventional-stern path is validated against the captured PPP 1.8 oracle to report-rounding scale (max absolute delta 53 N across the eight-speed sample). Single-screw open-stern and twin-screw paths compute via the 1982 Holtrop and Mennen formulas but do not yet have captured-oracle validation; results from those propulsion types carry `partial_source_safe_unvalidated_propulsion_*` status labels.
 
 Use the output as a preliminary engineering estimate. Final hull resistance, powering, propulsion, procurement, and operating decisions should be reviewed by a qualified naval architect and supported by project-specific validation.
 
@@ -195,10 +195,13 @@ Keep `PPP-OLD` out of the deployed product. The running web application only nee
 PPP-NEW/
   app/
     backend/       Python backend and calculation core
-    frontend/      Browser interface
+    frontend/      Browser interface, plus pure.js for testable helpers
     nginx/         NGINX reverse-proxy configuration
   analysis/        Legacy investigation notes
+  Paper/           OCR'd Holtrop & Mennen 1982 and 1984 source papers
   tests/fixtures/  Normalized samples and oracle fixtures
+  CLAUDE-PLAN.md   Code-review plan and implementation status
+  HALTROP-PAPER-PLAN.md  Design plan for the D4 propulsion-factor implementation
 
 PPP-OLD/
   Legacy archival inputs, ignored by git
